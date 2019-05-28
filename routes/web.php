@@ -14,4 +14,4 @@
 Auth::routes();
 
 Route::get('/', 'AdminController@index')->middleware(\App\Http\Middleware\CheckRole::class);
-Route::get('/user', 'UserController@index');
+Route::get('/user', 'UserController@index')->middleware(\App\Http\Middleware\CheckAdmin::class);
