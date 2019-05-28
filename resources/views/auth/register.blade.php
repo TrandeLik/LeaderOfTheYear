@@ -42,8 +42,8 @@
                         <div class="form-group row">
                             <label for="form" class="col-md-4 col-form-label text-md-right">{{ __('Класс') }}</label>
 
-                            <div class="col-md-6">
-                                <p><select id="form" name="form">
+                            <div class="col-md-3">
+                                <select id="form" name="form">
                                         <option>11</option>
                                         <option>10</option>
                                         <option>9</option>
@@ -55,7 +55,33 @@
                                         <option>3</option>
                                         <option>2</option>
                                         <option>1</option>
-                                    </select></p>
+                                    </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select id="form" name="formLetter">
+                                        <option>А</option>
+                                        <option>Б</option>
+                                        <option>В</option>
+                                        <option>Г</option>
+                                        <option>Д</option>
+                                        <option>Е</option>
+                                        <option>Ж</option>
+                                        <option>З</option>
+                                        <option>И</option>
+                                        <option>К</option>
+                                        <option>Л</option>
+                                        <option>М</option>
+                                        <option>Н</option>
+                                        <option>О</option>
+                                        <option>П</option>
+                                        <option>Р</option>
+                                        <option>С</option>
+                                        <option>Т</option>
+                                        <option>У</option>
+                                        <option>Ф</option>
+                                        <option>Х</option>
+                                        <option>Ц</option>
+                                    </select>
                             </div>
                         </div>
 
