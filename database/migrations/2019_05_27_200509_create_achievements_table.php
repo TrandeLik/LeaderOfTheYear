@@ -21,7 +21,7 @@ class CreateAchievementsTable extends Migration
             $table->string('result');
             $table->integer('score');
             $table->string('confirmation');
-            $table->boolean('checked');
+            $table->string('status');
 
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
