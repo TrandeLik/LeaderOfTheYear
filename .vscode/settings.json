@@ -1,0 +1,9 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "D:\\Backend\\LiderOfTheYear\\database\\database.sqlite",
+            "dialect": "SQLite",
+            "name": "LiderOfTheYear"
+        }
+    ]
+}

@@ -13,5 +13,9 @@
 
 Auth::routes();
 
-Route::get('/', 'AdminController@index')->middleware(\App\Http\Middleware\CheckRole::class);
-Route::get('/user', 'UserController@index')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/', 'AdminController@index')->middleware(\App\Http\Middleware\CheckAdmin::class);
+
+Route::get('/user', 'UserController@index')->middleware(\App\Http\Middleware\CheckUser::class);
+Route::get('/add_achievement', 'UserController@addView')->middleware(\App\Http\Middleware\CheckUser::class);
+Route::post('/add_achievement', 'UserController@addAchievement')->middleware(\App\Http\Middleware\CheckUser::class);
+Route::get('/user/achievement/{id}/send', 'UserController@send')->middleware(\App\Http\Middleware\CheckUser::class);

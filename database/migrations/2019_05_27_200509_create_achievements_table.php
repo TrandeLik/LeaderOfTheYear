@@ -16,13 +16,14 @@ class CreateAchievementsTable extends Migration
         Schema::create('achievements', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('type');
+            $table->string('name');
             $table->string('subject');
             $table->string('stage');
             $table->string('result');
             $table->integer('score');
             $table->string('confirmation');
             $table->string('status');
-
+            
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

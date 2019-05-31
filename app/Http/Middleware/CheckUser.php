@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class CheckRole
+class CheckUser
 {
     /**
      * Handle an incoming request.
@@ -17,8 +17,8 @@ class CheckRole
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            if (Auth::user()->role == 'student') {
-                return redirect('user');
+            if (Auth::user()->role == 'admin') {
+                return redirect('/');
             }
         } else {
             return redirect('login');

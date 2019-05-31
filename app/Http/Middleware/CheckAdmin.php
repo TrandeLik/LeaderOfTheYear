@@ -17,8 +17,8 @@ class CheckAdmin
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            if (Auth::user()->role == 'admin') {
-                return redirect('/');
+            if (Auth::user()->role == 'student') {
+                return redirect('user');
             }
         } else {
             return redirect('login');
