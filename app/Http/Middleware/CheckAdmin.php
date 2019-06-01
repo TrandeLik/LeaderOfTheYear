@@ -20,6 +20,9 @@ class CheckAdmin
             if (Auth::user()->role == 'student') {
                 return redirect('user');
             }
+            if (Auth::user()->role == 'banned') {
+                return redirect('login');
+            }
         } else {
             return redirect('login');
         }

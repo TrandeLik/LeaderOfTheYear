@@ -14,8 +14,12 @@
 Auth::routes();
 
 Route::get('/', 'AdminController@index')->middleware(\App\Http\Middleware\CheckAdmin::class);
-Route::get('/achievement{id}/reject', 'AdminController@reject')->middleware(\App\Http\Middleware\CheckAdmin::class);
-Route::get('/achievement{id}/confirm', 'AdminController@confirm')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/achievement/{id}/reject', 'AdminController@reject')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/achievement/{id}/confirm', 'AdminController@confirm')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/user/{id}/profile', 'AdminController@aboutUser')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/user/{id}/ban', 'AdminController@ban')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/user/{id}/unblock', 'AdminController@unblock')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/banned_users', 'AdminController@showBannedUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
 
 Route::get('/user', 'UserController@index')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::get('/add_achievement', 'UserController@addView')->middleware(\App\Http\Middleware\CheckUser::class);

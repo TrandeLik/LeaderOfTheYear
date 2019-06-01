@@ -20,6 +20,9 @@ class CheckUser
             if (Auth::user()->role == 'admin') {
                 return redirect('/');
             }
+            if (Auth::user()->role == 'banned') {
+                return redirect('login');
+            }
         } else {
             return redirect('login');
         }
