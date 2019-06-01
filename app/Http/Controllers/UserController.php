@@ -15,7 +15,9 @@ class UserController extends Controller
 
     public function addView(){
         $types = DB::table('achievement_types')->select('type')->distinct()->get();
-        return view('user.add_achievement',compact('types'));
+        $stages = ['школьный','окружной','городской','всероссийский'];
+        $results = ['победитель','призер'];
+        return view('user.add_achievement',compact('types','stages','results'));
     }
 
     public function addAchievement(Request $request){
@@ -44,6 +46,40 @@ class UserController extends Controller
     public function send($id){
         $achievement = Achievement::findOrFail($id);
         $achievement->status = 'sent';
+        $achievement->save();
+        return redirect('user');
+    }
+
+    public function return($id){
+        $achievement = Achievement::findOrFail($id);
+        $achievement->status = 'created';
+        $achievement->save();
+        return redirect('user');
+    }
+
+    public function delete($id){
+        $achievement = Achievement::findOrFail($id);
+        $achievement->delete();
+        return redirect('user');
+    }
+
+    public function editView($id){
+        $achievement = Achievement::findOrFail($id);
+        $types = DB::table('achievement_types')->select('type')->distinct()->get();
+        $stages = ['школьный','окружной','городской','всероссийский'];
+        $results = ['победитель','призер'];
+        return view('user.edit_achievement',compact('types','stages','results','achievement'));
+    }
+
+    public function edit($id, Request $request){
+        $achievement = Achievement::findOrFail($id);
+        $achievement->name = $request->name;
+        $achievement->type = $request->type;
+        $achievement->subject = $request->subject;
+        $achievement->stage = $request->stage;
+        $achievement->confirmation = $request->confirmation;
+        $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
+        $achievement->result = $request->result;
         $achievement->save();
         return redirect('user');
     }
