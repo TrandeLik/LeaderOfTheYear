@@ -10,6 +10,6 @@ class Comment extends Model
     protected $table='comments';
 
     public function comment(){
-        return $this->hasOne('App\Comment', 'comment_id', 'id');
+        return $this->hasOne('App\Comment', 'id', 'achievement_id');
     }
 }

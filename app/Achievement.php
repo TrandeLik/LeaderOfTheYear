@@ -9,7 +9,7 @@ class Achievement extends Model
     protected $table = 'achievements';
 
     public function user(){
-        return $this->hasOne('App\User', 'user_id', 'id');
+        return $this->hasOne('App\User', 'id', 'user_id');
     }
 
     public function comments(){
