@@ -20,4 +20,7 @@ Route::get('/achievement{id}/confirm', 'AdminController@confirm')->middleware(\A
 Route::get('/user', 'UserController@index')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::get('/add_achievement', 'UserController@addView')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::post('/add_achievement', 'UserController@addAchievement')->middleware(\App\Http\Middleware\CheckUser::class);
-Route::get('/user/achievement/{id}/send', 'UserController@send')->middleware(\App\Http\Middleware\CheckUser::class);
+Route::get('/achievement/{id}/send', 'UserController@send')->middleware(\App\Http\Middleware\CheckUser::class);
+Route::get('/achievement/{id}/delete', 'UserController@delete')->middleware(\App\Http\Middleware\CheckUser::class);
+Route::get('/achievement/{id}/edit', 'UserController@editView')->middleware(\App\Http\Middleware\CheckUser::class);
+Route::post('/achievement/{id}/edit', 'UserController@edit')->middleware(\App\Http\Middleware\CheckUser::class);
