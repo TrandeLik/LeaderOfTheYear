@@ -11,9 +11,9 @@ class LeaderController extends Controller
     public function index()
     {
         $leaders = [];
-        $users = User::all();
+        $users = User::all()  -> where('role', 'student');
         foreach ($users as $user){
-            $count = DB::table('achievements')->where([['user_id',Auth::user()->id],['status','confirmed'],])->sum('score');
+            $count = $user -> achievements -> where('status', 'confirmed') -> sum('score');
             $leaders[$user->name] = $count;
         }
         asort($leaders);
