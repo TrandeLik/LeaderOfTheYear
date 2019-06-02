@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h1>Заявки</h1>
+            <h1>ЗаблокированныЕ пользователи</h1>
             @if(count($bannedUsers) == 0)
                 <p>Заблокированных пользователей нет</p>
             @endif

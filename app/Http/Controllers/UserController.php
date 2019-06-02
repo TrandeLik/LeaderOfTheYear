@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
-{
+{ 
     public function index(){
         $achievements = Auth::user()->achievements;
         return view('user.index',compact('achievements'));

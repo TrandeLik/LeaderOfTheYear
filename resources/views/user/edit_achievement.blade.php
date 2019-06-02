@@ -34,7 +34,7 @@
                                     <option>{{ $stage }}</option>
                                 @endif
                             @endforeach
-                        </select>
+                        </select> 
                         <select name="result">
                             <option disabled selected>Результат</option>
                             @foreach ($results as $result)

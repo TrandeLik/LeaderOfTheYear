@@ -26,7 +26,9 @@ class AdminController extends Controller
     }
     
     public function showAddType(){
-      return view('admin/addAchievementType');
+        $stages = ['школьный','окружной','городской','всероссийский'];
+        $results = ['победитель','призер'];
+        return view('admin/addAchievementType', compact('stages', 'results'));
     }
 
     public function index(Request $request){

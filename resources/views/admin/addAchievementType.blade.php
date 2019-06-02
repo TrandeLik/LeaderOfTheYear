@@ -10,8 +10,18 @@
                     <form method="post">
                       @csrf
                       <input type='text' name="type" placeholder="Тип события" class="form-control"><br>
-                      <input type="text" name="stage" placeholder="Этап" class="form-control"><br>
-                      <input type="text" name="result" placeholder="Результат" class="form-control"><br>
+                      <select name="stage" class="form-control">
+                            <option disabled selected>Этап</option>
+                            @foreach ($stages as $stage)
+                                <option>{{ $stage }}</option>
+                            @endforeach
+                      </select><br>
+                      <select name="result" class="form-control">
+                            <option disabled selected>Результат</option>
+                            @foreach ($results as $result)
+                                <option>{{ $result }}</option>
+                            @endforeach
+                      </select><br>
                       <input type="number" name="score" placeholder="Кол-во баллов" class="form-control"><br>
                       <input type="submit" value="Отправить" class="btn btn-primary">
                     </form>
