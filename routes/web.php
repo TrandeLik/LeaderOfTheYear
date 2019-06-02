@@ -31,3 +31,5 @@ Route::get('/achievement/{id}/return', 'UserController@return')->middleware(\App
 Route::get('/achievement/{id}/delete', 'UserController@delete')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::get('/achievement/{id}/edit', 'UserController@editView')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::post('/achievement/{id}/edit', 'UserController@edit')->middleware(\App\Http\Middleware\CheckUser::class);
+
+Route::get('/leaderboard', 'LeaderController@index');
