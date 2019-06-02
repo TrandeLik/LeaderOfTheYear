@@ -12,14 +12,7 @@
                         <li>{{$type -> type.', '.$type -> stage}}</li>
                       @endforeach
                     </ul>
-                    <form>
-                      @csrf
-                      <input type='text' name="type" placeholder="Тип события" class="form-control"><br>
-                      <input type="text" name="stage" placeholder="Этап" class="form-control"><br>
-                      <input type="text" name="result" placeholder="Результат" class="form-control"><br>
-                      <input type="number" name="score" placeholder="Кол-во баллов" class="form-control"><br>
-                      <input type="submit" value="Отправить" class="btn btn-primary">
-                    </form>
+                    <a href="{{url('/add_achievement_type')}}">Добавить событие</a>
                     </div>
               </div>
         </div>

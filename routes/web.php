@@ -20,6 +20,8 @@ Route::get('/user/{id}/profile', 'AdminController@aboutUser')->middleware(\App\H
 Route::get('/user/{id}/ban', 'AdminController@ban')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/user/{id}/unblock', 'AdminController@unblock')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/banned_users', 'AdminController@showBannedUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::post('/add_achievement_type', 'AdminController@addType')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/add_achievement_type', 'AdminController@showAddType')->middleware(\App\Http\Middleware\CheckAdmin::class);
 
 Route::get('/user', 'UserController@index')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::get('/achievement/add', 'UserController@addView')->middleware(\App\Http\Middleware\CheckUser::class);

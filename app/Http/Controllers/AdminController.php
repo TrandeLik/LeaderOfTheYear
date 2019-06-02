@@ -9,21 +9,27 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    public function addType(Request $request){
+      $request -> validate([
+          'type' => 'required',
+          'stage' => 'required',
+          'result' => 'required',
+          'score' => 'required'
+      ]);
+      $newType = new AchievementType();
+      $newType -> type = $request -> type;
+      $newType -> stage = $request -> stage;
+      $newType -> result = $request -> result;
+      $newType -> score = $request -> score;
+      $newType -> save();
+      return redirect('/');
+    }
+    
+    public function showAddType(){
+      return view('admin/addAchievementType');
+    }
+
     public function index(Request $request){
-        if ($request -> has('type')){
-            $request -> validate([
-                'type' => 'required',
-                'stage' => 'required',
-                'result' => 'required',
-                'score' => 'required'
-            ]);
-            $newType = new AchievementType();
-            $newType -> type = $request -> type;
-            $newType -> stage = $request -> stage;
-            $newType -> result = $request -> result;
-            $newType -> score = $request -> score;
-            $newType -> save();
-        }
         $allTypes = AchievementType::all();
         $sentAchievements = Achievement::all() -> where('status', 'sent');
         $students = User::all() -> where('role', 'student');
