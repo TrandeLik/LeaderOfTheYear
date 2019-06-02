@@ -3,7 +3,27 @@
 @section('content')
 
     <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-3">
+            <h1>События</h2>
+                <div class='card'>
+                    <div class='card-body'>
+                      <ul>
+                      @foreach($allTypes as $type)
+                        <li>{{$type -> type.', '.$type -> stage}}</li>
+                      @endforeach
+                    </ul>
+                    <form>
+                      @csrf
+                      <input type='text' name="type" placeholder="Тип события" class="form-control"><br>
+                      <input type="text" name="stage" placeholder="Этап" class="form-control"><br>
+                      <input type="text" name="result" placeholder="Результат" class="form-control"><br>
+                      <input type="number" name="score" placeholder="Кол-во баллов" class="form-control"><br>
+                      <input type="submit" value="Отправить" class="btn btn-primary">
+                    </form>
+                    </div>
+              </div>
+        </div>
+        <div class="col-md-6">
             <h1>Заявки</h1>
             @if(count($sentAchievements) == 0)
                 <p>На данный момент заявок нет</p>
@@ -20,7 +40,7 @@
                 </div><br>
             @endforeach
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <h1>Участники</h1>
             <div class="card">
                 <div class="card-body">

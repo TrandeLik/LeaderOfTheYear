@@ -4,14 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Achievement;
 use App\User;
+use App\AchievementType;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
+        if ($request -> has('type')){
+            $request -> validate([
+                'type' => 'required',
+                'stage' => 'required',
+                'result' => 'required',
+                'score' => 'required'
+            ]);
+            $newType = new AchievementType();
+            $newType -> type = $request -> type;
+            $newType -> stage = $request -> stage;
+            $newType -> result = $request -> result;
+            $newType -> score = $request -> score;
+            $newType -> save();
+        }
+        $allTypes = AchievementType::all();
         $sentAchievements = Achievement::all() -> where('status', 'sent');
         $students = User::all() -> where('role', 'student');
-        return view('admin/admin', compact('sentAchievements', 'students' ));
+        return view('admin/admin', compact('sentAchievements', 'students', 'allTypes'));
     }
 
     public function showBannedUsers(){
