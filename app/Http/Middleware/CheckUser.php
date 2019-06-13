@@ -17,11 +17,11 @@ class CheckUser
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            if (Auth::user()->role == 'admin') {
+            if ((Auth::user()->role == 'admin') || (Auth::user()->role == 'superadmin')) {
                 return redirect('/');
             }
             if (Auth::user()->role == 'banned') {
-                return redirect('login');
+                return redirect('/alert_for_banned_users');
             }
         } else {
             return redirect('login');

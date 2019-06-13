@@ -60,8 +60,8 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Выход') }}
                                     </a>
-                                    <a class="dropdown-item" href="/profile">Profile</a>
-                                    <a class="dropdown-item" href="/leaderboard">Leaderboard</a>
+                                    <a class="dropdown-item" href="/profile">Профиль</a>
+                                    <a class="dropdown-item" href="/leaderboard">Рейтинговая таблица</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>

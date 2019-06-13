@@ -18,6 +18,10 @@ class CheckAuth
     {
         if (!Auth::check()) {
             return redirect('login');
+        } else {
+            if (Auth::user()->role == 'banned') {
+                return redirect('/alert_for_banned_users');
+            }
         }
         return $next($request);
     }

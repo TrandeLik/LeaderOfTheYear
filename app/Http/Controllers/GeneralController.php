@@ -18,12 +18,12 @@ class GeneralController extends Controller
             $leaders[$user->name] = $count;
         }
         asort($leaders);
-        return view('leaderboard',compact('leaders'));
+        return view('general/leaderboard',compact('leaders'));
     }
 
     public function profile(){
         $user = Auth::user();
-        return view('profile', compact('user'));
+        return view('general/profile', compact('user'));
     }
 
     public function profileEditView(){
@@ -33,7 +33,7 @@ class GeneralController extends Controller
         $formNumbers = [1,2,3,4,5,6,7,8,9,10,11];
         $formLetters = ['А','Б','В','Г','Д','Е','Ж','З','И','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц'];
         list($userFormNumber,$userFormLetter) = explode("-", $user->form);
-        return view('edit_profile',compact('name','email','formNumbers','formLetters','userFormNumber','userFormLetter'));
+        return view('general/edit_profile',compact('name','email','formNumbers','formLetters','userFormNumber','userFormLetter'));
     }
 
     public function profileEdit(Request $request){
@@ -52,7 +52,12 @@ class GeneralController extends Controller
     }
 
     public function passwordChangeView(){
-        return view('change_password');
+        return view('general/change_password');
+    }
+
+    public function getAlertForBannedUsers(){
+        Auth::logout();
+        return view('general/alertForBannedUsers');
     }
 
     public function passwordChange(Request $request){
