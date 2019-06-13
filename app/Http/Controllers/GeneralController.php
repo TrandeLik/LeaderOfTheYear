@@ -66,8 +66,13 @@ class GeneralController extends Controller
             if ($request->new==$request->confirm){
                 $user->password = Hash::make($request->new);
                 $user->save();
+                return redirect('/profile');
+            } else {
+                return redirect('/profile/password_change');
             }
-          }
-        return redirect('/profile');
+        } else {
+            return redirect('/profile/password_change');
+        }
+        
     }
 }
