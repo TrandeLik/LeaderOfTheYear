@@ -36,3 +36,5 @@ Route::get('/leaderboard', 'GeneralController@index');
 Route::get('/profile', 'GeneralController@profile')->middleware(\App\Http\Middleware\CheckAuth::class);
 Route::get('/profile/edit', 'GeneralController@profileEditView')->middleware(\App\Http\Middleware\CheckAuth::class);
 Route::post('/profile/edit', 'GeneralController@profileEdit')->middleware(\App\Http\Middleware\CheckAuth::class);
+Route::get('/profile/password_change', 'GeneralController@passwordChangeView')->middleware(\App\Http\Middleware\CheckAuth::class);
+Route::post('/profile/password_change', 'GeneralController@passwordChange')->middleware(\App\Http\Middleware\CheckAuth::class);

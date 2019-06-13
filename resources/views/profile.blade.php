@@ -15,6 +15,7 @@
                     <p>ФИО: {{$user->name}}</p>
                     <p>E-mail: {{$user->email}}</p>
                     <p>Класс: {{$user->form}}</p>
+                    <a href="/profile/password_change"><button class="btn btn-warning">Изменить пароль</button></a>
                 </div>
             </div>            
         </div>

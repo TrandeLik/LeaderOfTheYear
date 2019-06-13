@@ -5,6 +5,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class GeneralController extends Controller
 {
@@ -47,6 +48,26 @@ class GeneralController extends Controller
         $user->email = $request->email;
         $user->form = $request->formNumber . '-' . $request->formLetter;
         $user->save();
+        return redirect('/profile');
+    }
+
+    public function passwordChangeView(){
+        return view('change_password');
+    }
+
+    public function passwordChange(Request $request){
+        $request->validate([
+            'old' => 'required',
+            'new' => 'required',
+            'confirm' => 'required',
+        ]);
+        $user = Auth::user();
+        if (Hash::check($request->old, $user->password)) {
+            if ($request->new==$request->confirm){
+                $user->password = Hash::make($request->new);
+                $user->save();
+            }
+          }
         return redirect('/profile');
     }
 }
