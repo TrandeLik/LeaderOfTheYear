@@ -14,7 +14,9 @@
                 <div class="card-body">
                     <p>ФИО: {{$user->name}}</p>
                     <p>E-mail: {{$user->email}}</p>
-                    <p>Класс: {{$user->form}}</p>
+                    @if ($user->role=='student')
+                        <p>Класс: {{$user->form}}</p>
+                    @endif
                     <a href="/profile/password_change"><button class="btn btn-warning">Изменить пароль</button></a>
                 </div>
             </div>            

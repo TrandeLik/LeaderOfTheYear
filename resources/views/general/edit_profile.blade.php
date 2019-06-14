@@ -16,27 +16,29 @@
                         @csrf
                         <p>ФИО: <input type="text" value="{{$name}}" name="name"></p>
                         <p>E-mail: <input type="text" value="{{$email}}" name="email"></p>
-                        <p>
-                            Класс: 
-                            <select name="formNumber">
-                                @foreach ($formNumbers as $formNumber)
-                                    @if ($formNumber == $userFormNumber)
-                                        <option selected>{{$formNumber}}</option>
-                                    @else
-                                        <option>{{$formNumber}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            <select name="formLetter">
-                                @foreach ($formLetters as $formLetter)
-                                    @if ($formLetter == $userFormLetter)
-                                        <option selected>{{$formLetter}}</option>
-                                    @else
-                                        <option>{{$formLetter}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </p>
+                        @if ($role=='student')
+                            <p>
+                                Класс: 
+                                <select name="formNumber">
+                                    @foreach ($formNumbers as $formNumber)
+                                        @if ($formNumber == $userFormNumber)
+                                            <option selected>{{$formNumber}}</option>
+                                        @else
+                                            <option>{{$formNumber}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <select name="formLetter">
+                                    @foreach ($formLetters as $formLetter)
+                                        @if ($formLetter == $userFormLetter)
+                                            <option selected>{{$formLetter}}</option>
+                                        @else
+                                            <option>{{$formLetter}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </p>
+                        @endif
                         <input type="submit">
                     </form>
                 </div>

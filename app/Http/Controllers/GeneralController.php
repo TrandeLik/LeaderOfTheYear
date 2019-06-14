@@ -30,10 +30,11 @@ class GeneralController extends Controller
         $user = Auth::user();
         $name = $user->name;
         $email = $user->email;
+        $role = $user->role;
         $formNumbers = [1,2,3,4,5,6,7,8,9,10,11];
         $formLetters = ['А','Б','В','Г','Д','Е','Ж','З','И','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц'];
         list($userFormNumber,$userFormLetter) = explode("-", $user->form);
-        return view('general/edit_profile',compact('name','email','formNumbers','formLetters','userFormNumber','userFormLetter'));
+        return view('general/edit_profile',compact('name','email','formNumbers','formLetters','userFormNumber','userFormLetter','role'));
     }
 
     public function profileEdit(Request $request){
