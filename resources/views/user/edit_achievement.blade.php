@@ -11,7 +11,7 @@
             <div class="card border-warning">
                 <div class="card-header">Редактирование достижения</div>
                 <div class="card-body">
-                    <form method="POST" class="row col-12 justify-content-center">
+                    <form method="POST" class="row col-12 justify-content-center" enctype="multipart/form-data">
                         @csrf
                         <select name="type">
                             <option disabled selected>Тип достижения</option>
@@ -45,7 +45,7 @@
                                 @endif
                             @endforeach
                         </select>
-                        <input type="text" name="confirmation" placeholder="Ссылка на подтверждение" value="{{$achievement->confirmation}}">
+                        <input type="file" name="file" placeholder="Подтверждение" value="{{storage_path('confirmation').$achievement->confirmation}}">
                         <input type="submit" value="Изменить" class="btn btn-warning col-4">
                     </form>
                 </div>

@@ -11,7 +11,7 @@
             <div class="card border-success">
                 <div class="card-header">Редактирование достижения</div>
                 <div class="card-body">
-                    <form method="POST" class="row col-12 justify-content-center">
+                    <form method="POST" class="row col-12 justify-content-center" enctype="multipart/form-data">
                         @csrf
                         <select name="type">
                             <option disabled selected>Тип достижения</option>
@@ -33,7 +33,8 @@
                                 <option>{{ $result }}</option>
                             @endforeach
                         </select>
-                        <input type="text" name="confirmation" placeholder="Ссылка на подтверждение">
+                        <label for="file" class="btn">Подтверждение</label>
+                        <input id = "file" type="file" name="file" placeholder="Подтверждение"><br>
                         <input type="submit" value="Добавить" class="btn btn-success col-4">
                     </form>
                 </div>

@@ -28,6 +28,11 @@ class UserController extends Controller
             'stage' => 'required',
             'result' => 'required',
         ]);
+        $name = '';
+        if ($request -> has('file')) {
+            $name = time() . '_' . $request->file->getClientOriginalName();
+            $request->file->move(storage_path('confirmations'), $name);
+        }
         $achievement = new Achievement();
         $achievement->user_id = Auth::user()->id;
         $achievement->status = 'created';
@@ -35,7 +40,7 @@ class UserController extends Controller
         $achievement->type = $request->type;
         $achievement->subject = $request->subject;
         $achievement->stage = $request->stage;
-        $achievement->confirmation = $request->confirmation;
+        $achievement->confirmation = $name;
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
         $achievement->save();
