@@ -17,11 +17,13 @@ class UserController extends Controller
         $types = DB::table('achievement_types')->select('type')->distinct()->get();
         $stages = ['школьный','окружной','городской','всероссийский'];
         $results = ['победитель','призер'];
-        return view('user.add_achievement',compact('types','stages','results'));
+        $categories = ['Интеллектуальные соревнования','Проектная и исследовательская деятельность','Спортивные достижения', 'Участие в лицейской жизни','Общественно полезная деятельность на базе лицея'];
+        return view('user.add_achievement',compact('types','stages','results','categories'));
     }
 
     public function addAchievement(Request $request){
         $request->validate([
+            'category' => 'required',
             'name' => 'required',
             'type' => 'required',
             'subject' => 'required',
@@ -36,6 +38,7 @@ class UserController extends Controller
         $achievement = new Achievement();
         $achievement->user_id = Auth::user()->id;
         $achievement->status = 'created';
+        $achievement->category = $request->category;
         $achievement->name = $request->name;
         $achievement->type = $request->type;
         $achievement->subject = $request->subject;
@@ -73,12 +76,22 @@ class UserController extends Controller
         $types = DB::table('achievement_types')->select('type')->distinct()->get();
         $stages = ['школьный','окружной','городской','всероссийский'];
         $results = ['победитель','призер'];
-        return view('user.edit_achievement',compact('types','stages','results','achievement'));
+        $categories = ['Интеллектуальные соревнования','Проектная и исследовательская деятельность','Спортивные достижения', 'Участие в лицейской жизни','Общественно полезная деятельность на базе лицея'];
+        return view('user.edit_achievement',compact('types','stages','results','achievement','categories'));
     }
 
     public function edit($id, Request $request){
+        $request->validate([
+            'category' => 'required',
+            'name' => 'required',
+            'type' => 'required',
+            'subject' => 'required',
+            'stage' => 'required',
+            'result' => 'required',
+        ]);
         $achievement = Achievement::findOrFail($id);
         $achievement->name = $request->name;
+        $achievement->category = $request->category;
         $achievement->type = $request->type;
         $achievement->subject = $request->subject;
         $achievement->stage = $request->stage;

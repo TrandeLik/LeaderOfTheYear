@@ -15,6 +15,7 @@ class CreateAchievementTypesTable extends Migration
     {
         Schema::create('achievement_types', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('category');
             $table->string('type');
             $table->string('stage');
             $table->string('result');

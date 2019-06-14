@@ -11,12 +11,14 @@ class AdminController extends Controller
 {
     public function addType(Request $request){
       $request -> validate([
+          'category' => 'required',
           'type' => 'required',
           'stage' => 'required',
           'result' => 'required',
           'score' => 'required'
       ]);
       $newType = new AchievementType();
+      $newType -> category = $request -> category;
       $newType -> type = $request -> type;
       $newType -> stage = $request -> stage;
       $newType -> result = $request -> result;
@@ -28,7 +30,8 @@ class AdminController extends Controller
     public function showAddType(){
         $stages = ['школьный','окружной','городской','всероссийский'];
         $results = ['победитель','призер'];
-        return view('admin/addAchievementType', compact('stages', 'results'));
+        $categories = ['Интеллектуальные соревнования','Проектная и исследовательская деятельность','Спортивные достижения', 'Участие в лицейской жизни','Общественно полезная деятельность на базе лицея'];
+        return view('admin/addAchievementType', compact('stages', 'results','categories'));
     }
 
     public function index(Request $request){

@@ -9,6 +9,12 @@
                     <div class='card-body'>
                     <form method="post">
                       @csrf
+                      <select name="category">
+                            <option disabled selected>Категория</option>
+                            @foreach ($categories as $category)
+                                <option>{{ $category }}</option>
+                            @endforeach
+                      </select>
                       <input type='text' name="type" placeholder="Тип события" class="form-control"><br>
                       <select name="stage" class="form-control">
                             <option disabled selected>Этап</option>

@@ -13,6 +13,12 @@
                 <div class="card-body">
                     <form method="POST" class="row col-12 justify-content-center" enctype="multipart/form-data">
                         @csrf
+                        <select name="category">
+                            <option disabled selected>Категория</option>
+                            @foreach ($categories as $category)
+                                <option>{{ $category }}</option>
+                            @endforeach
+                        </select>
                         <select name="type">
                             <option disabled selected>Тип достижения</option>
                             @foreach ($types as $type)
