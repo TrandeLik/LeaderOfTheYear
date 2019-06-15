@@ -14,11 +14,10 @@ class UserController extends Controller
     }
 
     public function addView(){
-        $types = DB::table('achievement_types')->select('type')->distinct()->get();
-        $stages = ['школьный','окружной','городской','всероссийский'];
-        $results = ['победитель','призер'];
-        $categories = ['Интеллектуальные соревнования','Проектная и исследовательская деятельность','Спортивные достижения', 'Участие в лицейской жизни','Общественно полезная деятельность на базе лицея'];
-        return view('user.add_achievement',compact('types','stages','results','categories'));
+        $achievement_types = DB::table('achievement_types')->get();
+        $categories = DB::table('achievement_types')->select('category')->distinct()->get();
+        //$categories = ['Интеллектуальные соревнования','Проектная и исследовательская деятельность','Спортивные достижения', 'Участие в лицейской жизни','Общественно полезная деятельность на базе лицея'];
+        return view('user.add_achievement',compact('categories','achievement_types'));
     }
 
     public function addAchievement(Request $request){
