@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Achievement;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -20,7 +21,15 @@ class GeneralController extends Controller
         asort($leaders);
         return view('general/leaderboard',compact('leaders'));
     }
-
+    public function downloadConfirmation($id){
+        $achievement = Achievement::findOrFail($id);
+        if (($achievement->user->id == Auth::user()-> id) or (Auth::user()->role == 'admin')){
+            $pathToFile = storage_path('confirmations') . '/' . $achievement->confirmation;
+            return response()->download($pathToFile);
+        } else {
+            return redirect('/user');
+        }
+    }
     public function profile(){
         $user = Auth::user();
         return view('general/profile', compact('user'));

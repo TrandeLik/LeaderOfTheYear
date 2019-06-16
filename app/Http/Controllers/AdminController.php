@@ -34,11 +34,26 @@ class AdminController extends Controller
         return view('admin/addAchievementType', compact('stages', 'results','categories'));
     }
 
-    public function index(Request $request){
-        $allTypes = AchievementType::all();
-        $sentAchievements = Achievement::all() -> where('status', 'sent');
-        $students = User::all() -> where('role', 'student');
+    public function index(){
+        $allTypes = AchievementType::all()->take(20);
+        $sentAchievements = Achievement::all() -> where('status', 'sent')->take(5);
+        $students = User::all() -> where('role', 'student') ->take(20);
         return view('admin/admin', compact('sentAchievements', 'students', 'allTypes'));
+    }
+
+    public function getAllSentAchievements(){
+        $sentAchievements = Achievement::all() -> where('status', 'sent');
+        return view('admin/allSentAchievements', compact('sentAchievements'));
+    }
+
+    public function getAllUsers(){
+        $users = User::all() -> where('role', 'student');
+        return view('admin/allUsers', compact('users'));
+    }
+
+    public function getAllAchievementTypes(){
+        $types = AchievementType::all();
+        return view('admin/allAchievementTypes', compact('types'));
     }
 
     public function showBannedUsers(){

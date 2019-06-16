@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use Faker\Provider\File;
 use Illuminate\Support\Facades\DB;
 use App\Achievement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 { 
@@ -88,13 +90,18 @@ class UserController extends Controller
             'stage' => 'required',
             'result' => 'required',
         ]);
+        $name = '';
+//        if ($request -> has('file')) {
+//            $name = time() . '_' . $request->file->getClientOriginalName();
+//            $request->file->move(storage_path('confirmations'), $name);
+//        }
         $achievement = Achievement::findOrFail($id);
         $achievement->name = $request->name;
         $achievement->category = $request->category;
         $achievement->type = $request->type;
         $achievement->subject = $request->subject;
         $achievement->stage = $request->stage;
-        $achievement->confirmation = $request->confirmation;
+        $achievement->confirmation = $name;
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
         $achievement->save();

@@ -55,9 +55,10 @@
                                 @endif
                             @endforeach
                         </select>
-                        <input type="file" name="file" placeholder="Подтверждение" value="{{storage_path('confirmation').$achievement->confirmation}}">
+                        {{--<input type="file" name="file" placeholder="Подтверждение">--}}
                         <input type="submit" value="Изменить" class="btn btn-warning col-4">
                     </form>
+                    <a href="{{'/achievement/'.$achievement->id.'/download_confirmation'}}">Подтверждение</a><br><br>
                 </div>
             </div>
         </div>

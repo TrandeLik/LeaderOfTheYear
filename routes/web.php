@@ -22,6 +22,9 @@ Route::get('/user/{id}/unblock', 'AdminController@unblock')->middleware(\App\Htt
 Route::get('/banned_users', 'AdminController@showBannedUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::post('/add_achievement_type', 'AdminController@addType')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/add_achievement_type', 'AdminController@showAddType')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/all_sent_achievements', 'AdminController@getAllSentAchievements')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/all_users', 'AdminController@getAllUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/all_achievement_types', 'AdminController@getAllAchievementTypes')->middleware(\App\Http\Middleware\CheckAdmin::class);
 
 Route::get('/user', 'UserController@index')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::get('/achievement/add', 'UserController@addView')->middleware(\App\Http\Middleware\CheckUser::class);
@@ -39,3 +42,4 @@ Route::post('/profile/edit', 'GeneralController@profileEdit')->middleware(\App\H
 Route::get('/profile/password_change', 'GeneralController@passwordChangeView')->middleware(\App\Http\Middleware\CheckAuth::class);
 Route::post('/profile/password_change', 'GeneralController@passwordChange')->middleware(\App\Http\Middleware\CheckAuth::class);
 Route::get('/alert_for_banned_users', 'GeneralController@getAlertForBannedUsers')->middleware(\App\Http\Middleware\CheckBannedUser::class);
+Route::get('/achievement/{id}/download_confirmation', 'GeneralController@downloadConfirmation')->middleware(\App\Http\Middleware\CheckAuth::class);
