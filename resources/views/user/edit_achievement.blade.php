@@ -3,28 +3,32 @@
     .btn-warning{
         margin-top: 20px;
     }
+    
+    .btn-primary{
+        float:right;
+    }
 </style>
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
             <div class="col-md-10">
             <div class="card border-warning">
-                <div class="card-header">Редактирование достижения</div>
+                <div class="card-header">Редактирование достижения<a href="/"><button class="btn btn-primary">Отмена</button></a></div>
                 <div class="card-body">
                     <form method="POST" class="row col-12 justify-content-center" enctype="multipart/form-data">
                         @csrf
-                        <select name="category">
-                            <option disabled selected>Категория</option>
+                        <select name="category" onchange="changeStage(); changeType(); changeCategory();">
+                            <option disabled>Категория</option>
                             @foreach ($categories as $category)
-                                @if ($category==$achievement->category)
-                                    <option selected>{{ $category }}</option>
+                                @if ($category->category==$achievement->category)
+                                    <option selected>{{ $category->category }}</option>
                                 @else
-                                    <option>{{ $category }}</option>
+                                    <option>{{ $category->category }}</option>
                                 @endif
                             @endforeach
                         </select>
-                        <select name="type">
-                            <option disabled selected>Тип достижения</option>
+                        <select name="type" onchange = "changeStage(); changeType();">
+                            <option disabled>Тип достижения</option>
                             @foreach ($types as $type)
                                 @if ($type->type==$achievement->type)
                                     <option selected>{{ $type->type }}</option>
@@ -35,23 +39,23 @@
                         </select>
                         <input type="text" name="name" placeholder="Название олимпиады" value="{{$achievement->name}}">
                         <input type="text" name="subject" placeholder="Предмет" value="{{$achievement->subject}}">
-                        <select name="stage">
-                            <option disabled selected>Этап</option>
+                        <select name="stage" onchange = "changeStage();">
+                            <option disabled>Этап</option>
                             @foreach ($stages as $stage)
-                                @if ($stage==$achievement->stage)
-                                    <option selected>{{ $stage }}</option>
+                                @if ($stage->stage==$achievement->stage)
+                                    <option selected>{{ $stage->stage }}</option>
                                 @else
-                                    <option>{{ $stage }}</option>
+                                    <option>{{ $stage->stage }}</option>
                                 @endif
                             @endforeach
                         </select> 
                         <select name="result">
-                            <option disabled selected>Результат</option>
+                            <option disabled>Результат</option>
                             @foreach ($results as $result)
-                                @if ($result==$achievement->result)
-                                    <option selected>{{ $result }}</option>
+                                @if ($result->result==$achievement->result)
+                                    <option selected>{{ $result->result }}</option>
                                 @else
-                                    <option>{{ $result }}</option>
+                                    <option>{{ $result->result }}</option>
                                 @endif
                             @endforeach
                         </select>
@@ -64,4 +68,11 @@
         </div>
     </div>
 </div>
+<script>
+    let achievements = [];
+    @foreach ($achievement_types as $achievement_type)
+        achievements.push({category: "{{$achievement_type->category}}", type: "{{$achievement_type->type}}", stage: "{{$achievement_type->stage}}", result: "{{$achievement_type->result}}"});
+    @endforeach
+</script>
+<script src="/js/achievementSelection.js"></script>
 @endsection

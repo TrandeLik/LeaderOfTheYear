@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Faker\Provider\File;
 use Illuminate\Support\Facades\DB;
 use App\Achievement;
+use App\AchievementType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +17,7 @@ class UserController extends Controller
     }
 
     public function addView(){
-        $achievement_types = DB::table('achievement_types')->get();
+        $achievement_types = AchievementType::all();
         $categories = DB::table('achievement_types')->select('category')->distinct()->get();
         //$categories = ['Интеллектуальные соревнования','Проектная и исследовательская деятельность','Спортивные достижения', 'Участие в лицейской жизни','Общественно полезная деятельность на базе лицея'];
         return view('user.add_achievement',compact('categories','achievement_types'));
@@ -74,11 +75,12 @@ class UserController extends Controller
 
     public function editView($id){
         $achievement = Achievement::findOrFail($id);
-        $types = DB::table('achievement_types')->select('type')->distinct()->get();
-        $stages = ['школьный','окружной','городской','всероссийский'];
-        $results = ['победитель','призер'];
-        $categories = ['Интеллектуальные соревнования','Проектная и исследовательская деятельность','Спортивные достижения', 'Участие в лицейской жизни','Общественно полезная деятельность на базе лицея'];
-        return view('user.edit_achievement',compact('types','stages','results','achievement','categories'));
+        $achievement_types = AchievementType::all();
+        $categories = AchievementType::select('category')->distinct()->get();
+        $types = AchievementType::select('type')->where('category',$achievement->category)->distinct()->get();
+        $stages = AchievementType::select('stage')->where([['category',$achievement->category],['type',$achievement->type],])->distinct()->get();
+        $results = AchievementType::select('result')->where([['category',$achievement->category],['type',$achievement->type],['stage',$achievement->stage],])->distinct()->get();
+        return view('user.edit_achievement',compact('types','stages','results','achievement','categories','achievement_types'));
     }
 
     public function edit($id, Request $request){
