@@ -17,18 +17,18 @@
                 <div class="card-body">
                     <form method="POST" class="row col-12 justify-content-center" enctype="multipart/form-data">
                         @csrf
-                        <select name="category" onchange="changeStage(); changeType(); changeCategory();">
+                        <select name="category" onchange="changeStage(); disableForStage(); changeType(); disableForType(); changeCategory(); disableForCategory();">
                             <option selected disabled>Категория</option>
                             @foreach ($categories as $category)
                                 <option>{{ $category->category }}</option>
                             @endforeach
                         </select>
-                        <select name="type" onchange = "changeStage(); changeType();" disabled>
+                        <select name="type" onchange = "changeStage(); disableForStage(); changeType(); disableForType();" disabled>
                             <option selected disabled>Тип</option>
                         </select>
                         <input type="text" name="name" placeholder="Название олимпиады">
                         <input type="text" name="subject" placeholder="Предмет">
-                        <select name="stage" onchange = "changeStage();" disabled>
+                        <select name="stage" onchange = "changeStage(); disableForStage();" disabled>
                             <option selected disabled>Этап</option>
                         </select>
                         <select name="result" disabled>

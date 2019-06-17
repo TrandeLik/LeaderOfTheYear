@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <form method="POST" class="row col-12 justify-content-center" enctype="multipart/form-data">
                         @csrf
-                        <select name="category" onchange="changeStage(); changeType(); changeCategory();">
+                        <select name="category" onchange="changeStage(); disableForStage(); changeType(); disableForType(); changeCategory(); disableForCategory();">
                             <option disabled>Категория</option>
                             @foreach ($categories as $category)
                                 @if ($category->category==$achievement->category)
@@ -27,7 +27,7 @@
                                 @endif
                             @endforeach
                         </select>
-                        <select name="type" onchange = "changeStage(); changeType();">
+                        <select name="type" onchange = "changeStage(); disableForStage(); changeType(); disableForType();">
                             <option disabled>Тип достижения</option>
                             @foreach ($types as $type)
                                 @if ($type->type==$achievement->type)
@@ -39,7 +39,7 @@
                         </select>
                         <input type="text" name="name" placeholder="Название олимпиады" value="{{$achievement->name}}">
                         <input type="text" name="subject" placeholder="Предмет" value="{{$achievement->subject}}">
-                        <select name="stage" onchange = "changeStage();">
+                        <select name="stage" onchange = "changeStage(); disableForStage();">
                             <option disabled>Этап</option>
                             @foreach ($stages as $stage)
                                 @if ($stage->stage==$achievement->stage)

@@ -16,6 +16,9 @@ function changeCategory(){
         document.getElementsByName('type')[0].options[i+1].text = types[i];
         document.getElementsByName('type')[0].options[i+1].value = types[i];
     }
+}
+
+function disableForCategory(){
     document.getElementsByName('type')[0].disabled = false;
     document.getElementsByName('stage')[0].disabled = true;
     document.getElementsByName('result')[0].disabled = true;
@@ -44,6 +47,9 @@ function changeType(){
         document.getElementsByName('stage')[0].options[i+1].text = stages[i];
         document.getElementsByName('stage')[0].options[i+1].value = stages[i];
     }
+}
+
+function disableForType(){
     document.getElementsByName('stage')[0].disabled = false;
     document.getElementsByName('result')[0].disabled = true;
     document.getElementsByName('stage')[0].options[0].selected = true;
@@ -73,6 +79,9 @@ function changeStage(){
         document.getElementsByName('result')[0].options[i+1].text = results[i];
         document.getElementsByName('result')[0].options[i+1].value = results[i];
     }
+}        
+
+function disableForStage(){
     document.getElementsByName('result')[0].disabled = false;
     document.getElementsByName('result')[0].options[0].selected = true;
-}        
+}

@@ -10,13 +10,13 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     public function addType(Request $request){
-      $request -> validate([
-          'category' => 'required',
-          'type' => 'required',
-          'stage' => 'required',
-          'result' => 'required',
-          'score' => 'required'
-      ]);
+        $request->validate([
+            'category' => 'required',
+            'type' => 'required',
+            'stage' => 'required',
+            'result' => 'required',
+            'score' => 'required',
+        ]);
       $newType = new AchievementType();
       $newType -> category = $request -> category;
       $newType -> type = $request -> type;
@@ -28,10 +28,12 @@ class AdminController extends Controller
     }
     
     public function showAddType(){
-        $stages = ['школьный','окружной','городской','всероссийский'];
-        $results = ['победитель','призер'];
-        $categories = ['Интеллектуальные соревнования','Проектная и исследовательская деятельность','Спортивные достижения', 'Участие в лицейской жизни','Общественно полезная деятельность на базе лицея'];
-        return view('admin/addAchievementType', compact('stages', 'results','categories'));
+        $achievement_types = AchievementType::all();
+        $categories = AchievementType::select('category')->distinct()->get();
+        $types = AchievementType::select('type')->distinct()->get();
+        $stages = AchievementType::select('stage')->distinct()->get();
+        $results = AchievementType::select('result')->distinct()->get();
+        return view('admin/addAchievementType', compact('stages', 'results','categories', 'types','achievement_types'));
     }
 
     public function index(){
