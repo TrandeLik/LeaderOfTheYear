@@ -13,7 +13,17 @@
                         <li>Количество баллов {{$confirmedAchievements -> sum('score')}}</li>
                         <li>Место в конкурсе: {{$place}}</li>
                     </ul>
-                    <a href="{{url('/user/'. $user -> id.'/ban')}}"><button class="btn btn-danger">Заблокировать</button></a>
+                    @if ($user -> role == 'student')
+                        <a href={{url('/user/'.$user->id.'/ban')}}><button class="btn btn-danger"> Заблокировать </button></a>
+                        <a href={{url('/user/'.$user->id.'/promotion')}}><button class="btn btn-warning"> Назначить администратором </button></a>
+                    @endif
+                    @if ($user -> role == 'admin' && \Illuminate\Support\Facades\Auth::user()->role == 'superadmin')
+                        <a href={{url('/user/'.$user->id.'/ban')}}><button class="btn btn-danger"> Заблокировать </button></a>
+                        <a href={{url('/user/'.$user->id.'/degrade')}}><button class="btn btn-warning"> Снять с должности администратора </button></a>
+                    @endif
+                    @if ($user -> role == 'banned')
+                        <a href={{url('/user/'.$user->id.'/unblock')}}><button class="btn btn-warning"> Разблокировать </button></a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -31,6 +41,6 @@
             @endforeach
         </div>
     </div><br>
-    <a href="{{url('/')}}"><button class="btn btn-primary" style="float: right">Назад</button></a>
+    <a href="{{url()->previous()}}"><button class="btn btn-primary" style="float: right">Назад</button></a>
 
 @endsection

@@ -59,10 +59,14 @@
                                 @endif
                             @endforeach
                         </select>
-                        {{--<input type="file" name="file" placeholder="Подтверждение">--}}
+                        <label for="file">Новое подтверждение </label> <input id="file" type="file" name="file">
                         <input type="submit" value="Изменить" class="btn btn-warning col-4">
                     </form>
-                    <a href="{{'/achievement/'.$achievement->id.'/download_confirmation'}}">Подтверждение</a><br><br>
+                    @if($achievement->confirmation != '')
+                        <a href="{{'/achievement/'.$achievement->id.'/download_confirmation'}}">Текущее подтверждение</a><br><br>
+                    @else
+                        <strong>На данный момент подтверждения нет</strong>
+                    @endif
                 </div>
             </div>
         </div>

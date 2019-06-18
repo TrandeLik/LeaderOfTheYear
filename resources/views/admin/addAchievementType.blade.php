@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1>События</h2>
+            <h1>События</h1>
                 <div class='card'>
                     <div class='card-body'>
                     <form method="post">
@@ -56,13 +56,14 @@
         </div>
     </div>
   </div>
+  <a href="{{url('/')}}"><button class="btn btn-primary" style="float: right">Назад</button></a>
 <script>
     let achievements = [];
-    @foreach ($achievement_types as $achievement_type)
-        achievements.push({category: "{{$achievement_type->category}}", type: "{{$achievement_type->type}}", stage: "{{$achievement_type->stage}}", result: "{{$achievement_type->result}}"});
+    @foreach ($achievementTypes as $achievementType)
+        achievements.push({category: "{{$achievementType->category}}", type: "{{$achievementType->type}}", stage: "{{$achievementType->stage}}", result: "{{$achievementType->result}}"});
     @endforeach
 </script>
-<script src="/js/achievementSelection.js"></script>
+<script src="../../../public/js/achievementSelection.js"></script>
 <script>
     function writeTypes(){
       changeCategory();

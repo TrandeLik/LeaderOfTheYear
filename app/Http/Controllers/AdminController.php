@@ -6,6 +6,7 @@ use App\Achievement;
 use App\User;
 use App\AchievementType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -28,12 +29,46 @@ class AdminController extends Controller
     }
     
     public function showAddType(){
-        $achievement_types = AchievementType::all();
+        $achievementTypes = AchievementType::all();
         $categories = AchievementType::select('category')->distinct()->get();
         $types = AchievementType::select('type')->distinct()->get();
         $stages = AchievementType::select('stage')->distinct()->get();
         $results = AchievementType::select('result')->distinct()->get();
-        return view('admin/addAchievementType', compact('stages', 'results','categories', 'types','achievement_types'));
+        return view('admin/addAchievementType', compact('stages', 'results','categories', 'types','achievementTypes'));
+    }
+
+    public function deleteAchievementType($id){
+        $type = AchievementType::findOrFail($id);
+        $type -> delete();
+        return redirect(url()->previous());
+    }
+
+    public function getEditTypeView($id){
+        $thisType = AchievementType::findOrFail($id);
+        $achievementTypes = AchievementType::all();
+        $categories = AchievementType::select('category')->distinct()->get();
+        $types = AchievementType::select('type')->distinct()->get();
+        $stages = AchievementType::select('stage')->distinct()->get();
+        $results = AchievementType::select('result')->distinct()->get();
+        return view('admin/editAchievementType', compact('stages', 'results','categories', 'types','achievementTypes', 'thisType'));
+    }
+
+    public function editAchievementType($id, Request $request){
+        $request->validate([
+            'category' => 'required',
+            'type' => 'required',
+            'stage' => 'required',
+            'result' => 'required',
+            'score' => 'required',
+        ]);
+        $type = AchievementType::findOrFail($id);
+        $type -> category = $request -> category;
+        $type -> type = $request -> type;
+        $type -> stage = $request -> stage;
+        $type -> result = $request -> result;
+        $type -> score = $request -> score;
+        $type -> save();
+        return redirect('/admin/allAchievementTypes');
     }
 
     public function index(){
@@ -49,7 +84,11 @@ class AdminController extends Controller
     }
 
     public function getAllUsers(){
-        $users = User::all() -> where('role', 'student');
+        if (Auth::user() -> role == 'superadmin') {
+            $users = User::all()->where('role', '!=','superadmin');
+        } else {
+            $users = User::all()->where('role', 'student');
+        }
         return view('admin/allUsers', compact('users'));
     }
 
@@ -80,20 +119,40 @@ class AdminController extends Controller
 
     public function ban($id){
         $user = User::findOrFail($id);
-        if ($user -> role != 'admin') {
+        if (((Auth::user()->role == 'superadmin')||($user -> role != 'admin')) && ($user -> role != 'superadmin')) {
             $user -> role = 'banned';
             $user -> save();
         }
-        return redirect('/');
+        return redirect(url() -> previous());
+    }
+
+    public function promotion($id){
+        $user = User::findOrFail($id);
+        if ($user -> role != 'superadmin'){
+            $user -> role = 'admin';
+            $user -> form = 'администратор';
+            $user -> save();
+        }
+        return redirect(url() -> previous());
+    }
+
+    public function degrade($id){
+        $user = User::findOrFail($id);
+        if (($user -> role != 'superadmin') && ($user -> role != 'student')){
+            $user -> role = 'student';
+            $user -> form = 'ученик';
+            $user -> save();
+        }
+        return redirect(url() -> previous());
     }
 
     public function unblock($id){
         $user = User::findOrFail($id);
-        if ($user -> role != 'admin') {
+        if (($user -> role != 'admin') && ($user -> role != 'superadmin'))  {
             $user -> role = 'student';
             $user -> save();
         }
-        return redirect('/banned_users');
+        return redirect(url() -> previous());
     }
 
     public function reject($id){

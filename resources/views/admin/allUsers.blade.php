@@ -5,13 +5,26 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">Ученики</th>
+                <th scope="col">Пользователи</th>
             </tr>
             </thead>
             <tbody>
             @foreach($users as $user)
                 <tr>
-                    <td scope="row"><a href="{{url('/user/' . $user -> id . '/profile')}}">{{ $user -> name.', '.$user -> form}} </a></td>
+                    @if ($user -> role == 'student')
+                        <td scope="row"><a href="{{url('/user/' . $user -> id . '/profile')}}">{{ $user -> name.', '.$user -> form}} </a></td>
+                        <td><a href={{url('/user/'.$user->id.'/ban')}}><button class="btn btn-danger"> Заблокировать </button></a></td>
+                        <td><a href={{url('/user/'.$user->id.'/promotion')}}><button class="btn btn-warning"> Назначить администратором </button></a></td>
+                    @endif
+                    @if ($user -> role == 'admin')
+                        <td scope="row"><strong>Администратор: </strong>{{ $user -> name.', '.$user -> form}}</td>
+                        <td><a href={{url('/user/'.$user->id.'/ban')}}><button class="btn btn-danger"> Заблокировать </button></a></td>
+                        <td><a href={{url('/user/'.$user->id.'/degrade')}}><button class="btn btn-warning"> Снять с должности администратора </button></a></td>
+                    @endif
+                    @if ($user -> role == 'banned')
+                        <td scope="row"><strong> Заблокирован: </strong>{{ $user -> name.', '.$user -> form}}</td>
+                        <td><a href={{url('/user/'.$user->id.'/unblock')}}><button class="btn btn-warning"> Разблокировать </button></a></td>
+                    @endif
                 </tr>
             @endforeach
             </tbody>

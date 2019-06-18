@@ -9,7 +9,7 @@
                     <div class='card-body'>
                         <ul>
                             @foreach($allTypes as $type)
-                                <li>{{$type -> type.', '.$type -> stage}}</li>
+                                <li>{{$type -> category.', '.$type -> type.', '.$type -> stage}}</li>
                             @endforeach
                         </ul>
                         <a href="{{url('/all_achievement_types')}}">Все достижения</a><br>
