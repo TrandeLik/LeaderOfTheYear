@@ -12,6 +12,15 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">Статистика</div>
+                <div class="card-body">
+                    <p>Сейчас у Вас {{$confirmedScore}} подтверждённых баллов<p>
+                    <p>Если все Ваши достижения будут одобрены, Вы получите {{$totalScore}} баллов</p>
+                    <p>Вы на {{$place}} месте</p>
+                    <p>Вы входите в {{$percentage}} процентов лучших</p>
+                </div>
+            </div>
             <div class="card border-primary">
                 <div class="card-header">Мои олимпиады<a href="/achievement/add"><button class="btn btn-primary">Добавить</button></a></div>
                 <div class="card-body">

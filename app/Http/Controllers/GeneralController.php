@@ -21,6 +21,7 @@ class GeneralController extends Controller
         asort($leaders);
         return view('general/leaderboard',compact('leaders'));
     }
+    
     public function downloadConfirmation($id){
         $achievement = Achievement::findOrFail($id);
         if (($achievement->user->id == Auth::user()-> id) or (Auth::user()->role == 'admin')){

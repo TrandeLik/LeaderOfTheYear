@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Faker\Provider\File;
 use Illuminate\Support\Facades\DB;
 use App\Achievement;
+use App\User;
 use App\AchievementType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -13,13 +14,16 @@ class UserController extends Controller
 { 
     public function index(){
         $achievements = Auth::user()->achievements;
-        return view('user.index',compact('achievements'));
+        $confirmedScore = Auth::user()->achievements()->where('status','confirmed')->sum('score');
+        $totalScore = Auth::user()->achievements()->sum('score');
+        $place = Auth::user()->place();
+        $percentage = round($place / (User::all()->where('role','student')->count()) * 100);
+        return view('user.index',compact('achievements','confirmedScore','totalScore','place','percentage'));
     }
 
     public function addView(){
         $achievement_types = AchievementType::all();
         $categories = AchievementType::select('category')->distinct()->get();
-        //$categories = ['Интеллектуальные соревнования','Проектная и исследовательская деятельность','Спортивные достижения', 'Участие в лицейской жизни','Общественно полезная деятельность на базе лицея'];
         return view('user.add_achievement',compact('categories','achievement_types'));
     }
 
