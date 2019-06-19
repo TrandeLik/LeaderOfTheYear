@@ -6,6 +6,8 @@
             <thead>
             <tr>
                 <th scope="col">Пользователи</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -24,6 +26,7 @@
                     @if ($user -> role == 'banned')
                         <td scope="row"><strong> Заблокирован: </strong>{{ $user -> name.', '.$user -> form}}</td>
                         <td><a href={{url('/user/'.$user->id.'/unblock')}}><button class="btn btn-warning"> Разблокировать </button></a></td>
+                        <td></td>
                     @endif
                 </tr>
             @endforeach

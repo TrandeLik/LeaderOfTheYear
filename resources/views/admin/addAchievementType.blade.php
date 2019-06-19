@@ -63,7 +63,7 @@
         achievements.push({category: "{{$achievementType->category}}", type: "{{$achievementType->type}}", stage: "{{$achievementType->stage}}", result: "{{$achievementType->result}}"});
     @endforeach
 </script>
-<script src="../../../public/js/achievementSelection.js"></script>
+<script src="/js/achievementSelection.js"></script>
 <script>
     function writeTypes(){
       changeCategory();

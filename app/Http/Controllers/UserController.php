@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function addView(){
         $achievement_types = AchievementType::all();
-        $categories = DB::table('achievement_types')->select('category')->distinct()->get();
+        $categories = AchievementType::select('category')->distinct()->get();
         //$categories = ['Интеллектуальные соревнования','Проектная и исследовательская деятельность','Спортивные достижения', 'Участие в лицейской жизни','Общественно полезная деятельность на базе лицея'];
         return view('user.add_achievement',compact('categories','achievement_types'));
     }

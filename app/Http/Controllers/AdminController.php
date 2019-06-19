@@ -68,13 +68,13 @@ class AdminController extends Controller
         $type -> result = $request -> result;
         $type -> score = $request -> score;
         $type -> save();
-        return redirect('/admin/allAchievementTypes');
+        return redirect('/all_achievement_types');
     }
 
     public function index(){
-        $allTypes = AchievementType::all()->take(20);
+        $allTypes = AchievementType::all() ->take(10);
         $sentAchievements = Achievement::all() -> where('status', 'sent')->take(5);
-        $students = User::all() -> where('role', 'student') ->take(20);
+        $students = User::all()-> where('role', 'student') ->take(10);
         return view('admin/admin', compact('sentAchievements', 'students', 'allTypes'));
     }
 

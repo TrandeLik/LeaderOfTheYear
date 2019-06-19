@@ -6,6 +6,9 @@
             <thead>
             <tr>
                 <th scope="col">Достижения</th>
+                <th scope="col">Баллы</th>
+                <th scope="col"></th>
+                <th scope="col"><a href='/add_achievement_type'><button class="btn btn-success">Добавить</button></a></th>
             </tr>
             </thead>
             <tbody>
@@ -14,13 +17,13 @@
                     <td scope="row">{{
                         $type->category.', '.$type->type.', '.$type->stage.', '.$type->result
                     }}</td>
-                    <td><a href={{url('/achievement_type/'.$type->id.'/edit')}}> <button class="btn btn-warning">Изменить </button></a></td>
-                    <td><a href={{url('/achievement_type/'.$type->id.'/delete')}}><button class="btn btn-danger"> Удалить </button></a></td>
+                    <td>{{$type->score}}</td>
+                    <td><a href={{url('/achievement_type/'.$type->id.'/edit')}}> <button class="btn btn-warning">Изменить</button></a></td>
+                    <td><a href={{url('/achievement_type/'.$type->id.'/delete')}}><button class="btn btn-danger">Удалить</button></a></td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-        <a href="{{url('/add_achievement_type')}}">Добавить событие</a>
     </div>
     <a href="{{url('/')}}"><button class="btn btn-primary" style="float: right">Назад</button></a>
 @endsection

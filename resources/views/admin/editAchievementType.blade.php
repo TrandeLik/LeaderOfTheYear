@@ -23,8 +23,8 @@
                                 <input type="button" name="category" onclick="changeInput('category');" value="Добавить">
                             </div>
                             <div name="typeDiv">
-                                <select name="type" disabled>
-                                    <option disabled selected>Тип события</option>
+                                <select name="type">
+                                    <option disabled>Тип события</option>
                                 </select>
                                 <input type="button" name="type" onclick="changeInput('type');" value="Добавить">
                             </div><br>
@@ -69,13 +69,20 @@
         </div>
     </div>
     <a href="{{url('/admin/allAchievementTypes')}}"><button class="btn btn-primary" style="float: right">Назад</button></a>
+    <script src="/js/achievementSelection.js"></script>
     <script>
         let achievements = [];
         @foreach ($achievementTypes as $achievementType)
             achievements.push({category: "{{$achievementType->category}}", type: "{{$achievementType->type}}", stage: "{{$achievementType->stage}}", result: "{{$achievementType->result}}"});
         @endforeach
+        changeCategory();
+        let typeSelect = document.getElementsByName('type')[0];
+        for (let i = 0; i < typeSelect.length; i++){
+            if (typeSelect.options[i].value == {{$thisType->type}}){
+                typeSelect.options[i].selected = true;
+            }
+        }
     </script>
-    <script src="../../../public/js/achievementSelection.js"></script>
     <script>
         function writeTypes(){
             changeCategory();
