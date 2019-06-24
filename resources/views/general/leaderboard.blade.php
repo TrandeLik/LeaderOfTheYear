@@ -11,13 +11,13 @@
             </tr>
         </thead>
         <tbody>
-            @for ($i = count($leaders)-1; $i >= 0; $i--)
+            @foreach ($leaders as $leader)
                 <tr>
-                    <th scope="row">{{ count($leaders)-$i }}</th>
-                    <td>{{ array_keys($leaders)[$i] }}</td>
-                    <td>{{ array_values($leaders)[$i] }}</td>
+                    <th scope="row">{{ $leader->place() }}</th>
+                    <td>{{ $leader->name }}</td>
+                    <td>{{ $leader->score }}</td>
                 </tr>
-            @endfor
+            @endforeach
         </tbody>
     </table>
 </div>

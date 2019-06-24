@@ -12,13 +12,12 @@ class GeneralController extends Controller
 {
     public function index()
     {
-        $leaders = [];
-        $users = User::all()  -> where('role', 'student');
+        $users = User::all() -> where('role', 'student');
         foreach ($users as $user){
             $count = $user -> achievements -> where('status', 'confirmed') -> sum('score');
-            $leaders[$user->name] = $count;
+            $user -> score = $count;
         }
-        asort($leaders);
+        $leaders = $users -> sortByDesc('score');
         return view('general/leaderboard',compact('leaders'));
     }
     

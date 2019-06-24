@@ -43,17 +43,16 @@ class User extends Authenticatable
     }
 
     public function place(){
-        $leaders = [];
         $users = User::all() -> where('role', 'student');
         foreach ($users as $user){
             $count = $user -> achievements -> where('status', 'confirmed') -> sum('score');
-            $leaders[$user->id] = $count;
+            $user -> score = $count;
         }
-        asort($leaders);
-        $i = count($leaders)+1;
-        foreach ($leaders as $user => $score){
-            $i--;
-            if ($score == Auth::user()->achievements()->where('status','confirmed')->sum('score')){
+        $leaders = $users -> sortByDesc('score');
+        $i = 0;
+        foreach ($leaders as $leader){
+            $i++;
+            if ($leader->score == $this->achievements()->where('status','confirmed')->sum('score')){
                 return $i;
             }
         }
