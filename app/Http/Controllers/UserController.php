@@ -52,9 +52,12 @@ class UserController extends Controller
         $achievement->confirmation = $name;
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
-        $achievement->save();
-
-        return redirect('user');
+        if ($achievement->allowAdd()){
+            $achievement->save();
+            return redirect('user');
+        } else {
+            return view('user.mainCategoryError');
+        }
     }
 
     public function send($id){
@@ -73,8 +76,13 @@ class UserController extends Controller
 
     public function delete($id){
         $achievement = Achievement::findOrFail($id);
-        $achievement->delete();
-        return redirect('user');
+        if ($achievement->allowDelete()){
+            $achievement->delete();
+            return redirect('user');
+        } else {
+            return view('user.mainCategoryError');
+        }
+        
     }
 
     public function editView($id){
@@ -96,8 +104,8 @@ class UserController extends Controller
             'stage' => 'required',
             'result' => 'required',
         ]);
-        $achievement = Achievement::findOrFail($id);
-
+        $oldVersion = Achievement::findOrFail($id);
+        $achievement = $oldVersion;
         if ($request -> has('file')) {
             $name = time() . '_' . $request->file->getClientOriginalName();
             $request->file->move(storage_path('confirmations'), $name);
@@ -111,7 +119,12 @@ class UserController extends Controller
         $achievement->stage = $request->stage;
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
-        $achievement->save();
-        return redirect('user');
+        if ($achievement->allowEdit($oldVersion)){
+            $achievement->save();
+            return redirect('user');
+        } else {
+            return view('user.mainCategoryError');
+        }
+        
     }
 }
