@@ -12,10 +12,10 @@
                                 <li>{{$type -> category.', '.$type -> type.', '.$type -> stage}}</li>
                             @endforeach
                         </ul>
-                        <a href="{{url('/all_achievement_types')}}">Все достижения</a><br>
+                        <a href="{{url('/achievement_types/all')}}">Все достижения</a><br>
                     </div>
               </div><br>
-            <a href="{{url('/add_achievement_type')}}">Добавить событие</a>
+            <a href="{{url('/achievement_type/add')}}">Добавить событие</a>
         </div>
         <div class="col-md-6">
             <h2>Заявки</h2>
@@ -33,7 +33,7 @@
                         </div><br>
                     </div><br>
                 @endforeach
-                <a href="{{url('/all_sent_achievements')}}">Все заявки</a>
+                <a href="{{url('/achievements/sent')}}">Все заявки</a>
             @endif
         </div>
         <div class="col-md-3">
@@ -45,10 +45,10 @@
                             <a href="{{url('/user/' . $student -> id . '/profile')}}">{{$student -> name . ', ' . $student -> form}}</a>
                         </li>
                     @endforeach<br>
-                    <a href="{{url('/all_users')}}">Все участники</a>
+                    <a href="{{url('/users/all')}}">Все участники</a>
                 </div>
             </div><br>
-            <a href="{{url('/banned_users')}}">Заблокированные пользователи</a>
+            <a href="{{url('/users/banned')}}">Заблокированные пользователи</a>
         </div>
     </div>
 @endsection

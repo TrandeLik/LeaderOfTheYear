@@ -24,7 +24,7 @@ class UserController extends Controller
     public function addView(){
         $achievement_types = AchievementType::all();
         $categories = AchievementType::select('category')->distinct()->get();
-        return view('user.add_achievement',compact('categories','achievement_types'));
+        return view('user.addAchievement',compact('categories','achievement_types'));
     }
 
     public function addAchievement(Request $request){
@@ -92,7 +92,7 @@ class UserController extends Controller
         $types = AchievementType::select('type')->where('category',$achievement->category)->distinct()->get();
         $stages = AchievementType::select('stage')->where([['category',$achievement->category],['type',$achievement->type],])->distinct()->get();
         $results = AchievementType::select('result')->where([['category',$achievement->category],['type',$achievement->type],['stage',$achievement->stage],])->distinct()->get();
-        return view('user.edit_achievement',compact('types','stages','results','achievement','categories','achievement_types'));
+        return view('user.editAchievement',compact('types','stages','results','achievement','categories','achievement_types'));
     }
 
     public function edit($id, Request $request){

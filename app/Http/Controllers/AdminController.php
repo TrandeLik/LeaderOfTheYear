@@ -104,16 +104,9 @@ class AdminController extends Controller
 
     public function aboutUser($id){
         $user = User::findOrFail($id);
-        $place = 1;
         $students = User::all() -> where('role', 'student');
-        foreach ($students as $student) {
-            if ($user -> achievements -> where('status', 'confirmed') -> sum('score') < $student -> achievements -> where('status', 'confirmed') -> sum('score')){
-                $place++;
-            }
-        }
-
+        $place = $user -> place();
         $confirmedAchievements = $user -> achievements -> where('status', 'confirmed');
-
         return view('admin/profile', compact('user', 'place', 'confirmedAchievements'));
     }
 
@@ -126,11 +119,10 @@ class AdminController extends Controller
         return redirect(url() -> previous());
     }
 
-    public function promotion($id){
+    public function promote($id){
         $user = User::findOrFail($id);
         if ($user -> role != 'superadmin'){
             $user -> role = 'admin';
-            $user -> form = 'администратор';
             $user -> save();
         }
         return redirect(url() -> previous());
@@ -140,7 +132,6 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         if (($user -> role != 'superadmin') && ($user -> role != 'student')){
             $user -> role = 'student';
-            $user -> form = 'ученик';
             $user -> save();
         }
         return redirect(url() -> previous());

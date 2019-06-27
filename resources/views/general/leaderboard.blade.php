@@ -5,7 +5,7 @@
     <table class="table table-hover">
         <thead>
             <tr>
-            <th scope="col">№</th>
+            <th scope="col">Место</th>
             <th scope="col">ФИО</th>
             <th scope="col">Баллы</th>
             </tr>

@@ -21,15 +21,15 @@ Route::get('/user/{id}/profile', 'AdminController@aboutUser')->middleware(\App\H
 Route::get('/user/{id}/ban', 'AdminController@ban')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/user/{id}/unblock', 'AdminController@unblock')->middleware(\App\Http\Middleware\CheckAdmin::class);
 
-Route::get('/user/{id}/promotion', 'AdminController@promotion')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/user/{id}/promote', 'AdminController@promote')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/user/{id}/degrade', 'AdminController@degrade')->middleware(\App\Http\Middleware\CheckAdmin::class);
 
-Route::get('/banned_users', 'AdminController@showBannedUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
-Route::post('/add_achievement_type', 'AdminController@addType')->middleware(\App\Http\Middleware\CheckAdmin::class);
-Route::get('/add_achievement_type', 'AdminController@showAddType')->middleware(\App\Http\Middleware\CheckAdmin::class);
-Route::get('/all_sent_achievements', 'AdminController@getAllSentAchievements')->middleware(\App\Http\Middleware\CheckAdmin::class);
-Route::get('/all_users', 'AdminController@getAllUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
-Route::get('/all_achievement_types', 'AdminController@getAllAchievementTypes')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/users/banned', 'AdminController@showBannedUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::post('/achievement_type/add', 'AdminController@addType')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/achievement_type/add', 'AdminController@showAddType')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/achievements/sent', 'AdminController@getAllSentAchievements')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/users/all', 'AdminController@getAllUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/achievement_types/all', 'AdminController@getAllAchievementTypes')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_type/{id}/delete', 'AdminController@deleteAchievementType')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_type/{id}/edit', 'AdminController@getEditTypeView')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::post('/achievement_type/{id}/edit', 'AdminController@editAchievementType')->middleware(\App\Http\Middleware\CheckAdmin::class);

@@ -8,7 +8,7 @@
                 <th scope="col">Достижения</th>
                 <th scope="col">Баллы</th>
                 <th scope="col"></th>
-                <th scope="col"><a href='/add_achievement_type'><button class="btn btn-success">Добавить</button></a></th>
+                <th scope="col"><a href='/achievement_type/add'><button class="btn btn-success">Добавить</button></a></th>
             </tr>
             </thead>
             <tbody>

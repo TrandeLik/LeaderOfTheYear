@@ -15,7 +15,7 @@
                     </ul>
                     @if ($user -> role == 'student')
                         <a href={{url('/user/'.$user->id.'/ban')}}><button class="btn btn-danger"> Заблокировать </button></a>
-                        <a href={{url('/user/'.$user->id.'/promotion')}}><button class="btn btn-warning"> Назначить администратором </button></a>
+                        <a href={{url('/user/'.$user->id.'/promote')}}><button class="btn btn-warning"> Назначить администратором </button></a>
                     @endif
                     @if ($user -> role == 'admin' && \Illuminate\Support\Facades\Auth::user()->role == 'superadmin')
                         <a href={{url('/user/'.$user->id.'/ban')}}><button class="btn btn-danger"> Заблокировать </button></a>
