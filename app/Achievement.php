@@ -48,29 +48,22 @@ class Achievement extends Model
         }   
     }
 
-    /*public function allowEdit($oldVersion){
+    public function allowEdit(){
         $mainCategory = 'Интеллектуальные соревнования';
+        $mainScore = Achievement::where([['user_id',$this->user_id], ['category',$mainCategory],['id','!=',$this->id]])->sum('score');
         if ($this->category==$mainCategory){
-            return true;
-        } else {
-            $mainScore = Achievement::where([['user_id',$this->user_id], ['category',$mainCategory]])->sum('score');
-            if ($oldVersion -> category == $mainCategory){
-                $mainScore -= $oldVersion -> score;
+            $mainScore += $this->score;
+        }
+        $categories = Achievement::select('category')->where('user_id',$this->user_id)->distinct()->get();
+        foreach ($categories as $category){
+            $currentCategoryScore = Achievement::where([['user_id',$this->user_id], ['category',$category->category],['id','!=',$this->id]])->sum('score');
+            if ($category->category == $this -> category){
+                $currentCategoryScore += $this -> score;
             }
-            $categories = Achievement::select('category')->where('user_id',$this->user_id)->distinct()->get();
-            foreach ($categories as $category){
-                $currentCategoryScore = Achievement::where([['user_id',$this->user_id], ['category',$category]])->sum('score');
-                if ($category == $oldVersion -> category){
-                    $currentCategoryScore -= $oldVersion -> score;
-                }
-                if ($category == $this -> category){
-                    $currentCategoryScore += $this -> score;
-                }
-                if ($mainScore < $currentCategoryScore){
-                    return false;
-                }
+            if ($mainScore < $currentCategoryScore){
+                return false;
             }
-            return true;
-        }   
-    }*/
+        }
+        return true;  
+    }
 }

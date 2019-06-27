@@ -104,8 +104,7 @@ class UserController extends Controller
             'stage' => 'required',
             'result' => 'required',
         ]);
-        $oldVersion = Achievement::findOrFail($id);
-        $achievement = $oldVersion;
+        $achievement = Achievement::findOrFail($id);
         if ($request -> has('file')) {
             $name = time() . '_' . $request->file->getClientOriginalName();
             $request->file->move(storage_path('confirmations'), $name);
@@ -119,7 +118,7 @@ class UserController extends Controller
         $achievement->stage = $request->stage;
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
-        if ($achievement->allowEdit($oldVersion)){
+        if ($achievement->allowEdit()){
             $achievement->save();
             return redirect('user');
         } else {
