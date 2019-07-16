@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row pl-0">
         <div class="col-md-3">
             <h2>Достижения</h2>
                 <div class='card'>
@@ -16,6 +16,12 @@
                     </div>
               </div><br>
             <a href="{{url('/achievement_type/add')}}">Добавить событие</a>
+            <form method="post" enctype="multipart/form-data">
+                @csrf
+                <label for="file" class="btn" style="padding: 0; margin: 0;">Добавить новый список</label>
+                <input id = "file" type="file" name="file" placeholder="Подтверждение"><br>
+                <input type="submit" value="Добавить">
+            </form>
         </div>
         <div class="col-md-6">
             <h2>Заявки</h2>

@@ -18,6 +18,12 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .row{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     <div id="app">

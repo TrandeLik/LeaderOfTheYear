@@ -7,6 +7,7 @@ use App\User;
 use App\AchievementType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -26,6 +27,14 @@ class AdminController extends Controller
       $newType -> score = $request -> score;
       $newType -> save();
       return redirect('/');
+    }
+
+    public function uploadAchievementTypes(Request $request){
+        if ($request -> has('file')) {
+            $name = time() . '_' . $request->file->getClientOriginalName();
+            $request->file->move(storage_path('achievementTypes'), $name);
+        }
+        return redirect(url()->previous());
     }
     
     public function showAddType(){

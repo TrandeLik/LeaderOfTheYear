@@ -23,7 +23,7 @@ class GeneralController extends Controller
     
     public function downloadConfirmation($id){
         $achievement = Achievement::findOrFail($id);
-        if (($achievement->user->id == Auth::user()-> id) or (Auth::user()->role == 'admin')){
+        if (($achievement->user->id == Auth::user()-> id) or (Auth::user()->role == 'admin') or (Auth::user()->role == 'superadmin')){
             $pathToFile = storage_path('confirmations') . '/' . $achievement->confirmation;
             return response()->download($pathToFile);
         } else {
