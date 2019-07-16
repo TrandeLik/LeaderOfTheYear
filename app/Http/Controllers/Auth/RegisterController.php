@@ -55,6 +55,7 @@ class RegisterController extends Controller
             'role' => 'required',
             'form' => 'required',
             'formLetter' => 'required',
+            'personal_agreement' => 'required',
         ]);
     }
 
