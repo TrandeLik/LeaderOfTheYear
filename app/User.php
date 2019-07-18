@@ -57,4 +57,60 @@ class User extends Authenticatable
             }
         }
     }
+
+    public function percentage(){
+        $users = User::all() -> where('role', 'student');
+        $min = $users->first()->achievements -> where('status', 'confirmed') -> sum('score');
+        $lastUser = $users->first();
+        foreach ($users as $user){
+            $count = $user -> achievements -> where('status', 'confirmed') -> sum('score');
+            if ($count<$min){
+                $min = $count;
+                $lastUser = $user;
+            }
+        }
+        $percentage = round(($this->place()) / $lastUser->place() *100);
+        return $percentage;
+    }
+
+    public function confirmedScore(){
+        $mainCategory = 'Интеллектуальные соревнования';
+        $score = 0;
+        $achievements = $this->achievements();
+        $mainScore = $this->achievements()->where([['category', $mainCategory],['status','confirmed']])->sum('score');
+        $categories = $achievements->select('category')->distinct()->get();
+        foreach ($categories as $category){
+            $curScore = $this->achievements()->where([['category', $category->category],['status','confirmed']])->sum('score');
+            $score += min($curScore,$mainScore);
+        }
+        return $score;
+    }
+
+    public function totalScore(){
+        $mainCategory = 'Интеллектуальные соревнования';
+        $achievements = $this->achievements();
+        $score = 0;
+        $mainScore = $this->achievements()->where('category', $mainCategory)->sum('score');
+        $categories = $achievements->select('category')->distinct()->get();
+        foreach ($categories as $category){
+            $curScore = $this->achievements()->where('category', $category->category)->sum('score');
+            $score += min($curScore,$mainScore);
+        }
+        return $score;
+    }
+
+    public function falseCategories(){
+        $mainCategory = 'Интеллектуальные соревнования';
+        $falseCategories = [];
+        $achievements = $this->achievements();
+        $mainScore = $this->achievements()->where('category', $mainCategory)->sum('score');
+        $categories = $achievements->select('category')->distinct()->get();
+        foreach ($categories as $category){
+            $curScore = $this->achievements()->where('category', $category->category)->sum('score');
+            if ($curScore>$mainScore){
+                $falseCategories[] = $category->category;
+            }
+        }
+        return $falseCategories;
+    }
 }

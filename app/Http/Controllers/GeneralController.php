@@ -14,7 +14,7 @@ class GeneralController extends Controller
     {
         $users = User::all() -> where('role', 'student');
         foreach ($users as $user){
-            $count = $user -> achievements -> where('status', 'confirmed') -> sum('score');
+            $count = $user -> confirmedScore();
             $user -> score = $count;
         }
         $leaders = $users -> sortByDesc('score');

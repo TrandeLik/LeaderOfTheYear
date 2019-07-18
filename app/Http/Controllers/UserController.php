@@ -14,11 +14,12 @@ class UserController extends Controller
 { 
     public function index(){
         $achievements = Auth::user()->achievements;
-        $confirmedScore = Auth::user()->achievements()->where('status','confirmed')->sum('score');
-        $totalScore = Auth::user()->achievements()->sum('score');
+        $confirmedScore = Auth::user()->confirmedScore();
+        $totalScore = Auth::user()->totalScore();
         $place = Auth::user()->place();
-        $percentage = round($place / (User::all()->where('role','student')->count()) * 100);
-        return view('user.index',compact('achievements','confirmedScore','totalScore','place','percentage'));
+        $falseCategories = Auth::user()->falseCategories();
+        $percentage = Auth::user()->percentage();
+        return view('user.index',compact('achievements','confirmedScore','totalScore','place','percentage','falseCategories'));
     }
 
     public function addView(){
@@ -52,12 +53,9 @@ class UserController extends Controller
         $achievement->confirmation = $name;
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
-        if ($achievement->allowAdd()){
-            $achievement->save();
-            return redirect('user');
-        } else {
-            return view('user.mainCategoryError');
-        }
+        $achievement->save();
+        return redirect('user');
+        
     }
 
     public function send($id){
@@ -76,12 +74,8 @@ class UserController extends Controller
 
     public function delete($id){
         $achievement = Achievement::findOrFail($id);
-        if ($achievement->allowDelete()){
-            $achievement->delete();
-            return redirect('user');
-        } else {
-            return view('user.mainCategoryError');
-        }
+        $achievement->delete();
+        return redirect('user');
         
     }
 
@@ -118,12 +112,7 @@ class UserController extends Controller
         $achievement->stage = $request->stage;
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
-        if ($achievement->allowEdit()){
-            $achievement->save();
-            return redirect('user');
-        } else {
-            return view('user.mainCategoryError');
-        }
-        
+        $achievement->save();
+        return redirect('user');
     }
 }

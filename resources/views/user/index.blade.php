@@ -13,8 +13,19 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">Статистика</div>
+                <div class="card-header">Статистика
+                
+                </div>
                 <div class="card-body">
+                    @if (count($falseCategories)!=0)
+                        <p style="color: firebrick;">
+                            Ваши баллы за достижения в категориях 
+                            @foreach ($falseCategories as $category)
+                                {{$category}}, 
+                            @endforeach
+                            превышают баллы за Интеллектуальные соревнования. Лишние баллы учтены не будут
+                        </p>
+                    @endif
                     <p>Сейчас у Вас {{$confirmedScore}} подтверждённых баллов<p>
                     <p>Если все Ваши достижения будут одобрены, Вы получите {{$totalScore}} баллов</p>
                     <p>Вы на {{$place}} месте</p>
