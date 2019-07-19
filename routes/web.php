@@ -33,6 +33,8 @@ Route::get('/achievement_types/download_file', 'AdminController@downloadAchievem
 Route::get('/achievement_type/{id}/delete', 'AdminController@deleteAchievementType')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_type/{id}/edit', 'AdminController@getEditTypeView')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::post('/achievement_type/{id}/edit', 'AdminController@editAchievementType')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/settings', 'AdminController@settingsView')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::post('/settings', 'AdminController@settingsUpdate')->middleware(\App\Http\Middleware\CheckAdmin::class);
 
 Route::get('/user', 'UserController@index')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::get('/achievement/add', 'UserController@addView')->middleware(\App\Http\Middleware\CheckUser::class);
