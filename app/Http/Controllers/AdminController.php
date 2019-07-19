@@ -206,10 +206,17 @@ class AdminController extends Controller
         return view('admin.settings', compact('settings'));
     }
 
-    public function settingsUpdate(Reques $request){
+    public function settingsUpdate(Request $request){
         $settings = Setting::all();
-        foreach($settings as $setting){
-            
+        foreach ($settings as $setting){
+            if (($setting->type=='on/off') and ($request->input($setting->id)!='on')){
+                $setting->value = 'off';
+            } else {
+                $setting->value = $request->input($setting->id);
+            }
+            $setting->save();
         }
+        
+        return view('admin.settings',compact('settings'));
     }
 }
