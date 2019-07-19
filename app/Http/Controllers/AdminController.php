@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Achievement;
 use App\User;
+use App\Setting;
 use App\AchievementType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,13 +29,44 @@ class AdminController extends Controller
       $newType -> save();
       return redirect('/');
     }
-
-    public function uploadAchievementTypes(Request $request){
+    public function uploadAchievementTypesFile(Request $request){
         if ($request -> has('file')) {
-            $name = time() . '_' . $request->file->getClientOriginalName();
-            $request->file->move(storage_path('achievementTypes'), $name);
+            $mimeTypes = [
+                'application/vnd.ms-excel',
+                'application/vnd.ms-office',
+                'application/vnd-xls',
+                'application/vnd.ms-excel',
+                'application/msexcel',
+                'application/x-msexcel',
+                'application/x-ms-excel',
+                'application/x-excel',
+                'application/excel',
+                'application/x-dos_ms_excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/xls',
+                'application/x-xls',
+            ];
+            if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
+                $name = time() . '_' . $request->file->getClientOriginalName();
+                $request->file->move(storage_path('achievementTypes'), $name);
+                $currentName = Setting::all()->where('name', 'achievementTypesFile')->first();
+                if ($currentName) {
+                    $currentName->value = $name;
+                } else {
+                    $currentName = new Setting();
+                    $currentName->type = 'GlobalVariable';
+                    $currentName->name = 'achievementTypesFile';
+                    $currentName->value = $name;
+                }
+                $currentName->save();
+            }
         }
         return redirect(url()->previous());
+    }
+
+    public function downloadAchievementTypesFile(){
+        $pathToFile = storage_path('achievementTypes') . '/' . $currentName = Setting::all()->where('name', 'achievementTypesFile')->first()->value;
+        return response()->download($pathToFile);
     }
     
     public function showAddType(){

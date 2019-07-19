@@ -15,7 +15,8 @@
                         <a href="{{url('/achievement_types/all')}}">Все достижения</a><br>
                     </div>
               </div><br>
-            <a href="{{url('/achievement_type/add')}}">Добавить событие</a>
+            <a href="{{url('/achievement_type/add')}}">Добавить событие</a><br><br>
+            <a href="{{url('/achievement_types/download_file')}}">Текущий список достижений</a><br><br>
             <form method="post" enctype="multipart/form-data">
                 @csrf
                 <label for="file" class="btn" style="padding: 0; margin: 0;">Добавить новый список</label>

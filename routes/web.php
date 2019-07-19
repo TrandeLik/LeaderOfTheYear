@@ -15,7 +15,7 @@ Auth::routes();
 
 
 Route::get('/', 'AdminController@index')->middleware(\App\Http\Middleware\CheckAdmin::class);
-Route::post('/', 'AdminController@uploadAchievementTypes')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::post('/', 'AdminController@uploadAchievementTypesFile')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement/{id}/reject', 'AdminController@reject')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement/{id}/confirm', 'AdminController@confirm')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/user/{id}/profile', 'AdminController@aboutUser')->middleware(\App\Http\Middleware\CheckAdmin::class);
@@ -29,6 +29,7 @@ Route::get('/achievement_type/add', 'AdminController@showAddType')->middleware(\
 Route::get('/achievements/sent', 'AdminController@getAllSentAchievements')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/users/all', 'AdminController@getAllUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_types/all', 'AdminController@getAllAchievementTypes')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/achievement_types/download_file', 'AdminController@downloadAchievementTypesFile')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_type/{id}/delete', 'AdminController@deleteAchievementType')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_type/{id}/edit', 'AdminController@getEditTypeView')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::post('/achievement_type/{id}/edit', 'AdminController@editAchievementType')->middleware(\App\Http\Middleware\CheckAdmin::class);
