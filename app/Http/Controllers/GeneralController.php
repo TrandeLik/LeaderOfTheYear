@@ -70,6 +70,11 @@ class GeneralController extends Controller
         return view('general.alertForBannedUsers');
     }
 
+    public function getAchievementsTable(){
+        $achievements = Achievement::all();
+        return view('admin.table', compact('achievements'));
+    }
+
     public function passwordChange(Request $request){
         $request->validate([
             'old' => 'required',
