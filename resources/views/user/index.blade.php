@@ -19,9 +19,14 @@
                 <div class="card-body">
                     @if (count($falseCategories)!=0)
                         <p style="color: firebrick;">
-                            Ваши баллы за достижения в категориях 
+                            Ваши баллы за достижения в 
+                            @if(count($falseCategories)==1)
+                                категории
+                            @else
+                                категориях
+                            @endif
                             @foreach ($falseCategories as $category)
-                                {{$category}}, 
+                                {{$category}} 
                             @endforeach
                             превышают баллы за Интеллектуальные соревнования. Лишние баллы учтены не будут
                         </p>
