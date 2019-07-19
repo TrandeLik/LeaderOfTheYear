@@ -64,6 +64,7 @@
                                     <a class="dropdown-item" href="/">Главная</a>
                                     <a class="dropdown-item" href="/profile">Профиль</a>
                                     <a class="dropdown-item" href="/leaderboard">Рейтинговая таблица</a>
+                                    <a class="dropdown-item" href="/settings">Настройки</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

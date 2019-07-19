@@ -13,9 +13,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">Статистика
-                
-                </div>
+                <div class="card-header">Статистика</div>
                 <div class="card-body">
                     @if (count($falseCategories)!=0)
                         <p style="color: firebrick;">

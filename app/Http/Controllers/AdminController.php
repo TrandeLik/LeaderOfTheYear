@@ -200,4 +200,16 @@ class AdminController extends Controller
         $achievement -> save();
         return redirect('/');
     }
+
+    public function settingsView(){
+        $settings = Setting::all();
+        return view('admin.settings', compact('settings'));
+    }
+
+    public function settingsUpdate(Reques $request){
+        $settings = Setting::all();
+        foreach($settings as $setting){
+            
+        }
+    }
 }

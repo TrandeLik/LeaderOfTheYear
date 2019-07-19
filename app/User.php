@@ -74,7 +74,7 @@ class User extends Authenticatable
     }
 
     public function confirmedScore(){
-        $mainCategory = 'Интеллектуальные соревнования';
+        $mainCategory = Setting::where('name','mainCategory')->value('value');
         $score = 0;
         $achievements = $this->achievements();
         $mainScore = $this->achievements()->where([['category', $mainCategory],['status','confirmed']])->sum('score');
@@ -87,7 +87,7 @@ class User extends Authenticatable
     }
 
     public function totalScore(){
-        $mainCategory = 'Интеллектуальные соревнования';
+        $mainCategory = Setting::where('name','mainCategory')->value('value');
         $achievements = $this->achievements();
         $score = 0;
         $mainScore = $this->achievements()->where('category', $mainCategory)->sum('score');
@@ -100,7 +100,7 @@ class User extends Authenticatable
     }
 
     public function falseCategories(){
-        $mainCategory = 'Интеллектуальные соревнования';
+        $mainCategory = Setting::where('name','mainCategory')->value('value');
         $falseCategories = [];
         $achievements = $this->achievements();
         $mainScore = $this->achievements()->where('category', $mainCategory)->sum('score');
