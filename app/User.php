@@ -74,7 +74,7 @@ class User extends Authenticatable
     }
 
     public function confirmedScore(){
-        $mainCategory = Setting::where('name','mainCategory')->value('value');
+        $mainCategory = Setting::where('name','Главная категория')->value('value');
         $score = 0;
         $achievements = $this->achievements();
         $mainScore = $this->achievements()->where([['category', $mainCategory],['status','confirmed']])->sum('score');
@@ -87,7 +87,7 @@ class User extends Authenticatable
     }
 
     public function totalScore(){
-        $mainCategory = Setting::where('name','mainCategory')->value('value');
+        $mainCategory = Setting::where('name','Главная категория')->value('value');
         $achievements = $this->achievements();
         $score = 0;
         $mainScore = $this->achievements()->where('category', $mainCategory)->sum('score');
@@ -100,7 +100,7 @@ class User extends Authenticatable
     }
 
     public function falseCategories(){
-        $mainCategory = Setting::where('name','mainCategory')->value('value');
+        $mainCategory = Setting::where('name','Главная категория')->value('value');
         $falseCategories = [];
         $achievements = $this->achievements();
         $mainScore = $this->achievements()->where('category', $mainCategory)->sum('score');
@@ -108,10 +108,13 @@ class User extends Authenticatable
         foreach ($categories as $category){
             $curScore = $this->achievements()->where('category', $category->category)->sum('score');
             if ($curScore>$mainScore){
-                $falseCategories[] = $category->category . ',';
+                if ($category!=end($categories)){
+                    $falseCategories[] = $category->category . ',';
+                } else {
+                    $falseCategories[] = $category->category;
+                }
             }
         }
-        $falseCategories[count($falseCategories)-1] = substr($falseCategories[count($falseCategories)-1],0,-1);
         return $falseCategories;
     }
 }
