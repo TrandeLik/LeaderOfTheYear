@@ -5,6 +5,7 @@ use Faker\Provider\File;
 use Illuminate\Support\Facades\DB;
 use App\Achievement;
 use App\User;
+use App\Setting;
 use App\AchievementType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -19,7 +20,8 @@ class UserController extends Controller
         $place = Auth::user()->place();
         $falseCategories = Auth::user()->falseCategories();
         $percentage = Auth::user()->percentage();
-        return view('user.index',compact('achievements','confirmedScore','totalScore','place','percentage','falseCategories'));
+        $mainCategory = Setting::where('name','Главная категория')->value('value');
+        return view('user.index',compact('achievements','confirmedScore','totalScore','place','percentage','falseCategories','mainCategory'));
     }
 
     public function addView(){

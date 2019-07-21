@@ -26,7 +26,7 @@
                             @foreach ($falseCategories as $category)
                                 {{$category}} 
                             @endforeach
-                            превышают баллы за Интеллектуальные соревнования. Лишние баллы учтены не будут
+                            превышают баллы за {{$mainCategory}}. Лишние баллы учтены не будут
                         </p>
                     @endif
                     <p>Сейчас у Вас {{$confirmedScore}} подтверждённых баллов<p>

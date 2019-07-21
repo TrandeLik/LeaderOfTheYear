@@ -5,8 +5,9 @@ namespace App\Exports;
 use App\AchievementType;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class AchievementTypesExport implements FromCollection, WithHeadings
+class AchievementTypesExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -20,11 +21,11 @@ class AchievementTypesExport implements FromCollection, WithHeadings
     {
         return [
             '#',
-            'category',
-            'type',
-            'stage',
-            'result',
-            'score',
+            'Категория',
+            'Тип',
+            'Этап',
+            'Резульат',
+            'Баллы',
             'created_at',
             'updated_at',
         ];

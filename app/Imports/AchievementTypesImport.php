@@ -5,6 +5,10 @@ namespace App\Imports;
 use App\AchievementType;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Imports\HeadingRowFormatter;
+
+HeadingRowFormatter::default('none');
+
 
 class AchievementTypesImport implements ToModel, WithHeadingRow
 {
@@ -16,11 +20,11 @@ class AchievementTypesImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new AchievementType([
-            'category'     => $row['category'],
-            'type'    => $row['type'], 
-            'stage'    => $row['stage'], 
-            'result'    => $row['result'], 
-            'score'    => $row['score'], 
+            'category'     => $row['Категория'],
+            'type'    => $row['Тип'], 
+            'stage'    => $row['Этап'], 
+            'result'    => $row['Результат'], 
+            'score'    => $row['Баллы'], 
         ]);
     }
 }
