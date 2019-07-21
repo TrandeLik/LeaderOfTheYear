@@ -9,6 +9,9 @@ use App\AchievementType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Excel;
+use App\Exports\AchievementTypesExport;
+use App\Imports\AchievementTypesImport;
 
 class AdminController extends Controller
 {
@@ -46,6 +49,8 @@ class AdminController extends Controller
                 'application/xls',
                 'application/x-xls',
             ];
+            AchievementType::truncate();
+            Excel::import(new AchievementTypesImport,request()->file);
             if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
                 $name = time() . '_' . $request->file->getClientOriginalName();
                 $request->file->move(storage_path('achievementTypes'), $name);
@@ -65,8 +70,7 @@ class AdminController extends Controller
     }
 
     public function downloadAchievementTypesFile(){
-        $pathToFile = storage_path('achievementTypes') . '/' . $currentName = Setting::all()->where('name', 'achievementTypesFile')->first()->value;
-        return response()->download($pathToFile);
+        return Excel::download(new AchievementTypesExport, 'achievementTypes.xlsx');
     }
     
     public function showAddType(){
