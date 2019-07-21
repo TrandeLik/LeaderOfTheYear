@@ -7,8 +7,7 @@
                         <tr>
                             <th>Ученик</th>
                             <th>
-                                <input type="text" :value="lol" @input="e => lol = e.target.value">
-                                <select :value="selectedForm" @change="e => selectedForm = e.target.value">
+                                <select v-model="selectedForm">
                                     <option selected>Все классы</option>
                                     <option v-for="form in allForms">{{form}}</option>
                                 </select>
@@ -36,16 +35,13 @@
                 </table>
             </div>
         </div>
-        <p>{{selectedForm}}</p>
-        <p>{{lol}}</p>
     </div>
 </template>
 <script>
     export default {
         data(){
             return{
-                selectedForm: 'Все классы',
-                lol:'lol'
+                selectedForm: 'Все классы'
             }
         },
         props:[

@@ -1736,14 +1736,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      selectedForm: 'Все классы',
-      lol: 'lol'
+      selectedForm: 'Все классы'
     };
   },
   props: ['achievements'],
@@ -37117,23 +37113,30 @@ var render = function() {
               _c("th", [_vm._v("Ученик")]),
               _vm._v(" "),
               _c("th", [
-                _c("input", {
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.lol },
-                  on: {
-                    input: function(e) {
-                      return (_vm.lol = e.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
                 _c(
                   "select",
                   {
-                    domProps: { value: _vm.selectedForm },
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedForm,
+                        expression: "selectedForm"
+                      }
+                    ],
                     on: {
-                      change: function(e) {
-                        return (_vm.selectedForm = e.target.value)
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedForm = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
                       }
                     }
                   },
@@ -37189,11 +37192,7 @@ var render = function() {
           )
         ])
       ])
-    ]),
-    _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.selectedForm))]),
-    _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.lol))])
+    ])
   ])
 }
 var staticRenderFns = []
