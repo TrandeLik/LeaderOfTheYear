@@ -71,7 +71,10 @@ class GeneralController extends Controller
     }
 
     public function getAchievementsTable(){
-        $achievements = Achievement::all();
+        $achievements = Achievement::all()->where('status', 'confirmed');
+        foreach ($achievements as $achievement){
+            $achievement->aboutUser = $achievement->user;
+        }
         return view('admin.table', compact('achievements'));
     }
 

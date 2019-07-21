@@ -1713,14 +1713,68 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      selectedForm: 'Все классы',
+      lol: 'lol'
+    };
+  },
   props: ['achievements'],
   mounted: function mounted() {
     this.update();
   },
   methods: {
     update: function update() {
+      console.log(this.selectedForm);
       console.log(this.achievements);
+    }
+  },
+  computed: {
+    allForms: function allForms() {
+      var result = [];
+      this.achievements.forEach(function (achievement, i, all) {
+        result.indexOf(achievement.user.form) === -1 && result.push(achievement.user.form);
+      });
+      this.update();
+      return result;
+    },
+    sortedAchievement: function sortedAchievement() {
+      var result = [];
+      var form = this.selectedForm;
+      this.achievements.forEach(function (achievement, i, all) {
+        if (achievement.user.form === form || form === 'Все классы') {
+          result.push(achievement);
+        }
+      });
+      this.update();
+      return result;
     }
   }
 });
@@ -37054,30 +37108,95 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Тут будет табличка")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v("\n                    Надеюсь\n                ")
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("table", { staticClass: "table" }, [
+          _c("thead", [
+            _c("tr", [
+              _c("th", [_vm._v("Ученик")]),
+              _vm._v(" "),
+              _c("th", [
+                _c("input", {
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.lol },
+                  on: {
+                    input: function(e) {
+                      return (_vm.lol = e.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    domProps: { value: _vm.selectedForm },
+                    on: {
+                      change: function(e) {
+                        return (_vm.selectedForm = e.target.value)
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "" } }, [
+                      _vm._v("Все классы")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.allForms, function(form) {
+                      return _c("option", [_vm._v(_vm._s(form))])
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Категория")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Тип")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Название")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Предмет")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Этап")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Результат")])
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.sortedAchievement, function(achievement) {
+              return _c("tr", [
+                _c("td", [_vm._v(_vm._s(achievement.user.name))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(achievement.user.form))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(achievement.category))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(achievement.type))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(achievement.name))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(achievement.subject))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(achievement.stage))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(achievement.result))])
+              ])
+            }),
+            0
+          )
         ])
       ])
-    ])
-  }
-]
+    ]),
+    _vm._v(" "),
+    _c("p", [_vm._v(_vm._s(_vm.selectedForm))]),
+    _vm._v(" "),
+    _c("p", [_vm._v(_vm._s(_vm.lol))])
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
