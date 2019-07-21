@@ -9,6 +9,9 @@ use App\AchievementType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Excel;
+use App\Exports\AchievementTypesExport;
+use App\Imports\AchievementTypesImport;
 
 class AdminController extends Controller
 {
@@ -46,6 +49,8 @@ class AdminController extends Controller
                 'application/xls',
                 'application/x-xls',
             ];
+            AchievementType::truncate();
+            Excel::import(new AchievementTypesImport,request()->file);
             if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
                 $name = time() . '_' . $request->file->getClientOriginalName();
                 $request->file->move(storage_path('achievementTypes'), $name);
@@ -65,8 +70,7 @@ class AdminController extends Controller
     }
 
     public function downloadAchievementTypesFile(){
-        $pathToFile = storage_path('achievementTypes') . '/' . $currentName = Setting::all()->where('name', 'achievementTypesFile')->first()->value;
-        return response()->download($pathToFile);
+        return Excel::download(new AchievementTypesExport, 'achievementTypes.xlsx');
     }
     
     public function showAddType(){
@@ -209,8 +213,12 @@ class AdminController extends Controller
     public function settingsUpdate(Request $request){
         $settings = Setting::all();
         foreach ($settings as $setting){
-            if (($setting->type=='on/off') and ($request->input($setting->id)!='on')){
-                $setting->value = 'off';
+            if (($setting->type=='on/off') and ($request->input($setting->id)!='on') and ($request->input($setting->id)!='off')){
+                if ($setting->value == 'on'){
+                    $setting->value = 'off';
+                } else {
+                    $setting->value = 'on';
+                }
             } else {
                 $setting->value = $request->input($setting->id);
             }
