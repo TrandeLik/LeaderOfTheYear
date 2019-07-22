@@ -29,6 +29,8 @@ Route::get('/achievement_type/add', 'AdminController@showAddType')->middleware(\
 Route::get('/achievements/sent', 'AdminController@getAllSentAchievements')->middleware(\App\Http\Middleware\CheckAdmin::class);
 
 Route::get('/achievements/all', 'GeneralController@getAchievementsTable')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::post('/achievements/all', 'GeneralController@importAchievementTable')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/achievements/all/download/{name}', 'GeneralController@downloadAchievementTable')->middleware(\App\Http\Middleware\CheckAdmin::class);
 
 Route::get('/users/all', 'AdminController@getAllUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_types/all', 'AdminController@getAllAchievementTypes')->middleware(\App\Http\Middleware\CheckAdmin::class);
