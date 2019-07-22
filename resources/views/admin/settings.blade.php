@@ -19,8 +19,10 @@
                                             <input type="checkbox" name="{{$setting->id}}">
                                         @endif
                                     @elseif ($setting->type=='globalVariable')
-                                    <input type="text" name="{{$setting->id}}" value="{{$setting->value}}">
-                                @endif
+                                        <input type="text" name="{{$setting->id}}" value="{{$setting->value}}">
+                                    @elseif ($setting->type=='rulesSettings')
+                                        <input type="text" name="{{$setting->id}}" value="{{$setting->value}}">
+                                    @endif
                                 </div>
                             @endforeach
                             <input type="submit">
