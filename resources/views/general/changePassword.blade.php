@@ -19,6 +19,9 @@
                         <p>Подтверждение пароля: <input type="password" name="confirm"></p>
                         <input type="submit">
                     </form>
+                    @if ($error !== '')
+                        <strong>{{$error}}</strong>
+                    @endif
                 </div>
             </div>            
         </div>
