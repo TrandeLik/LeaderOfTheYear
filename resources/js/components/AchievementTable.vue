@@ -59,8 +59,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="achievement in sortedAchievement">
-                            <td>{{achievement.user.name}}</td>
-                            <td>{{achievement.user.form}}</td>
+                            <td>{{achievement.student}}</td>
+                            <td>{{achievement.form}}</td>
                             <td>{{achievement.category}}</td>
                             <td>{{achievement.type}}</td>
                             <td>{{achievement.name}}</td>
@@ -94,11 +94,41 @@
         ],
 
 
-
         methods: {
-            update: function () {
-                console.log(this.selectedForm);
-                console.log(this.achievements)
+            setData: function(data){
+                let sorted = [];
+                let form = this.selectedForm;
+                let student = this.selectedStudent;
+                let category = this.selectedCategory;
+                let type = this.selectedType;
+                let name = this.selectedAchievementName;
+                let subject = this.selectedSubject;
+                let stage = this.selectedStage;
+                let result = this.selectedResult;
+                this.achievements.forEach(function (achievement) {
+                    let isInSorted = true;
+                    if (data !== 'all'){
+                        isInSorted = (sorted.indexOf(achievement[data]) === -1);
+                    }
+                    if (
+                        (isInSorted) &&
+                        ((achievement.form === form) || (form === 'Все классы') || (data === 'form')) &&
+                        ((achievement.student === student) || (student === 'Все ученики') || (data === 'student')) &&
+                        ((achievement.category === category) || (category === 'Все категории') || (data === 'category')) &&
+                        ((achievement.type === type) || (type === 'Все типы') || (data === 'type')) &&
+                        ((achievement.name === name) || (name === 'Все названия') || (data === 'name')) &&
+                        ((achievement.subject === subject) || (subject === 'Все предметы') || (data === 'subject')) &&
+                        ((achievement.stage === stage) || (stage === 'Все этапы') || (data === 'stage')) &&
+                        ((achievement.result === result) || (result === 'Все результаты') || (data === 'result'))
+                    ){
+                        if (data === 'all') {
+                            sorted.push(achievement)
+                        } else {
+                            sorted.push(achievement[data])
+                        }
+                    }
+                });
+                return sorted.sort();
             },
             downloadTable: function () {
                 let tableData = this.sortedAchievement;
@@ -120,240 +150,33 @@
         },
 
 
-
         computed: {
             allForms: function () {
-                let result = [];
-                let student = this.selectedStudent;
-                let category = this.selectedCategory;
-                let type = this.selectedType;
-                let name = this.selectedAchievementName;
-                let subject = this.selectedSubject;
-                let stage = this.selectedStage;
-                let results = this.selectedResult;
-                this.achievements.forEach(function (achievement) {
-                    if(
-                        (result.indexOf(achievement.user.form) === -1) &&
-                        ((achievement.user.name === student) || (student === 'Все ученики')) &&
-                        ((achievement.category === category) || (category === 'Все категории')) &&
-                        ((achievement.type === type) || (type === 'Все типы')) &&
-                        ((achievement.name === name) || (name === 'Все названия')) &&
-                        ((achievement.subject === subject) || (subject === 'Все предметы')) &&
-                        ((achievement.stage === stage) || (stage === 'Все этапы')) &&
-                        ((achievement.result === results) || (results === 'Все результаты'))
-                    ){
-                        result.push(achievement.user.form)
-                    }
-                });
-                return result;
+                return this.setData('form')
             },
-
             allStudents: function() {
-                let result = [];
-                let form = this.selectedForm;
-                let category = this.selectedCategory;
-                let type = this.selectedType;
-                let name = this.selectedAchievementName;
-                let subject = this.selectedSubject;
-                let stage = this.selectedStage;
-                let results = this.selectedResult;
-                this.achievements.forEach(function (achievement) {
-                    if (
-                        (result.indexOf(achievement.user.name) === -1) &&
-                        ((achievement.user.form === form) || (form === 'Все классы')) &&
-                        ((achievement.category === category) || (category === 'Все категории')) &&
-                        ((achievement.type === type) || (type === 'Все типы')) &&
-                        ((achievement.name === name) || (name === 'Все названия')) &&
-                        ((achievement.subject === subject) || (subject === 'Все предметы')) &&
-                        ((achievement.stage === stage) || (stage === 'Все этапы')) &&
-                        ((achievement.result === results) || (results === 'Все результаты'))
-                    ){
-                        result.push(achievement.user.name)
-                    }
-                });
-                return result;
+                return this.setData('student');
             },
-
             allCategories: function() {
-                let result = [];
-                let form = this.selectedForm;
-                let student = this.selectedStudent;
-                let type = this.selectedType;
-                let name = this.selectedAchievementName;
-                let subject = this.selectedSubject;
-                let stage = this.selectedStage;
-                let results = this.selectedResult;
-                this.achievements.forEach(function (achievement) {
-                    if(
-                        (result.indexOf(achievement.category) === -1)&&
-                        ((achievement.user.form === form) || (form === 'Все классы')) &&
-                        ((achievement.user.name === student) || (student === 'Все ученики')) &&
-                        ((achievement.type === type) || (type === 'Все типы')) &&
-                        ((achievement.name === name) || (name === 'Все названия')) &&
-                        ((achievement.subject === subject) || (subject === 'Все предметы')) &&
-                        ((achievement.stage === stage) || (stage === 'Все этапы')) &&
-                        ((achievement.result === results) || (results === 'Все результаты'))
-                    ){
-                        result.push(achievement.category)
-                    }
-                });
-                return result;
+                return this.setData('category');
             },
-
             allTypes: function() {
-                let result = [];
-                let form = this.selectedForm;
-                let student = this.selectedStudent;
-                let category = this.selectedCategory;
-                let name = this.selectedAchievementName;
-                let subject = this.selectedSubject;
-                let stage = this.selectedStage;
-                let results = this.selectedResult;
-                this.achievements.forEach(function (achievement) {
-                    if(
-                        (result.indexOf(achievement.type) === -1)&&
-                        ((achievement.user.form === form) || (form === 'Все классы')) &&
-                        ((achievement.user.name === student) || (student === 'Все ученики')) &&
-                        ((achievement.category === category) || (category === 'Все категории')) &&
-                        ((achievement.name === name) || (name === 'Все названия')) &&
-                        ((achievement.subject === subject) || (subject === 'Все предметы')) &&
-                        ((achievement.stage === stage) || (stage === 'Все этапы')) &&
-                        ((achievement.result === results) || (results === 'Все результаты'))
-                    ){
-                        result.push(achievement.type)
-                    }
-                });
-                return result;
+                return this.setData('type');
             },
-
             allAchievementNames: function() {
-                let result = [];
-                let form = this.selectedForm;
-                let student = this.selectedStudent;
-                let category = this.selectedCategory;
-                let type = this.selectedType;
-                let subject = this.selectedSubject;
-                let stage = this.selectedStage;
-                let results = this.selectedResult;
-                this.achievements.forEach(function (achievement) {
-                    if(
-                        (result.indexOf(achievement.name) === -1)&&
-                        ((achievement.user.form === form) || (form === 'Все классы')) &&
-                        ((achievement.user.name === student) || (student === 'Все ученики')) &&
-                        ((achievement.category === category) || (category === 'Все категории')) &&
-                        ((achievement.type === type) || (type === 'Все типы')) &&
-                        ((achievement.subject === subject) || (subject === 'Все предметы')) &&
-                        ((achievement.stage === stage) || (stage === 'Все этапы')) &&
-                        ((achievement.result === results) || (results === 'Все результаты'))
-                    ){
-                        result.push(achievement.name)
-                    }
-                });
-                return result;
+                return this.setData('name');
             },
-
             allSubjects: function() {
-                let result = [];
-                let form = this.selectedForm;
-                let student = this.selectedStudent;
-                let category = this.selectedCategory;
-                let type = this.selectedType;
-                let name = this.selectedAchievementName;
-                let stage = this.selectedStage;
-                let results = this.selectedResult;
-                this.achievements.forEach(function (achievement) {
-                    if (
-                        (result.indexOf(achievement.subject) === -1)&&
-                        ((achievement.user.form === form) || (form === 'Все классы')) &&
-                        ((achievement.user.name === student) || (student === 'Все ученики')) &&
-                        ((achievement.category === category) || (category === 'Все категории')) &&
-                        ((achievement.type === type) || (type === 'Все типы')) &&
-                        ((achievement.name === name) || (name === 'Все названия')) &&
-                        ((achievement.stage === stage) || (stage === 'Все этапы')) &&
-                        ((achievement.result === results) || (results === 'Все результаты'))
-                    ){
-                        result.push(achievement.subject)
-                    }
-                });
-                return result;
+                return this.setData('subject')
             },
-
             allStages: function() {
-                let result = [];
-                let form = this.selectedForm;
-                let student = this.selectedStudent;
-                let category = this.selectedCategory;
-                let type = this.selectedType;
-                let name = this.selectedAchievementName;
-                let subject = this.selectedSubject;
-                let results = this.selectedResult;
-                this.achievements.forEach(function (achievement) {
-                    if (
-                        (result.indexOf(achievement.stage) === -1)&&
-                        ((achievement.user.form === form) || (form === 'Все классы')) &&
-                        ((achievement.user.name === student) || (student === 'Все ученики')) &&
-                        ((achievement.category === category) || (category === 'Все категории')) &&
-                        ((achievement.type === type) || (type === 'Все типы')) &&
-                        ((achievement.name === name) || (name === 'Все названия')) &&
-                        ((achievement.subject === subject) || (subject === 'Все предметы')) &&
-                        ((achievement.result === results) || (results === 'Все результаты'))
-                    ){
-                        result.push(achievement.stage)
-                    }
-                });
-                return result;
+                return this.setData('stage');
             },
-
             allResults: function() {
-                let result = [];
-                let form = this.selectedForm;
-                let student = this.selectedStudent;
-                let category = this.selectedCategory;
-                let type = this.selectedType;
-                let name = this.selectedAchievementName;
-                let subject = this.selectedSubject;
-                let stage = this.selectedStage;
-                this.achievements.forEach(function (achievement) {
-                    if (
-                        (result.indexOf(achievement.result) === -1) &&
-                        ((achievement.user.form === form) || (form === 'Все классы')) &&
-                        ((achievement.user.name === student) || (student === 'Все ученики')) &&
-                        ((achievement.category === category) || (category === 'Все категории')) &&
-                        ((achievement.type === type) || (type === 'Все типы')) &&
-                        ((achievement.name === name) || (name === 'Все названия')) &&
-                        ((achievement.subject === subject) || (subject === 'Все предметы')) &&
-                        ((achievement.stage === stage) || (stage === 'Все этапы'))
-                    ){ result.push(achievement.result)}
-                });
-                return result;
+                return this.setData('result');
             },
-
-
-
             sortedAchievement: function () {
-                let sorted = [];
-                let form = this.selectedForm;
-                let student = this.selectedStudent;
-                let category = this.selectedCategory;
-                let type = this.selectedType;
-                let name = this.selectedAchievementName;
-                let subject = this.selectedSubject;
-                let stage = this.selectedStage;
-                let result = this.selectedResult;
-                this.achievements.forEach(function (achievement) {
-                    if (((achievement.user.form === form) || (form === 'Все классы')) &&
-                        ((achievement.user.name === student) || (student === 'Все ученики')) &&
-                        ((achievement.category === category) || (category === 'Все категории')) &&
-                        ((achievement.type === type) || (type === 'Все типы')) &&
-                        ((achievement.name === name) || (name === 'Все названия')) &&
-                        ((achievement.subject === subject) || (subject === 'Все предметы')) &&
-                        ((achievement.stage === stage) || (stage === 'Все этапы')) &&
-                        ((achievement.result === result) || (result === 'Все результаты'))){
-                        sorted.push(achievement);
-                    }
-                });
-                this.update();
-                return sorted;
+                return this.setData('all');
             }
         }
     }

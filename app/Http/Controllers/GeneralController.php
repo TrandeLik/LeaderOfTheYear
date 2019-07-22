@@ -77,26 +77,6 @@ class GeneralController extends Controller
         return view('general.error', compact('error'));
     }
 
-    public function getAchievementsTable(){
-        $achievements = Achievement::all()->where('status', 'confirmed');
-        foreach ($achievements as $achievement){
-            $achievement->aboutUser = $achievement->user;
-        }
-        return view('admin.table', compact('achievements'));
-    }
-
-    public function downloadAchievementTable($name){
-        $pathToFile = storage_path('confirmations') . '/' . $name; // TODO узнать дерикторию, куда будут сохраняться файлы
-        return response()->download($pathToFile);
-    }
-
-    public function importAchievementTable(Request $request){
-        $file = new Filesystem;
-        $file->cleanDirectory(storage_path('confirmations'));
-        // TODO перенос данных и сохранение
-        return '.gitignore';
-    }
-
     public function passwordChange(Request $request){
         $request->validate([
             'old' => 'required',

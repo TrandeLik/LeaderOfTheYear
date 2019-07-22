@@ -56,21 +56,9 @@ class AdminController extends Controller
                 'application/xls',
                 'application/x-xls',
             ];
-            AchievementType::truncate();
-            Excel::import(new AchievementTypesImport,request()->file);
             if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
-                $name = time() . '_' . $request->file->getClientOriginalName();
-                $request->file->move(storage_path('achievementTypes'), $name);
-                $currentName = Setting::all()->where('name', 'achievementTypesFile')->first();
-                if ($currentName) {
-                    $currentName->value = $name;
-                } else {
-                    $currentName = new Setting();
-                    $currentName->type = 'GlobalVariable';
-                    $currentName->name = 'achievementTypesFile';
-                    $currentName->value = $name;
-                }
-                $currentName->save();
+                AchievementType::truncate();
+                Excel::import(new AchievementTypesImport,request()->file);
             }
         }
         return redirect(url()->previous());
@@ -124,7 +112,7 @@ class AdminController extends Controller
     }
 
     public function index(){
-        $allTypes = AchievementType::all() ->take(10);
+        $allTypes = AchievementType::all() ->take(7);
         $sentAchievements = Achievement::all() -> where('status', 'sent')->take(5);
         $students = User::all()-> where('role', 'student') ->take(10);
         return view('admin/admin', compact('sentAchievements', 'students', 'allTypes'));
@@ -233,8 +221,26 @@ class AdminController extends Controller
                 $setting->save();
             }
         }
-            
-        
         return view('admin.settings',compact('settings'));
+    }
+    public function getAchievementsTable(){
+        $achievements = Achievement::all()->where('status', 'confirmed');
+        foreach ($achievements as $achievement){
+            $achievement->student = $achievement->user->name;
+            $achievement->form = $achievement->user->form;
+        }
+        return view('admin.table', compact('achievements'));
+    }
+
+    public function downloadAchievementTable($name){
+        $pathToFile = storage_path('confirmations') . '/' . $name; // TODO узнать дерикторию, куда будут сохраняться файлы
+        return response()->download($pathToFile);
+    }
+
+    public function importAchievementTable(Request $request){
+        $file = new Filesystem;
+        $file->cleanDirectory(storage_path('confirmations'));
+        // TODO перенос данных и сохранение
+        return '.gitignore';
     }
 }
