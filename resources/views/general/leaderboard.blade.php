@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             @foreach ($leaders as $leader)
-                <tr>
+                <tr class={{($leader->percentage()<=$awardedPercentage) ? ($leader->percentage()<=$winnerPercentage) ? 'table-success' : 'table-warning' : ''}}>
                     <th scope="row">{{ $leader->place() }}</th>
                     <td>{{ $leader->name }}</td>
                     <td>{{ $leader->form }}</td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Achievement;
 use App\User;
+use App\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,9 @@ class GeneralController extends Controller
             $user -> score = $count;
         }
         $leaders = $users -> sortByDesc('score');
-        return view('general.leaderboard',compact('leaders'));
+        $awardedPercentage = Setting::where('name','Процент призеров')->value('value');
+        $winnerPercentage = Setting::where('name','Процент победителей')->value('value');
+        return view('general.leaderboard',compact('leaders','awardedPercentage','winnerPercentage'));
     }
     
     public function downloadConfirmation($id){

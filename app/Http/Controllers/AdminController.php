@@ -220,17 +220,20 @@ class AdminController extends Controller
     public function settingsUpdate(Request $request){
         $settings = Setting::all();
         foreach ($settings as $setting){
-            if (($setting->type=='on/off') and ($request->input($setting->id)!='on') and ($request->input($setting->id)!='off')){
-                if ($setting->value == 'on'){
-                    $setting->value = 'off';
+            if ($setting->type!='GlobalVariable'){
+                if (($setting->type=='on/off') and ($request->input($setting->id)!='on') and ($request->input($setting->id)!='off')){
+                    if ($setting->value == 'on'){
+                        $setting->value = 'off';
+                    } else {
+                        $setting->value = 'on';
+                    }
                 } else {
-                    $setting->value = 'on';
+                    $setting->value = $request->input($setting->id);
                 }
-            } else {
-                $setting->value = $request->input($setting->id);
+                $setting->save();
             }
-            $setting->save();
         }
+            
         
         return view('admin.settings',compact('settings'));
     }
