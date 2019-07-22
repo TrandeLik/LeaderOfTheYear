@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Filesystem\Filesystem;
 
 class GeneralController extends Controller
 {
@@ -76,6 +77,18 @@ class GeneralController extends Controller
             $achievement->aboutUser = $achievement->user;
         }
         return view('admin.table', compact('achievements'));
+    }
+
+    public function downloadAchievementTable($name){
+        $pathToFile = storage_path('confirmations') . '/' . $name; // TODO узнать дерикторию, куда будут сохраняться файлы
+        return response()->download($pathToFile);
+    }
+
+    public function importAchievementTable(Request $request){
+        $file = new Filesystem;
+        $file->cleanDirectory(storage_path('confirmations'));
+        // TODO перенос данных и сохранение
+        return '.gitignore';
     }
 
     public function passwordChange(Request $request){

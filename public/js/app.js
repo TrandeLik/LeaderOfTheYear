@@ -1736,41 +1736,145 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      selectedForm: 'Все классы'
+      selectedForm: 'Все классы',
+      selectedStudent: 'Все ученики',
+      selectedCategory: 'Все категории',
+      selectedType: 'Все типы',
+      selectedAchievementName: 'Все названия',
+      selectedSubject: 'Все предметы',
+      selectedStage: 'Все этапы',
+      selectedResult: 'Все результаты'
     };
   },
   props: ['achievements'],
-  mounted: function mounted() {
-    this.update();
-  },
   methods: {
     update: function update() {
       console.log(this.selectedForm);
       console.log(this.achievements);
+    },
+    downloadTable: function downloadTable() {
+      var tableData = this.sortedAchievement;
+      axios.post('/achievements/all', {
+        table: tableData
+      }).then(function (response) {
+        window.open('/achievements/all/download/' + response.data);
+      });
     }
   },
   computed: {
     allForms: function allForms() {
       var result = [];
-      this.achievements.forEach(function (achievement, i, all) {
+      this.achievements.forEach(function (achievement) {
         result.indexOf(achievement.user.form) === -1 && result.push(achievement.user.form);
       });
-      this.update();
+      return result;
+    },
+    allStudents: function allStudents() {
+      var result = [];
+      this.achievements.forEach(function (achievement) {
+        result.indexOf(achievement.user.name) === -1 && result.push(achievement.user.name);
+      });
+      return result;
+    },
+    allCategories: function allCategories() {
+      var result = [];
+      this.achievements.forEach(function (achievement) {
+        result.indexOf(achievement.category) === -1 && result.push(achievement.category);
+      });
+      return result;
+    },
+    allTypes: function allTypes() {
+      var result = [];
+      this.achievements.forEach(function (achievement) {
+        result.indexOf(achievement.type) === -1 && result.push(achievement.type);
+      });
+      return result;
+    },
+    allAchievementNames: function allAchievementNames() {
+      var result = [];
+      this.achievements.forEach(function (achievement) {
+        result.indexOf(achievement.name) === -1 && result.push(achievement.name);
+      });
+      return result;
+    },
+    allSubjects: function allSubjects() {
+      var result = [];
+      this.achievements.forEach(function (achievement) {
+        result.indexOf(achievement.subject) === -1 && result.push(achievement.subject);
+      });
+      return result;
+    },
+    allStages: function allStages() {
+      var result = [];
+      this.achievements.forEach(function (achievement) {
+        result.indexOf(achievement.stage) === -1 && result.push(achievement.stage);
+      });
+      return result;
+    },
+    allResults: function allResults() {
+      var result = [];
+      this.achievements.forEach(function (achievement) {
+        result.indexOf(achievement.result) === -1 && result.push(achievement.result);
+      });
       return result;
     },
     sortedAchievement: function sortedAchievement() {
-      var result = [];
+      var sorted = [];
       var form = this.selectedForm;
-      this.achievements.forEach(function (achievement, i, all) {
-        if (achievement.user.form === form || form === 'Все классы') {
-          result.push(achievement);
+      var student = this.selectedStudent;
+      var category = this.selectedCategory;
+      var type = this.selectedType;
+      var name = this.selectedAchievementName;
+      var subject = this.selectedSubject;
+      var stage = this.selectedStage;
+      var result = this.selectedResult;
+      this.achievements.forEach(function (achievement) {
+        if ((achievement.user.form === form || form === 'Все классы') && (achievement.user.name === student || student === 'Все ученики') && (achievement.category === category || category === 'Все категории') && (achievement.type === type || type === 'Все типы') && (achievement.name === name || name === 'Все названия') && (achievement.subject === subject || subject === 'Все предметы') && (achievement.stage === stage || stage === 'Все этапы') && (achievement.result === result || result === 'Все результаты')) {
+          sorted.push(achievement);
         }
       });
       this.update();
-      return result;
+      return sorted;
     }
   }
 });
@@ -37110,7 +37214,46 @@ var render = function() {
         _c("table", { staticClass: "table" }, [
           _c("thead", [
             _c("tr", [
-              _c("th", [_vm._v("Ученик")]),
+              _c("th", [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedStudent,
+                        expression: "selectedStudent"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedStudent = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "" } }, [
+                      _vm._v("Все ученики")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.allStudents, function(student) {
+                      return _c("option", [_vm._v(_vm._s(student))])
+                    })
+                  ],
+                  2
+                )
+              ]),
               _vm._v(" "),
               _c("th", [
                 _c(
@@ -37153,17 +37296,251 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("th", [_vm._v("Категория")]),
+              _c("th", [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedCategory,
+                        expression: "selectedCategory"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedCategory = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "" } }, [
+                      _vm._v("Все категории")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.allCategories, function(category) {
+                      return _c("option", [_vm._v(_vm._s(category))])
+                    })
+                  ],
+                  2
+                )
+              ]),
               _vm._v(" "),
-              _c("th", [_vm._v("Тип")]),
+              _c("th", [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedType,
+                        expression: "selectedType"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedType = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "" } }, [
+                      _vm._v("Все типы")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.allTypes, function(type) {
+                      return _c("option", [_vm._v(_vm._s(type))])
+                    })
+                  ],
+                  2
+                )
+              ]),
               _vm._v(" "),
-              _c("th", [_vm._v("Название")]),
+              _c("th", [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedAchievementName,
+                        expression: "selectedAchievementName"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedAchievementName = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "" } }, [
+                      _vm._v("Все названия")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.allAchievementNames, function(name) {
+                      return _c("option", [_vm._v(_vm._s(name))])
+                    })
+                  ],
+                  2
+                )
+              ]),
               _vm._v(" "),
-              _c("th", [_vm._v("Предмет")]),
+              _c("th", [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedSubject,
+                        expression: "selectedSubject"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedSubject = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "" } }, [
+                      _vm._v("Все предметы")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.allSubjects, function(subject) {
+                      return _c("option", [_vm._v(_vm._s(subject))])
+                    })
+                  ],
+                  2
+                )
+              ]),
               _vm._v(" "),
-              _c("th", [_vm._v("Этап")]),
+              _c("th", [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedStage,
+                        expression: "selectedStage"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedStage = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "" } }, [
+                      _vm._v("Все этапы")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.allStages, function(stage) {
+                      return _c("option", [_vm._v(_vm._s(stage))])
+                    })
+                  ],
+                  2
+                )
+              ]),
               _vm._v(" "),
-              _c("th", [_vm._v("Результат")])
+              _c("th", [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedResult,
+                        expression: "selectedResult"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedResult = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "" } }, [
+                      _vm._v("Все результаты")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.allResults, function(result) {
+                      return _c("option", [_vm._v(_vm._s(result))])
+                    })
+                  ],
+                  2
+                )
+              ])
             ])
           ]),
           _vm._v(" "),
@@ -37190,7 +37567,13 @@ var render = function() {
             }),
             0
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", on: { click: _vm.downloadTable } },
+          [_vm._v("Экспортировать в Excel")]
+        )
       ])
     ])
   ])
