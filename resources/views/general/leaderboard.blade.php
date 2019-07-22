@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+    <a href="/leaderboard/export">Экспортировать в Excel</a>
     <table class="table table-hover">
         <thead>
             <tr>

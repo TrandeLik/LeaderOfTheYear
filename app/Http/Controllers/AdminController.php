@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Excel;
 use App\Exports\AchievementTypesExport;
 use App\Imports\AchievementTypesImport;
+use App\Exports\LeadersExport;
 
 class AdminController extends Controller
 {
@@ -32,6 +33,12 @@ class AdminController extends Controller
       $newType -> save();
       return redirect('/');
     }
+
+    public function exportLeaderboard() 
+    {
+        return Excel::download(new LeadersExport, 'leaders.xlsx');
+    }
+
     public function uploadAchievementTypesFile(Request $request){
         if ($request -> has('file')) {
             $mimeTypes = [

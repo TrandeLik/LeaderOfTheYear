@@ -24,7 +24,7 @@ class AchievementTypesExport implements FromCollection, WithHeadings, ShouldAuto
             'Категория',
             'Тип',
             'Этап',
-            'Резульат',
+            'Результат',
             'Баллы',
             'created_at',
             'updated_at',

@@ -49,6 +49,7 @@ Route::get('/achievement/{id}/edit', 'UserController@editView')->middleware(\App
 Route::post('/achievement/{id}/edit', 'UserController@edit')->middleware(\App\Http\Middleware\CheckUser::class);
 
 Route::get('/leaderboard', 'GeneralController@index');
+Route::get('/leaderboard/export', 'AdminController@exportLeaderboard')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/profile', 'GeneralController@profile')->middleware(\App\Http\Middleware\CheckAuth::class);
 Route::get('/profile/edit', 'GeneralController@profileEditView')->middleware(\App\Http\Middleware\CheckAuth::class);
 Route::post('/profile/edit', 'GeneralController@profileEdit')->middleware(\App\Http\Middleware\CheckAuth::class);
