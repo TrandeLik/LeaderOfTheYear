@@ -15,7 +15,7 @@ class LeadersExport implements FromCollection, WithHeadings, ShouldAutoSize
     {
         $users = User::all() -> where('role', 'student');
         foreach ($users as $user){
-            $user -> score = $user -> confirmedScore();
+            $user -> score = (string)($user -> confirmedScore());
             $user -> id = $user -> place();
             unset($user['role']);
             unset($user['email']);
