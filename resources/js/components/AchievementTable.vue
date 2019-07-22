@@ -2,7 +2,6 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-
                 <table class="table">
                     <thead>
                         <tr>
@@ -70,6 +69,7 @@
                     </tbody>
                 </table>
                 <button class="btn btn-primary" @click="downloadTable">Экспортировать в Excel</button>
+                <button class="btn btn-warning" @click="dropFilters">Сбросить фильтры</button>
             </div>
         </div>
     </div>
@@ -106,6 +106,16 @@
                     .then(response => {
                         window.open('/achievements/all/download/' + response.data);
                     })
+            },
+            dropFilters: function () {
+                    this.selectedForm = 'Все классы';
+                    this.selectedStudent ='Все ученики';
+                    this.selectedCategory = 'Все категории';
+                    this.selectedType = 'Все типы';
+                    this.selectedAchievementName = 'Все названия';
+                    this.selectedSubject = 'Все предметы';
+                    this.selectedStage = 'Все этапы';
+                    this.selectedResult = 'Все результаты';
             }
         },
 
@@ -122,8 +132,14 @@
 
             allStudents: function() {
                 let result = [];
+                let form = this.selectedForm;
                 this.achievements.forEach(function (achievement) {
-                    (result.indexOf(achievement.user.name) === -1)&& result.push(achievement.user.name);
+                    if (
+                        (result.indexOf(achievement.user.name) === -1) &&
+                        ((achievement.user.form === form) || (form === 'Все классы'))
+                    ){
+                        result.push(achievement.user.name)
+                    }
                 });
                 return result;
             },
@@ -189,16 +205,14 @@
                 let stage = this.selectedStage;
                 let result = this.selectedResult;
                 this.achievements.forEach(function (achievement) {
-                    if (
-                        ((achievement.user.form === form) || (form === 'Все классы')) &&
+                    if (((achievement.user.form === form) || (form === 'Все классы')) &&
                         ((achievement.user.name === student) || (student === 'Все ученики')) &&
                         ((achievement.category === category) || (category === 'Все категории')) &&
                         ((achievement.type === type) || (type === 'Все типы')) &&
                         ((achievement.name === name) || (name === 'Все названия')) &&
                         ((achievement.subject === subject) || (subject === 'Все предметы')) &&
                         ((achievement.stage === stage) || (stage === 'Все этапы')) &&
-                        ((achievement.result === result) || (result === 'Все результаты'))
-                    ){
+                        ((achievement.result === result) || (result === 'Все результаты'))){
                         sorted.push(achievement);
                     }
                 });

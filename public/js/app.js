@@ -1799,6 +1799,16 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         window.open('/achievements/all/download/' + response.data);
       });
+    },
+    dropFilters: function dropFilters() {
+      this.selectedForm = 'Все классы';
+      this.selectedStudent = 'Все ученики';
+      this.selectedCategory = 'Все категории';
+      this.selectedType = 'Все типы';
+      this.selectedAchievementName = 'Все названия';
+      this.selectedSubject = 'Все предметы';
+      this.selectedStage = 'Все этапы';
+      this.selectedResult = 'Все результаты';
     }
   },
   computed: {
@@ -1811,8 +1821,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     allStudents: function allStudents() {
       var result = [];
+      var form = this.selectedForm;
       this.achievements.forEach(function (achievement) {
-        result.indexOf(achievement.user.name) === -1 && result.push(achievement.user.name);
+        if (result.indexOf(achievement.user.name) === -1 && (achievement.user.form === form || form === 'Все классы')) {
+          result.push(achievement.user.name);
+        }
       });
       return result;
     },
@@ -37573,6 +37586,12 @@ var render = function() {
           "button",
           { staticClass: "btn btn-primary", on: { click: _vm.downloadTable } },
           [_vm._v("Экспортировать в Excel")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-warning", on: { click: _vm.dropFilters } },
+          [_vm._v("Сбросить фильтры")]
         )
       ])
     ])

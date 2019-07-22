@@ -31,7 +31,8 @@ class GeneralController extends Controller
             $pathToFile = storage_path('confirmations') . '/' . $achievement->confirmation;
             return response()->download($pathToFile);
         } else {
-            return redirect('/user');
+            $error = 'Ой-ой-ой, похоже, вы пытаетесь скачать не свою грамоту :(';
+            return view('general.error', compact('error'));
         }
     }
     public function profile(){
@@ -66,12 +67,14 @@ class GeneralController extends Controller
     }
 
     public function passwordChangeView(){
-        return view('general.changePassword');
+        $error = '';
+        return view('general.changePassword', compact('error'));
     }
 
     public function getAlertForBannedUsers(){
         Auth::logout();
-        return view('general.alertForBannedUsers');
+        $error = 'Ой-ой-ой, похоже, ваша учетная запись заблокирована, обратитесь к администрации :(';
+        return view('general.error', compact('error'));
     }
 
     public function getAchievementsTable(){
@@ -107,10 +110,12 @@ class GeneralController extends Controller
                 $user->save();
                 return redirect('/profile');
             } else {
-                return redirect('/profile/password_change');
+                $error = 'Новый пароль не совпадает с подтверждением :(';
+                return view('general.changePassword', compact('error'));
             }
         } else {
-            return redirect('/profile/password_change');
+            $error = 'Старый пароль введен неправильно :(';
+            return view('general.changePassword', compact('error'));
         }
         
     }
