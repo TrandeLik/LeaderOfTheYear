@@ -27,6 +27,7 @@ Route::get('/users/banned', 'AdminController@showBannedUsers')->middleware(\App\
 Route::post('/achievement_type/add', 'AdminController@addType')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_type/add', 'AdminController@showAddType')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievements/sent', 'AdminController@getAllSentAchievements')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::get('/achievement/{id}', 'GeneralController@achievementView')->middleware(\App\Http\Middleware\CheckAdmin::class);
 
 Route::get('/achievements/all', 'AdminController@getAchievementsTable')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::post('/achievements/all', 'AdminController@importAchievementTable')->middleware(\App\Http\Middleware\CheckAdmin::class);
