@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Achievement;
 use App\User;
 use App\Setting;
+use App\Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -97,6 +98,10 @@ class GeneralController extends Controller
             $error = 'Старый пароль введен неправильно :(';
             return view('general.changePassword', compact('error'));
         }
-        
+    }
+
+    public function achievementView($id){
+        $comments = Comment::all()->where('achievement_id',$id);
+        return view('general.achievement',compact('comments'));
     }
 }
