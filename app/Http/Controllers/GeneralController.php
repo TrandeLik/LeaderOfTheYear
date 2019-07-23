@@ -13,17 +13,25 @@ use Illuminate\Filesystem\Filesystem;
 
 class GeneralController extends Controller
 {
-    public function index()
+    public function leaderboard()
     {
-        $users = User::all() -> where('role', 'student');
-        foreach ($users as $user){
-            $count = $user -> confirmedScore();
-            $user -> score = $count;
+        $isLeaderBoardWorking = Setting::where('name', 'Рейтинговая таблица (для учеников)')->first()->value;
+        if (($isLeaderBoardWorking == 'on') or (auth::user()->role == 'admin') or (auth::user()->role == 'superadmin')) {
+                $users = User::all()->where('role', 'student');
+            foreach ($users as $user) {
+                $count = $user->confirmedScore();
+                $user->score = $count;
+            }
+            $isScoreShouldBeShown = Setting::where('name', 'Баллы в лидерборде')->first()->value;
+            $isScoreShouldBeShown = ($isScoreShouldBeShown == 'on') or (auth::user()->role == 'admin') or (auth::user()->role == 'superadmin');
+            $leaders = $users->sortByDesc('score');
+            $awardedPercentage = Setting::where('name', 'Процент призеров')->value('value');
+            $winnerPercentage = Setting::where('name', 'Процент победителей')->value('value');
+            return view('general.leaderboard', compact('leaders', 'awardedPercentage', 'winnerPercentage', 'isScoreShouldBeShown'));
+        } else{
+            $error = 'Ой, вам сюда нельзя!';
+            return view('general.error', compact('error'));
         }
-        $leaders = $users -> sortByDesc('score');
-        $awardedPercentage = Setting::where('name','Процент призеров')->value('value');
-        $winnerPercentage = Setting::where('name','Процент победителей')->value('value');
-        return view('general.leaderboard',compact('leaders','awardedPercentage','winnerPercentage'));
     }
     
     public function downloadConfirmation($id){

@@ -59,7 +59,11 @@
                                 @endif
                             @endforeach
                         </select>
-                        <label for="file">Новое подтверждение </label> <input id="file" type="file" name="file">
+                        @if ($isUploadingConfirmationsPossible)
+                            <label for="file">Новое подтверждение </label> <input id="file" type="file" name="file">
+                        @else
+                            <p>К сожалению, загрузка файлов временно невозможна</p>
+                        @endif
                         <input type="submit" value="Изменить" class="btn btn-warning col-4">
                         <div class="accordion" id="accordionExample">
                             <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>

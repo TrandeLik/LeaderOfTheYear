@@ -17,22 +17,24 @@
                 <div class="card-body">
                     @if (count($falseCategories)!=0)
                         <p style="color: firebrick;">
-                            Ваши баллы за достижения в 
+                            Ваши баллы за достижения в
                             @if(count($falseCategories)==1)
                                 категории
                             @else
                                 категориях
                             @endif
                             @foreach ($falseCategories as $category)
-                                {{$category}} 
+                                {{$category}}
                             @endforeach
                             превышают баллы за {{$mainCategory}}. Лишние баллы учтены не будут
                         </p>
                     @endif
                     <p>Сейчас у Вас {{$confirmedScore}} подтверждённых баллов<p>
                     <p>Если все Ваши достижения будут одобрены, Вы получите {{$totalScore}} баллов</p>
-                    <p>Вы на {{$place}} месте</p>
-                    <p>Вы входите в {{$percentage}} процентов лучших</p>
+                     @if($isStatisticsWorking)
+                        <p>Вы на {{$place}} месте</p>
+                        <p>Вы входите в {{$percentage}} процентов лучших</p>
+                     @endif
                 </div>
             </div>
             <div class="card border-primary">

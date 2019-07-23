@@ -19,9 +19,22 @@
                                             <input type="checkbox" name="{{$setting->id}}">
                                         @endif
                                     @elseif ($setting->type=='globalVariable')
-                                        <input type="text" name="{{$setting->id}}" value="{{$setting->value}}">
+                                        @if ($setting->name != 'Главная категория')
+                                            <input type="text" name="{{$setting->id}}" value="{{$setting->value}}">
+                                        @else
+                                            <select name="{{$setting->id}}">
+                                                @foreach($categories as $category)
+                                                    @if ($setting->value == $category -> category)
+                                                        <option selected>{{$category -> category}}</option>
+                                                    @else
+                                                        <option>{{$category -> category}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        @endif
                                     @elseif ($setting->type=='rulesSettings')
-                                        <input type="text" name="{{$setting->id}}" value="{{$setting->value}}">
+                                        <input name="{{$setting->id}}" onchange="document.getElementById('{{$setting->id}}').innerHTML = this.value;" type="range" value="{{$setting->value}}" step="5"/>
+                                        <span id = "{{$setting->id}}" >{{$setting->value}}</span>
                                     @endif
                                 </div>
                             @endforeach
@@ -32,5 +45,6 @@
             </div>
         </div>
     </div>
+    <a href="{{url()->previous()}}"><button class="btn btn-primary">Назад</button> </a>
    
 @endsection
