@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Achievement;
 use App\User;
 use App\Setting;
+use App\Comment;
 use App\AchievementType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -186,10 +187,17 @@ class AdminController extends Controller
         return redirect(url() -> previous());
     }
 
-    public function reject($id){
+    public function reject($id, Request $request){
         $achievement = Achievement::findOrFail($id);
         $achievement -> status = 'rejected';
         $achievement -> save();
+        if (isset($request->comment)){
+            $comment = new Comment;
+            $comment->achievement_id = $id;
+            $comment->text = $request->comment;
+            $comment->author = 'admin';
+            $comment->save();
+        }
         return redirect(url()->previous());
     }
 

@@ -9,7 +9,7 @@ class Comment extends Model
 
     protected $table='comments';
 
-    public function comment(){
-        return $this->hasOne('App\Comment', 'id', 'achievement_id');
+    public function achievement(){
+        return $this->hasOne('App\Achievement', 'id', 'achievement_id');
     }
 }

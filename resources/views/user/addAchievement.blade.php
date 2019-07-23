@@ -37,6 +37,12 @@
                         <label for="file" class="btn">Подтверждение</label>
                         <input id = "file" type="file" name="file" placeholder="Подтверждение"><br>
                         <input type="submit" value="Добавить" class="btn btn-success col-4">
+                        <div class="accordion" id="accordionExample">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>
+                            <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <textarea name="comment" placeholder = "Комментарий"></textarea>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
