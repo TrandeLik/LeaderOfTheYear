@@ -34,6 +34,7 @@ Route::get('/achievements/all/download/{name}', 'AdminController@downloadAchieve
 
 Route::get('/users/all', 'AdminController@getAllUsers')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_types/all', 'AdminController@getAllAchievementTypes')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::post('/achievement_types/all', 'AdminController@uploadAchievementTypesFile')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_types/download_file', 'AdminController@downloadAchievementTypesFile')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_type/{id}/delete', 'AdminController@deleteAchievementType')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement_type/{id}/edit', 'AdminController@getEditTypeView')->middleware(\App\Http\Middleware\CheckAdmin::class);
