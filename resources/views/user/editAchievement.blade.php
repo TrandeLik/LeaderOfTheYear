@@ -61,16 +61,23 @@
                         </select>
                         @if ($isUploadingConfirmationsPossible)
                             <label for="file">Новое подтверждение </label> <input id="file" type="file" name="file">
-                            <input type="submit" value="Изменить" class="btn btn-warning col-4">
                         @else
                             <p>К сожалению, загрузка файлов временно невозможна</p>
                         @endif
+                        <input type="submit" value="Изменить" class="btn btn-warning col-4">
+                        <div class="accordion" id="accordionExample">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>
+                            <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <textarea name="comment" placeholder = "Комментарий"></textarea>
+                            </div>
+                        </div>
                     </form>
                     @if($achievement->confirmation != '')
                         <a href="{{'/achievement/'.$achievement->id.'/download_confirmation'}}">Текущее подтверждение</a><br><br>
                     @else
                         <strong>На данный момент подтверждения нет</strong>
                     @endif
+                    
                 </div>
             </div>
         </div>

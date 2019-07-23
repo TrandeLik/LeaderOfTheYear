@@ -39,7 +39,40 @@
                             <p>{{$achievement -> type.', '.$achievement -> name.', '.$achievement -> stage.', '.$achievement -> subject.', '.$achievement -> result}}</p>
                             <a href="{{url('/achievement/'.$achievement->id.'/download_confirmation')}}">Подтверждение</a><br><br>
                             <a href="{{url('/achievement/'. $achievement -> id . '/confirm')}}"><button class="btn btn-success">Одобрить</button> </a>
-                            <a href="{{url('/achievement/'. $achievement -> id . '/reject')}}"><button class="btn btn-danger">Отклонить</button> </a>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                            Отклонить
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                            <div class="modal-body">
+                                                <div class="accordion" id="accordionExample">
+                                                    Вы действительно хотите отклонить эту заявку? 
+                                                    <a style="color:blue;" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Оставьте комментарий с объяснением вашего решения</a>
+                                                    <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                        <form method="POST" action="{{url('/achievement/'. $achievement -> id . '/reject')}}" id="1">
+                                                            {{ csrf_field() }} 
+                                                            <textarea name="comment" placeholder = "Комментарий"></textarea>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
+                                                <input type="submit" class="btn btn-danger" value="Отклонить" form="1">
+                                            </div>
+                                        </form>
+                                </div>
+                            </div>
+                            </div>
                         </div><br>
                     </div><br>
                 @endforeach

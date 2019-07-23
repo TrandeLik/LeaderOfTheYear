@@ -5,6 +5,7 @@ use Faker\Provider\File;
 use Illuminate\Support\Facades\DB;
 use App\Achievement;
 use App\User;
+use App\Comment;
 use App\Setting;
 use App\AchievementType;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,13 @@ class UserController extends Controller
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
         $achievement->save();
+        if (isset($request->comment)){
+            $comment = new Comment;
+            $comment->achievement_id = Achievement::all()->last()->value('id');
+            $comment->text = $request->comment;
+            $comment->author = Auth::user()->id;
+            $comment->save();
+        }
         return redirect('user');
         
     }
@@ -118,6 +126,13 @@ class UserController extends Controller
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
         $achievement->save();
+        if (isset($request->comment)){
+            $comment = new Comment;
+            $comment->achievement_id = $id;
+            $comment->text = $request->comment;
+            $comment->author = Auth::user()->id;
+            $comment->save();
+        }
         return redirect('user');
     }
 }
