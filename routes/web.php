@@ -16,7 +16,7 @@ Auth::routes();
 
 Route::get('/', 'AdminController@index')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::post('/', 'AdminController@uploadAchievementTypesFile')->middleware(\App\Http\Middleware\CheckAdmin::class);
-Route::get('/achievement/{id}/reject', 'AdminController@reject')->middleware(\App\Http\Middleware\CheckAdmin::class);
+Route::post('/achievement/{id}/reject', 'AdminController@reject')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/achievement/{id}/confirm', 'AdminController@confirm')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/user/{id}/profile', 'AdminController@aboutUser')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/user/{id}/ban', 'AdminController@ban')->middleware(\App\Http\Middleware\CheckAdmin::class);
@@ -50,7 +50,7 @@ Route::get('/achievement/{id}/delete', 'UserController@delete')->middleware(\App
 Route::get('/achievement/{id}/edit', 'UserController@editView')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::post('/achievement/{id}/edit', 'UserController@edit')->middleware(\App\Http\Middleware\CheckUser::class);
 
-Route::get('/leaderboard', 'GeneralController@index');
+Route::get('/leaderboard', 'GeneralController@leaderboard');
 Route::get('/leaderboard/export', 'AdminController@exportLeaderboard')->middleware(\App\Http\Middleware\CheckAdmin::class);
 Route::get('/profile', 'GeneralController@profile')->middleware(\App\Http\Middleware\CheckAuth::class);
 Route::get('/profile/edit', 'GeneralController@profileEditView')->middleware(\App\Http\Middleware\CheckAuth::class);

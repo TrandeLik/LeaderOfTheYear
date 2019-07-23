@@ -202,7 +202,8 @@ class AdminController extends Controller
 
     public function settingsView(){
         $settings = Setting::all();
-        return view('admin.settings', compact('settings'));
+        $categories = AchievementType::select('category')->distinct()->get();
+        return view('admin.settings', compact('settings', 'categories'));
     }
 
     public function settingsUpdate(Request $request){
@@ -221,7 +222,7 @@ class AdminController extends Controller
                 $setting->save();
             }
         }
-        return view('admin.settings',compact('settings'));
+        return redirect(url()->previous());
     }
     public function getAchievementsTable(){
         $achievements = Achievement::all()->where('status', 'confirmed');

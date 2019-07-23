@@ -59,8 +59,12 @@
                                 @endif
                             @endforeach
                         </select>
-                        <label for="file">Новое подтверждение </label> <input id="file" type="file" name="file">
-                        <input type="submit" value="Изменить" class="btn btn-warning col-4">
+                        @if ($isUploadingConfirmationsPossible)
+                            <label for="file">Новое подтверждение </label> <input id="file" type="file" name="file">
+                            <input type="submit" value="Изменить" class="btn btn-warning col-4">
+                        @else
+                            <p>К сожалению, загрузка файлов временно невозможна</p>
+                        @endif
                     </form>
                     @if($achievement->confirmation != '')
                         <a href="{{'/achievement/'.$achievement->id.'/download_confirmation'}}">Текущее подтверждение</a><br><br>

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Setting;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $isLeaderBoardWorking = Setting::where('name', 'Рейтинговая таблица (для учеников)')->first()->value;
+        view()->share(compact('isLeaderBoardWorking'));
     }
 }

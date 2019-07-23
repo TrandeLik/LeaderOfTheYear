@@ -15,19 +15,21 @@ class UserController extends Controller
 { 
     public function index(){
         $achievements = Auth::user()->achievements;
+        $isStatisticsWorking = Setting::where('name', 'Статистика')->first()->value == 'on';
         $confirmedScore = Auth::user()->confirmedScore();
         $totalScore = Auth::user()->totalScore();
         $place = Auth::user()->place();
         $falseCategories = Auth::user()->falseCategories();
         $percentage = Auth::user()->percentage();
         $mainCategory = Setting::where('name','Главная категория')->value('value');
-        return view('user.index',compact('achievements','confirmedScore','totalScore','place','percentage','falseCategories','mainCategory'));
+        return view('user.index',compact('achievements','confirmedScore','totalScore','place','percentage','falseCategories','mainCategory', 'isStatisticsWorking'));
     }
 
     public function addView(){
         $achievement_types = AchievementType::all();
+        $isUploadingConfirmationsPossible = Setting::where('name', 'Загрузка файлов с подтверждением')->first()->value == 'on';
         $categories = AchievementType::select('category')->distinct()->get();
-        return view('user.addAchievement',compact('categories','achievement_types'));
+        return view('user.addAchievement',compact('categories','achievement_types', 'isUploadingConfirmationsPossible'));
     }
 
     public function addAchievement(Request $request){
@@ -88,7 +90,8 @@ class UserController extends Controller
         $types = AchievementType::select('type')->where('category',$achievement->category)->distinct()->get();
         $stages = AchievementType::select('stage')->where([['category',$achievement->category],['type',$achievement->type],])->distinct()->get();
         $results = AchievementType::select('result')->where([['category',$achievement->category],['type',$achievement->type],['stage',$achievement->stage],])->distinct()->get();
-        return view('user.editAchievement',compact('types','stages','results','achievement','categories','achievement_types'));
+        $isUploadingConfirmationsPossible = Setting::where('name', 'Загрузка файлов с подтверждением')->first()->value == 'on';
+        return view('user.editAchievement',compact('types','stages','results','achievement','categories','achievement_types', 'isUploadingConfirmationsPossible'));
     }
 
     public function edit($id, Request $request){

@@ -34,8 +34,12 @@
                         <select name="result" disabled>
                             <option selected disabled>Результат</option>
                         </select>
-                        <label for="file" class="btn">Подтверждение</label>
-                        <input id = "file" type="file" name="file" placeholder="Подтверждение"><br>
+                        @if ($isUploadingConfirmationsPossible)
+                            <label for="file" class="btn">Подтверждение</label>
+                            <input id = "file" type="file" name="file" placeholder="Подтверждение"><br>
+                        @else
+                            <p>К сожалению, загрузка файлов временно невозможна</p>
+                        @endif
                         <input type="submit" value="Добавить" class="btn btn-success col-4">
                     </form>
                 </div>
