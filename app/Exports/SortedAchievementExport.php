@@ -15,17 +15,7 @@ class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
 
     public function __construct(array $achievements)
     {
-        $this->achievements=[];
-        foreach ($achievements as $achievement){
-            unset($achievement['id']);
-            unset($achievement['created_at']);
-            unset($achievement['updated_at']);
-            unset($achievement['confirmation']);
-            unset($achievement['status']);
-            unset($achievement['user_id']);
-            unset($achievement['user']);
-            array_push($this->achievements,$achievement);
-        }
+        $this->achievements = $achievements;
     }
 
     public function array(): array
@@ -36,9 +26,12 @@ class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
     public function headings(): array
     {
         return [
-            'Место',
             'ФИО',
             'Класс',
+            'Категория',
+            'Тип',
+            'Название',
+            'Предмет',
             'Баллы',
         ];
     }
