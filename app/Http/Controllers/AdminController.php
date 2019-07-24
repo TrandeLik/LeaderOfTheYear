@@ -14,6 +14,10 @@ use Excel;
 use App\Exports\AchievementTypesExport;
 use App\Imports\AchievementTypesImport;
 use App\Exports\LeadersExport;
+use App\Exports\SortedAchievementExport;
+use Illuminate\Filesystem\Filesystem;
+
+
 
 class AdminController extends Controller
 {
@@ -242,14 +246,15 @@ class AdminController extends Controller
     }
 
     public function downloadAchievementTable($name){
-        $pathToFile = storage_path('confirmations') . '/' . $name; // TODO узнать дерикторию, куда будут сохраняться файлы
+        $pathToFile = storage_path('sorted_achievements') . '/' . $name; // TODO узнать дерикторию, куда будут сохраняться файлы
         return response()->download($pathToFile);
     }
 
     public function importAchievementTable(Request $request){
         $file = new Filesystem;
-        $file->cleanDirectory(storage_path('confirmations'));
-        // TODO перенос данных и сохранение
-        return '.gitignore';
+        $file->cleanDirectory(storage_path('sorted_achievements'));
+        $achievements = $request->table;        
+        Excel::store(new SortedAchievementExport($achievements),'sortedAchievements.xlsx','mydisk');
+        return 'sortedAchievements.xlsx';
     }
 }
