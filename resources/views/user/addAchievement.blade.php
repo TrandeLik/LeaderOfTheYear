@@ -46,12 +46,16 @@
                             <p>К сожалению, загрузка файлов временно невозможна</p>
                         @endif
                         <input type="submit" value="Добавить" class="btn btn-success col-4">
-                        <div class="accordion" id="accordionExample">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>
-                            <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                <textarea name="comment" placeholder = "Комментарий"></textarea>
+                        @if ($areCommentsWorking)
+                            <div class="accordion" id="accordionExample">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>
+                                <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                    <textarea name="comment" placeholder = "Комментарий"></textarea>
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <p>К сожалению, возможность добавлять комментарии отключена</p>
+                        @endif
                     </form>
                 </div>
             </div>

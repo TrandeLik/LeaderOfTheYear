@@ -52,10 +52,11 @@ class UserController extends Controller
     }
 
     public function addView(){
+        $areCommentsWorking = Setting::where('name', 'Возможность комментировать (для учеников)')->first()->value == 'on';
         $achievement_types = AchievementType::all();
         $isUploadingConfirmationsPossible = Setting::where('name', 'Загрузка файлов с подтверждением')->first()->value == 'on';
         $categories = AchievementType::select('category')->distinct()->get();
-        return view('user.addAchievement',compact('categories','achievement_types', 'isUploadingConfirmationsPossible'));
+        return view('user.addAchievement',compact('categories','achievement_types', 'isUploadingConfirmationsPossible', 'areCommentsWorking'));
     }
 
     public function addAchievement(Request $request){
@@ -93,12 +94,15 @@ class UserController extends Controller
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
         $achievement->save();
-        if (isset($request->comment)){
-            $comment = new Comment;
-            $comment->achievement_id = Achievement::all()->last()->value('id');
-            $comment->text = $request->comment;
-            $comment->author = Auth::user()->id;
-            $comment->save();
+        $areCommentsWorking = Setting::where('name', 'Возможность комментировать (для учеников)')->first()->value == 'on';
+        if ($areCommentsWorking) {
+            if (isset($request->comment)) {
+                $comment = new Comment;
+                $comment->achievement_id = Achievement::all()->last()->value('id');
+                $comment->text = $request->comment;
+                $comment->author = Auth::user()->id;
+                $comment->save();
+            }
         }
         return redirect('user');
         
@@ -133,7 +137,8 @@ class UserController extends Controller
         $stages = AchievementType::select('stage')->where([['category',$achievement->category],['type',$achievement->type],])->distinct()->get();
         $results = AchievementType::select('result')->where([['category',$achievement->category],['type',$achievement->type],['stage',$achievement->stage],])->distinct()->get();
         $isUploadingConfirmationsPossible = Setting::where('name', 'Загрузка файлов с подтверждением')->first()->value == 'on';
-        return view('user.editAchievement',compact('types','stages','results','achievement','categories','achievement_types', 'isUploadingConfirmationsPossible'));
+        $areCommentsWorking = Setting::where('name', 'Возможность комментировать (для учеников)')->first()->value == 'on';
+        return view('user.editAchievement',compact('types','stages','results','achievement','categories','achievement_types', 'isUploadingConfirmationsPossible', 'areCommentsWorking'));
     }
 
     public function edit($id, Request $request){
@@ -169,12 +174,15 @@ class UserController extends Controller
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
         $achievement->save();
-        if (isset($request->comment)){
-            $comment = new Comment;
-            $comment->achievement_id = $id;
-            $comment->text = $request->comment;
-            $comment->author = Auth::user()->id;
-            $comment->save();
+        $areCommentsWorking = Setting::where('name', 'Возможность комментировать (для учеников)')->first()->value == 'on';
+        if ($areCommentsWorking) {
+            if (isset($request->comment)) {
+                $comment = new Comment;
+                $comment->achievement_id = $id;
+                $comment->text = $request->comment;
+                $comment->author = Auth::user()->id;
+                $comment->save();
+            }
         }
         return redirect('user');
     }
