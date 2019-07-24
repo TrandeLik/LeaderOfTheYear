@@ -1773,6 +1773,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1786,7 +1791,7 @@ __webpack_require__.r(__webpack_exports__);
       selectedResult: 'Все результаты'
     };
   },
-  props: ['achievements'],
+  props: ['achievements', 'isUser'],
   methods: {
     setData: function setData(data) {
       var sorted = [];
@@ -1821,6 +1826,8 @@ __webpack_require__.r(__webpack_exports__);
         table: tableData
       }).then(function (response) {
         window.open('/achievements/all/download/' + response.data);
+      }, function (error) {
+        return console.log(error);
       });
     },
     dropFilters: function dropFilters() {
@@ -37194,14 +37201,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
+  return _c("div", [
+    _c("div", [
       _c("div", { staticClass: "col-md-12" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-primary", on: { click: _vm.downloadTable } },
-          [_vm._v("Экспортировать в Excel")]
-        ),
+        _vm.isUser
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: { click: _vm.downloadTable }
+              },
+              [_vm._v("Экспортировать в Excel")]
+            )
+          : _vm._e(),
         _vm._v(" "),
         _c(
           "button",
@@ -37209,362 +37221,378 @@ var render = function() {
           [_vm._v("Сбросить фильтры")]
         ),
         _vm._v(" "),
-        _c("table", { staticClass: "table" }, [
-          _c("thead", [
-            _c("tr", [
-              _c("th", [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selectedStudent,
-                        expression: "selectedStudent"
+        _c("div", { staticClass: "table-responsive" }, [
+          _c("table", { staticClass: "table" }, [
+            _c("thead", [
+              _c("tr", [
+                _vm.isUser
+                  ? _c("th", [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.selectedStudent,
+                              expression: "selectedStudent"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.selectedStudent = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { selected: "" } }, [
+                            _vm._v("Все ученики")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.allStudents, function(student) {
+                            return _c("option", [_vm._v(_vm._s(student))])
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.isUser
+                  ? _c("th", [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.selectedForm,
+                              expression: "selectedForm"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.selectedForm = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { selected: "" } }, [
+                            _vm._v("Все классы")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.allForms, function(form) {
+                            return _c("option", [_vm._v(_vm._s(form))])
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("th", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selectedCategory,
+                          expression: "selectedCategory"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selectedCategory = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
                       }
+                    },
+                    [
+                      _c("option", { attrs: { selected: "" } }, [
+                        _vm._v("Все категории")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.allCategories, function(category) {
+                        return _c("option", [_vm._v(_vm._s(category))])
+                      })
                     ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.selectedStudent = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c("th", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selectedType,
+                          expression: "selectedType"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selectedType = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
                       }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "" } }, [
-                      _vm._v("Все ученики")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.allStudents, function(student) {
-                      return _c("option", [_vm._v(_vm._s(student))])
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c("th", [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selectedForm,
-                        expression: "selectedForm"
-                      }
+                    },
+                    [
+                      _c("option", { attrs: { selected: "" } }, [
+                        _vm._v("Все типы")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.allTypes, function(type) {
+                        return _c("option", [_vm._v(_vm._s(type))])
+                      })
                     ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.selectedForm = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c("th", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selectedAchievementName,
+                          expression: "selectedAchievementName"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selectedAchievementName = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
                       }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "" } }, [
-                      _vm._v("Все классы")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.allForms, function(form) {
-                      return _c("option", [_vm._v(_vm._s(form))])
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c("th", [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selectedCategory,
-                        expression: "selectedCategory"
-                      }
+                    },
+                    [
+                      _c("option", { attrs: { selected: "" } }, [
+                        _vm._v("Все названия")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.allAchievementNames, function(name) {
+                        return _c("option", [_vm._v(_vm._s(name))])
+                      })
                     ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.selectedCategory = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c("th", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selectedSubject,
+                          expression: "selectedSubject"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selectedSubject = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
                       }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "" } }, [
-                      _vm._v("Все категории")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.allCategories, function(category) {
-                      return _c("option", [_vm._v(_vm._s(category))])
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c("th", [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selectedType,
-                        expression: "selectedType"
-                      }
+                    },
+                    [
+                      _c("option", { attrs: { selected: "" } }, [
+                        _vm._v("Все предметы")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.allSubjects, function(subject) {
+                        return _c("option", [_vm._v(_vm._s(subject))])
+                      })
                     ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.selectedType = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c("th", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selectedStage,
+                          expression: "selectedStage"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selectedStage = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
                       }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "" } }, [
-                      _vm._v("Все типы")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.allTypes, function(type) {
-                      return _c("option", [_vm._v(_vm._s(type))])
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c("th", [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selectedAchievementName,
-                        expression: "selectedAchievementName"
-                      }
+                    },
+                    [
+                      _c("option", { attrs: { selected: "" } }, [
+                        _vm._v("Все этапы")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.allStages, function(stage) {
+                        return _c("option", [_vm._v(_vm._s(stage))])
+                      })
                     ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.selectedAchievementName = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c("th", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selectedResult,
+                          expression: "selectedResult"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selectedResult = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
                       }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "" } }, [
-                      _vm._v("Все названия")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.allAchievementNames, function(name) {
-                      return _c("option", [_vm._v(_vm._s(name))])
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c("th", [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selectedSubject,
-                        expression: "selectedSubject"
-                      }
+                    },
+                    [
+                      _c("option", { attrs: { selected: "" } }, [
+                        _vm._v("Все результаты")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.allResults, function(result) {
+                        return _c("option", [_vm._v(_vm._s(result))])
+                      })
                     ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.selectedSubject = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "" } }, [
-                      _vm._v("Все предметы")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.allSubjects, function(subject) {
-                      return _c("option", [_vm._v(_vm._s(subject))])
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c("th", [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selectedStage,
-                        expression: "selectedStage"
-                      }
-                    ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.selectedStage = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "" } }, [
-                      _vm._v("Все этапы")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.allStages, function(stage) {
-                      return _c("option", [_vm._v(_vm._s(stage))])
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c("th", [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selectedResult,
-                        expression: "selectedResult"
-                      }
-                    ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.selectedResult = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "" } }, [
-                      _vm._v("Все результаты")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.allResults, function(result) {
-                      return _c("option", [_vm._v(_vm._s(result))])
-                    })
-                  ],
-                  2
-                )
+                    2
+                  )
+                ])
               ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.sortedAchievement, function(achievement) {
-              return _c("tr", [
-                _c("td", [_vm._v(_vm._s(achievement.student))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(achievement.form))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(achievement.category))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(achievement.type))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(achievement.name))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(achievement.subject))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(achievement.stage))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(achievement.result))])
-              ])
-            }),
-            0
-          )
+            ]),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.sortedAchievement, function(achievement) {
+                return _c("tr", [
+                  _vm.isUser
+                    ? _c("td", [_vm._v(_vm._s(achievement.student))])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.isUser
+                    ? _c("td", [_vm._v(_vm._s(achievement.form))])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(achievement.category))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(achievement.type))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(achievement.name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(achievement.subject))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(achievement.stage))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(achievement.result))]),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td")
+                ])
+              }),
+              0
+            )
+          ])
         ])
       ])
     ])

@@ -22,8 +22,9 @@ class UserController extends Controller
         $place = Auth::user()->place();
         $falseCategories = Auth::user()->falseCategories();
         $percentage = Auth::user()->percentage();
+        $confirmedAchievements = Auth::user()->achievements->where('status', 'confirmed');
         $mainCategory = Setting::where('name','Главная категория')->value('value');
-        return view('user.index',compact('achievements','confirmedScore','totalScore','place','percentage','falseCategories','mainCategory', 'isStatisticsWorking'));
+        return view('user.index',compact('achievements','confirmedScore','totalScore','place','percentage','falseCategories','mainCategory', 'isStatisticsWorking', 'confirmedAchievements'));
     }
 
     public function addView(){

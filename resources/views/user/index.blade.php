@@ -132,31 +132,10 @@
                     </table>
                 </div>
             </div>
-            <div class="card border-success">
+            <div id="app" class="card border-success">
                 <div class="card-header">Одобренные</div>
                 <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Название</th>
-                                <th>Этап</th>
-                                <th>Результат</th>
-                                <th>Баллы</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($achievements as $achievement)
-                            @if ($achievement->status=='confirmed')
-                                <tr>
-                                    <td>{{$achievement->name}}</td>
-                                    <td>{{$achievement->stage}}</td>                                        
-                                    <td>{{$achievement->result}}</td>
-                                    <td>{{$achievement->score}}</td>
-                                <tr>
-                            @endif
-                        @endforeach
-                        </tbody>
-                    </table>
+                    <achievement-table :achievements="{{json_encode($confirmedAchievements)}}" :isuser="false"></achievement-table>
                 </div>
             </div>
         </div>
