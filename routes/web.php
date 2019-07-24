@@ -46,8 +46,8 @@ Route::get('/settings', 'AdminController@settingsView')->middleware(\App\Http\Mi
 Route::post('/settings', 'AdminController@settingsUpdate')->middleware(\App\Http\Middleware\CheckAdmin::class);
 
 Route::get('/user', 'UserController@index')->middleware(\App\Http\Middleware\CheckUser::class);
-Route::get('/achievement/add', 'UserController@addView')->middleware(\App\Http\Middleware\CheckUser::class);
-Route::post('/achievement/add', 'UserController@addAchievement')->middleware(\App\Http\Middleware\CheckUser::class);
+Route::get('/achievement/add/new', 'UserController@addView')->middleware(\App\Http\Middleware\CheckUser::class);
+Route::post('/achievement/add/new', 'UserController@addAchievement')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::get('/achievement/{id}/send', 'UserController@send')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::get('/achievement/{id}/return', 'UserController@return')->middleware(\App\Http\Middleware\CheckUser::class);
 Route::get('/achievement/{id}/delete', 'UserController@delete')->middleware(\App\Http\Middleware\CheckUser::class);

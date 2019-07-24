@@ -9,8 +9,22 @@
         <div class="col-12">
             <form method="post" enctype="multipart/form-data">
                 @csrf
-                <label for="file" class="btn" style="padding: 0; margin: 0;">Добавить новый список</label>
-                <input id = "file" type="file" name="file" placeholder="Подтверждение"><br>
+                <label for="file" class="btn" style="padding: 0; margin: 0;">Добавить новый список из таблицы Excel</label>
+                <input accept="
+                    application/vnd.ms-excel,
+                    application/vnd.ms-office,
+                    application/vnd-xls,
+                    application/vnd.ms-excel,
+                    application/msexcel,
+                    application/x-msexcel,
+                    application/x-ms-excel,
+                    application/x-excel,
+                    application/excel,
+                    application/x-dos_ms_excel,
+                    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                    application/xls,
+                    application/x-xls"
+                       id = "file" type="file" name="file" placeholder="Подтверждение"><br>
                 <input type="submit" value="Добавить">
             </form>
         </div>
