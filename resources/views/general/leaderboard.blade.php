@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="table-responsive">
     <a href="/leaderboard/export">Экспортировать в Excel</a>
     <table class="table table-hover">
         <thead>

@@ -10,6 +10,7 @@
                 <input type="submit" value="Добавить">
             </form>
         </div>
+        <div class="table-responsive">
         <table class="table table-hover">
             <thead>
             <tr>
@@ -32,6 +33,7 @@
             @endforeach
             </tbody>
         </table>
+        </div>
     </div>
     <a href="{{url('/')}}"><button class="btn btn-primary" style="float: right">Назад</button></a>
 @endsection
