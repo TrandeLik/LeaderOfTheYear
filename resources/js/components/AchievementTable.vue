@@ -68,9 +68,12 @@
                             <td>{{achievement.subject}}</td>
                             <td>{{achievement.stage}}</td>
                             <td>{{achievement.result}}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <template v-if="(section === 'created') || (section === 'rejected')">
+                                <td><a :href="link(achievement.id, 'edit')"><button class="btn btn-warning">Редактировать</button></a></td>
+                                <td><a :href="link(achievement.id, 'delete')"><button class="btn btn-danger">Удалить</button></a></td>
+                                <td><a :href="link(achievement.id, 'send')"><button class="btn btn-success">Отправить</button></a></td>
+                            </template>
+                            <td v-if="(section === 'sent')"><a :href="link(achievement.id, 'return')"><button class="btn btn-info">Отозвать</button></a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -90,12 +93,12 @@
                 selectedAchievementName: 'Все названия',
                 selectedSubject: 'Все предметы',
                 selectedStage: 'Все этапы',
-                selectedResult: 'Все результаты'
+                selectedResult: 'Все результаты',
             }
         },
 
         props:[
-            'achievements', 'is_admin'
+            'achievements', 'is_admin', 'section'
         ],
 
 
@@ -153,6 +156,9 @@
                     this.selectedSubject = 'Все предметы';
                     this.selectedStage = 'Все этапы';
                     this.selectedResult = 'Все результаты';
+            },
+            link : function (id, action) {
+                return '/achievement/' + id + '/' + action
             }
         },
 

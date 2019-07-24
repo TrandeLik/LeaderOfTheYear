@@ -233,10 +233,11 @@ class AdminController extends Controller
         return redirect(url()->previous());
     }
     public function getAchievementsTable(){
-        $achievements = Achievement::all()->where('status', 'confirmed');
-        foreach ($achievements as $achievement){
+        $allAchievements = Achievement::all()->where('status', 'confirmed');
+        foreach ($allAchievements as $achievement){
             $achievement->student = $achievement->user->name;
             $achievement->form = $achievement->user->form;
+            $achievements[] = $achievement;
         }
         return view('admin.table', compact('achievements'));
     }
