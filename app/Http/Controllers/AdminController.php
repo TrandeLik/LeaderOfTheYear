@@ -265,4 +265,19 @@ class AdminController extends Controller
         Excel::store(new SortedAchievementExport($achievements),'sortedAchievements.xlsx','mydisk');
         return 'sortedAchievements.xlsx';
     }
+
+    public function deleteSelected(Request $request){
+        $achievementTypes = AchievementType::all();
+        foreach ($achievementTypes as $achievementType){
+            if ($request->input($achievementType->id)=='on'){
+                $achievementType->delete();
+            }
+        }
+        return redirect('/achievement_types/all');
+    }
+
+    public function deleteAll(){
+        AchievementType::truncate();
+        return redirect('/achievement_types/all');
+    }
 }
