@@ -22,9 +22,33 @@ class UserController extends Controller
         $place = Auth::user()->place();
         $falseCategories = Auth::user()->falseCategories();
         $percentage = Auth::user()->percentage();
-        $confirmedAchievements = Auth::user()->achievements->where('status', 'confirmed');
         $mainCategory = Setting::where('name','Главная категория')->value('value');
-        return view('user.index',compact('achievements','confirmedScore','totalScore','place','percentage','falseCategories','mainCategory', 'isStatisticsWorking', 'confirmedAchievements'));
+
+        $confirmedAchievements = [];
+        $createdAchievements = [];
+        $rejectedAchievements = [];
+        $sentAchievements = [];
+
+        foreach ($achievements as $achievement) {
+            if ($achievement->status == 'confirmed') {
+                $confirmedAchievements[] = $achievement;
+            };
+            if ($achievement->status == 'created') {
+                $createdAchievements[] = $achievement;
+            };
+            if ($achievement->status == 'rejected') {
+                $rejectedAchievements[] = $achievement;
+            };
+            if ($achievement->status == 'sent') {
+                $sentAchievements[] = $achievement;
+            }
+        }
+
+        return view('user.index', compact('achievements','confirmedScore',
+                'totalScore','place', 'percentage','falseCategories','mainCategory',
+                'isStatisticsWorking', 'confirmedAchievements', 'createdAchievements',
+                'rejectedAchievements', 'sentAchievements'
+            ));
     }
 
     public function addView(){

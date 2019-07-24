@@ -1778,6 +1778,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1791,7 +1794,7 @@ __webpack_require__.r(__webpack_exports__);
       selectedResult: 'Все результаты'
     };
   },
-  props: ['achievements', 'is_admin'],
+  props: ['achievements', 'is_admin', 'section'],
   methods: {
     setData: function setData(data) {
       var sorted = [];
@@ -1839,6 +1842,9 @@ __webpack_require__.r(__webpack_exports__);
       this.selectedSubject = 'Все предметы';
       this.selectedStage = 'Все этапы';
       this.selectedResult = 'Все результаты';
+    },
+    link: function link(id, action) {
+      return '/achievement/' + id + '/' + action;
     }
   },
   computed: {
@@ -37562,33 +37568,107 @@ var render = function() {
             _c(
               "tbody",
               _vm._l(_vm.sortedAchievement, function(achievement) {
-                return _c("tr", [
-                  _vm.is_admin
-                    ? _c("td", [_vm._v(_vm._s(achievement.student))])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.is_admin
-                    ? _c("td", [_vm._v(_vm._s(achievement.form))])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(achievement.category))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(achievement.type))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(achievement.name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(achievement.subject))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(achievement.stage))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(achievement.result))]),
-                  _vm._v(" "),
-                  _c("td"),
-                  _vm._v(" "),
-                  _c("td"),
-                  _vm._v(" "),
-                  _c("td")
-                ])
+                return _c(
+                  "tr",
+                  [
+                    _vm.is_admin
+                      ? _c("td", [_vm._v(_vm._s(achievement.student))])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.is_admin
+                      ? _c("td", [_vm._v(_vm._s(achievement.form))])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(achievement.category))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(achievement.type))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(achievement.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(achievement.subject))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(achievement.stage))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(achievement.result))]),
+                    _vm._v(" "),
+                    _vm.section === "created" || _vm.section === "rejected"
+                      ? [
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href: _vm.link(achievement.id, "edit")
+                                }
+                              },
+                              [
+                                _c(
+                                  "button",
+                                  { staticClass: "btn btn-warning" },
+                                  [_vm._v("Редактировать")]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href: _vm.link(achievement.id, "delete")
+                                }
+                              },
+                              [
+                                _c(
+                                  "button",
+                                  { staticClass: "btn btn-danger" },
+                                  [_vm._v("Удалить")]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href: _vm.link(achievement.id, "send")
+                                }
+                              },
+                              [
+                                _c(
+                                  "button",
+                                  { staticClass: "btn btn-success" },
+                                  [_vm._v("Отправить")]
+                                )
+                              ]
+                            )
+                          ])
+                        ]
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.section === "sent"
+                      ? _c("td", [
+                          _c(
+                            "a",
+                            {
+                              attrs: {
+                                href: _vm.link(achievement.id, "return")
+                              }
+                            },
+                            [
+                              _c("button", { staticClass: "btn btn-info" }, [
+                                _vm._v("Отозвать")
+                              ])
+                            ]
+                          )
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
               }),
               0
             )
