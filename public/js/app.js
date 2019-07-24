@@ -1791,7 +1791,7 @@ __webpack_require__.r(__webpack_exports__);
       selectedResult: 'Все результаты'
     };
   },
-  props: ['achievements', 'isUser'],
+  props: ['achievements', 'is_admin'],
   methods: {
     setData: function setData(data) {
       var sorted = [];
@@ -1826,8 +1826,8 @@ __webpack_require__.r(__webpack_exports__);
         table: tableData
       }).then(function (response) {
         window.open('/achievements/all/download/' + response.data);
-      }, function (error) {
-        return console.log(error);
+      })["catch"](function (error) {
+        console.log(error.response.data);
       });
     },
     dropFilters: function dropFilters() {
@@ -37204,7 +37204,7 @@ var render = function() {
   return _c("div", [
     _c("div", [
       _c("div", { staticClass: "col-md-12" }, [
-        _vm.isUser
+        _vm.is_admin
           ? _c(
               "button",
               {
@@ -37225,7 +37225,7 @@ var render = function() {
           _c("table", { staticClass: "table" }, [
             _c("thead", [
               _c("tr", [
-                _vm.isUser
+                _vm.is_admin
                   ? _c("th", [
                       _c(
                         "select",
@@ -37268,7 +37268,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.isUser
+                _vm.is_admin
                   ? _c("th", [
                       _c(
                         "select",
@@ -37563,11 +37563,11 @@ var render = function() {
               "tbody",
               _vm._l(_vm.sortedAchievement, function(achievement) {
                 return _c("tr", [
-                  _vm.isUser
+                  _vm.is_admin
                     ? _c("td", [_vm._v(_vm._s(achievement.student))])
                     : _vm._e(),
                   _vm._v(" "),
-                  _vm.isUser
+                  _vm.is_admin
                     ? _c("td", [_vm._v(_vm._s(achievement.form))])
                     : _vm._e(),
                   _vm._v(" "),

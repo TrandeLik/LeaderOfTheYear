@@ -2,19 +2,19 @@
     <div>
         <div>
             <div class="col-md-12">
-                <button v-if="isUser" class="btn btn-primary" @click="downloadTable">Экспортировать в Excel</button>
+                <button v-if="is_admin" class="btn btn-primary" @click="downloadTable">Экспортировать в Excel</button>
                 <button class="btn btn-warning" @click="dropFilters">Сбросить фильтры</button>
                 <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th v-if="isUser">
+                            <th v-if="is_admin">
                                 <select v-model="selectedStudent">
                                     <option selected>Все ученики</option>
                                     <option v-for="student in allStudents">{{student}}</option>
                                 </select>
                             </th>
-                            <th v-if="isUser">
+                            <th v-if="is_admin">
                                 <select v-model="selectedForm">
                                     <option selected>Все классы</option>
                                     <option v-for="form in allForms">{{form}}</option>
@@ -60,8 +60,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="achievement in sortedAchievement">
-                            <td v-if="isUser">{{achievement.student}}</td>
-                            <td v-if="isUser">{{achievement.form}}</td>
+                            <td v-if="is_admin">{{achievement.student}}</td>
+                            <td v-if="is_admin">{{achievement.form}}</td>
                             <td>{{achievement.category}}</td>
                             <td>{{achievement.type}}</td>
                             <td>{{achievement.name}}</td>
@@ -95,7 +95,7 @@
         },
 
         props:[
-            'achievements', 'isUser'
+            'achievements', 'is_admin'
         ],
 
 
@@ -140,8 +140,9 @@
                 axios.post('/achievements/all', {table: tableData})
                     .then(response => {
                         window.open('/achievements/all/download/' + response.data);
-                    },
-                    error => console.log(error))
+                    }).catch(error => {
+                    console.log(error.response.data);
+                });
             },
             dropFilters: function () {
                     this.selectedForm = 'Все классы';
