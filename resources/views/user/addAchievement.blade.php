@@ -35,8 +35,13 @@
                             <option selected disabled>Результат</option>
                         </select>
                         @if ($isUploadingConfirmationsPossible)
-                            <label for="file" class="btn">Подтверждение</label>
-                            <input id = "file" type="file" name="file" placeholder="Подтверждение"><br>
+                            <label for="file" class="btn">Подтверждение (.png, .jpg, .jpeg, .pdf)</label>
+                            <input accept="application/pdf,
+                                image/jpeg,
+                                image/pjpeg,
+                                image/x-jps,
+                                image/png"
+                            id = "file" type="file" name="file" placeholder="Подтверждение"><br>
                         @else
                             <p>К сожалению, загрузка файлов временно невозможна</p>
                         @endif

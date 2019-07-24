@@ -38,10 +38,10 @@
                 </div>
             </div>
             <div class="card border-primary">
-                <div class="card-header">Мои олимпиады<a href="/achievement/add"><button class="btn btn-primary">Добавить</button></a></div>
+                <div class="card-header">Мои олимпиады<a href="{{url('/achievement/add/new')}}"><button class="btn btn-primary">Добавить</button></a></div>
                 <div class="card-body">
-                    @if ($confirmedAchievements != [])
-                        <achievement-table :achievements="{{json_encode($confirmedAchievements)}}" :is_admin="false" :section="'created'"></achievement-table>
+                    @if ($createdAchievements != [])
+                        <achievement-table :achievements="{{json_encode($createdAchievements)}}" :is_admin="false" :section="'created'"></achievement-table>
                     @else
                         <p>Здесь пусто :)</p>
                     @endif

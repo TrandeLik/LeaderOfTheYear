@@ -69,8 +69,17 @@ class UserController extends Controller
         ]);
         $name = '';
         if ($request -> has('file')) {
-            $name = time() . '_' . $request->file->getClientOriginalName();
-            $request->file->move(storage_path('confirmations'), $name);
+            $mimeTypes = [
+                'application/pdf',
+                'image/jpeg',
+                'image/pjpeg',
+                'image/x-jps',
+                'image/png'
+            ];
+            if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
+                $name = time() . '_' . $request->file->getClientOriginalName();
+                $request->file->move(storage_path('confirmations'), $name);
+            }
         }
         $achievement = new Achievement();
         $achievement->user_id = Auth::user()->id;
@@ -138,9 +147,18 @@ class UserController extends Controller
         ]);
         $achievement = Achievement::findOrFail($id);
         if ($request -> has('file')) {
-            $name = time() . '_' . $request->file->getClientOriginalName();
-            $request->file->move(storage_path('confirmations'), $name);
-            $achievement->confirmation = $name;
+            $mimeTypes = [
+                'application/pdf',
+                'image/jpeg',
+                'image/pjpeg',
+                'image/x-jps',
+                'image/png'
+            ];
+            if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
+                $name = time() . '_' . $request->file->getClientOriginalName();
+                $request->file->move(storage_path('confirmations'), $name);
+                $achievement->confirmation = $name;
+            }
         }
 
         $achievement->name = $request->name;
