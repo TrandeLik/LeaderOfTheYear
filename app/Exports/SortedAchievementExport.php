@@ -32,6 +32,8 @@ class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
             'Тип',
             'Название',
             'Предмет',
+            'Этап',
+            'Результат',
             'Баллы',
         ];
     }

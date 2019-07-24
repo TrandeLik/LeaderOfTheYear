@@ -247,8 +247,8 @@ class AdminController extends Controller
             $newAchievement->type = $achievement->type;
             $newAchievement->name = $achievement->name;
             $newAchievement->subject = $achievement->subject;
-            $newAchievement->stage = $achievement->name;
-            $newAchievement->result = $achievement->subject;
+            $newAchievement->stage = $achievement->stage;
+            $newAchievement->result = $achievement->result;
             $newAchievement->score = $achievement->score;
             $achievements[] = $newAchievement;
         }
