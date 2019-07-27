@@ -21,7 +21,7 @@ class CheckBannedUser
                 return $next($request);
             } else {
                 if ((Auth::user()->role == 'admin') || (Auth::user()->role == 'superadmin')) {
-                    return redirect('/');
+                    return redirect('/admin');
                 } else {
                     return redirect('/user');
                 }

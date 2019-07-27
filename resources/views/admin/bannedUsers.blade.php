@@ -19,5 +19,5 @@
             @endforeach
         </div>
     </div>
-    <a href="{{url('/')}}"><button class="btn btn-primary" style="float: right">Назад</button></a>
+    <a href="{{url()->previous()}}"><button class="btn btn-primary" style="float: right">Назад</button></a>
 @endsection

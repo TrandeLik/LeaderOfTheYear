@@ -18,7 +18,7 @@ class CheckUser
     {
         if (Auth::check()) {
             if ((Auth::user()->role == 'admin') || (Auth::user()->role == 'superadmin')) {
-                return redirect('/');
+                return redirect('/error');
             }
             if (Auth::user()->role == 'banned') {
                 return redirect('/alert_for_banned_users');

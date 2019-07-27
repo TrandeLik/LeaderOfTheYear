@@ -8,18 +8,19 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th v-if="is_admin">
-                                <select v-model="selectedStudent">
-                                    <option selected>Все ученики</option>
-                                    <option v-for="student in allStudents">{{student}}</option>
-                                </select>
-                            </th>
-                            <th v-if="is_admin">
-                                <select v-model="selectedForm">
-                                    <option selected>Все классы</option>
-                                    <option v-for="form in allForms">{{form}}</option>
-                                </select>
-                            </th>
+                            <template v-if="(is_admin && (section !== 'profile'))">
+                                <th><select v-model="selectedStudent">
+                                        <option selected>Все ученики</option>
+                                        <option v-for="student in allStudents">{{student}}</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select v-model="selectedForm">
+                                        <option selected>Все классы</option>
+                                        <option v-for="form in allForms">{{form}}</option>
+                                    </select>
+                                </th>
+                            </template>
                             <th>
                                 <select v-model="selectedCategory">
                                     <option selected>Все категории</option>
@@ -56,24 +57,29 @@
                                     <option v-for="result in allResults">{{result}}</option>
                                 </select>
                             </th>
+                            <th v-if="! is_admin">Баллы</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="achievement in sortedAchievement">
-                            <td v-if="is_admin">{{achievement.student}}</td>
-                            <td v-if="is_admin">{{achievement.form}}</td>
+                            <template v-if="(is_admin && (section !== 'profile'))">
+                                <td>{{achievement.student}}</td>
+                                <td>{{achievement.form}}</td>
+                            </template>
                             <td>{{achievement.category}}</td>
                             <td>{{achievement.type}}</td>
                             <td>{{achievement.name}}</td>
                             <td>{{achievement.subject}}</td>
                             <td>{{achievement.stage}}</td>
                             <td>{{achievement.result}}</td>
+                            <td v-if="! is_admin">{{achievement.score}}</td>
                             <template v-if="(section === 'created') || (section === 'rejected')">
                                 <td><a :href="link(achievement.id, 'edit')"><button class="btn btn-warning">Редактировать</button></a></td>
                                 <td><a :href="link(achievement.id, 'delete')"><button class="btn btn-danger">Удалить</button></a></td>
                                 <td><a :href="link(achievement.id, 'send')"><button class="btn btn-success">Отправить</button></a></td>
                             </template>
-                            <td v-if="(section === 'sent')"><a :href="link(achievement.id, 'return')"><button class="btn btn-info">Отозвать</button></a></td>
+                            <td v-if="!(is_admin) && (section === 'sent')"><a :href="link(achievement.id, 'return')"><button class="btn btn-info">Отозвать</button></a></td>
+                            <td v-if="is_admin"><a :href="link(achievement.id, 'reject')"><button class="btn btn-danger">Отклонить</button></a></td>
                         </tr>
                     </tbody>
                 </table>

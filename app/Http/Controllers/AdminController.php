@@ -36,7 +36,7 @@ class AdminController extends Controller
       $newType -> result = $request -> result;
       $newType -> score = $request -> score;
       $newType -> save();
-      return redirect('/');
+      return redirect('/admin');
     }
 
     public function exportLeaderboard() 
@@ -64,6 +64,9 @@ class AdminController extends Controller
             if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
                 AchievementType::truncate();
                 Excel::import(new AchievementTypesImport,request()->file);
+            } else {
+                $error = 'Данный тип файлов загрузить нельзя :(';
+                return view('general.error', compact('error'));
             }
         }
         return redirect(url()->previous());
@@ -151,8 +154,21 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         $students = User::all() -> where('role', 'student');
         $place = $user -> place();
-        $confirmedAchievements = $user -> achievements -> where('status', 'confirmed');
-        return view('admin/profile', compact('user', 'place', 'confirmedAchievements'));
+        $userAchievements = $user -> achievements -> where('status', 'confirmed');
+        foreach ($userAchievements as $achievement){
+            $newAchievement=(object)[];
+            $newAchievement->student = $achievement->user->name;
+            $newAchievement->form = $achievement->user->form;
+            $newAchievement->category = $achievement->category;
+            $newAchievement->type = $achievement->type;
+            $newAchievement->name = $achievement->name;
+            $newAchievement->subject = $achievement->subject;
+            $newAchievement->stage = $achievement->stage;
+            $newAchievement->result = $achievement->result;
+            $newAchievement->score = $achievement->score;
+            $confirmedAchievements[] = $newAchievement;
+        }
+        return view('admin/profile', compact('user', 'place', 'confirmedAchievements', 'userAchievements'));
     }
 
     public function ban($id){
@@ -169,6 +185,9 @@ class AdminController extends Controller
         if ($user -> role != 'superadmin'){
             $user -> role = 'admin';
             $user -> save();
+        } else {
+            $error = 'Данного пользвателя нельзя повысить :)';
+            return view('general.error', compact('error'));
         }
         return redirect(url() -> previous());
     }
@@ -178,6 +197,9 @@ class AdminController extends Controller
         if (($user -> role != 'superadmin') && ($user -> role != 'student')){
             $user -> role = 'student';
             $user -> save();
+        } else {
+            $error = 'Данного пользователя нельзя понизить :)';
+            return view('general.error', compact('error'));
         }
         return redirect(url() -> previous());
     }
@@ -187,6 +209,9 @@ class AdminController extends Controller
         if (($user -> role != 'admin') && ($user -> role != 'superadmin'))  {
             $user -> role = 'student';
             $user -> save();
+        } else {
+            $error = 'Данного пользователя нельзя разблокировать';
+            return view('general.error', compact('error'));
         }
         return redirect(url() -> previous());
     }
@@ -209,7 +234,7 @@ class AdminController extends Controller
         $achievement = Achievement::findOrFail($id);
         $achievement -> status = 'confirmed';
         $achievement -> save();
-        return redirect('/');
+        return redirect('admin');
     }
 
     public function settingsView(){
@@ -256,7 +281,7 @@ class AdminController extends Controller
     }
 
     public function downloadAchievementTable($name){
-        $pathToFile = storage_path('sorted_achievements') . '/' . $name; // TODO узнать дерикторию, куда будут сохраняться файлы
+        $pathToFile = storage_path('sorted_achievements') . '/' . $name;
         return response()->download($pathToFile);
     }
 

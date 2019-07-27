@@ -13,8 +13,12 @@ use Illuminate\Filesystem\Filesystem;
 
 class GeneralController extends Controller
 {
-    public function leaderboard()
-    {
+    public function error(){
+        $error = 'Ой, вам сюда нельзя!';
+        return view('general.error', compact('error'));
+    }
+
+    public function leaderboard(){
         $isLeaderBoardWorking = Setting::where('name', 'Рейтинговая таблица (для учеников)')->first()->value;
         if (($isLeaderBoardWorking == 'on') or (auth::user()->role == 'admin') or (auth::user()->role == 'superadmin')) {
                 $users = User::all()->where('role', 'student');
@@ -29,7 +33,7 @@ class GeneralController extends Controller
             $winnerPercentage = Setting::where('name', 'Процент победителей')->value('value');
             return view('general.leaderboard', compact('leaders', 'awardedPercentage', 'winnerPercentage', 'isScoreShouldBeShown'));
         } else{
-            $error = 'Ой, вам сюда нельзя!';
+            $error = 'Данная функция отключена';
             return view('general.error', compact('error'));
         }
     }

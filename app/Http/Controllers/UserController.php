@@ -80,6 +80,9 @@ class UserController extends Controller
             if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
                 $name = time() . '_' . $request->file->getClientOriginalName();
                 $request->file->move(storage_path('confirmations'), $name);
+            } else {
+                $error = 'Данный тип файлов загрузить нельзя :(';
+                return view('general.error', compact('error'));
             }
         }
         $achievement = new Achievement();
@@ -163,6 +166,9 @@ class UserController extends Controller
                 $name = time() . '_' . $request->file->getClientOriginalName();
                 $request->file->move(storage_path('confirmations'), $name);
                 $achievement->confirmation = $name;
+            } else {
+                $error = 'Данный тип файлов загрузить нельзя :(';
+                return view('general.error', compact('error'));
             }
         }
 

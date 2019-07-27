@@ -9,8 +9,8 @@
                     <h1 class="card-header">{{$user -> name . ', ' . $user -> form}}</h1><br>
                     <h4 class="card-subtitle">Cтатистика:</h4>
                     <ul>
-                        <li>Количество достижений {{$confirmedAchievements -> count()}}</li>
-                        <li>Количество баллов {{$confirmedAchievements -> sum('score')}}</li>
+                        <li>Количество достижений {{$userAchievements -> count()}}</li>
+                        <li>Количество баллов {{$userAchievements -> sum('score')}}</li>
                         <li>Место в конкурсе: {{$place}}</li>
                     </ul>
                     @if ($user -> role == 'student')
@@ -30,15 +30,13 @@
 
         <div class="col-md-7">
             <h2>Достижения</h2>
-            @if(count($confirmedAchievements) == 0)
+            @if(count($userAchievements) == 0)
                 <p>Здесь пока пусто</p>
-            @endif
-            @foreach($confirmedAchievements as $achievement)
-                <div class="alert alert-info">
-                    {{$achievement -> type.', '.$achievement -> name.', '.$achievement -> stage.', '.$achievement -> subject.', '.$achievement -> result}}<br><br>
-                    <a href="{{url('/achievement/'. $achievement -> id . '/reject')}}"><button class="btn btn-danger">Отклонить</button></a>
+            @else
+                <div id="app">
+                    <achievement-table :achievements="{{json_encode($confirmedAchievements)}}" :is_admin="true" :section="'profile'"></achievement-table>
                 </div>
-            @endforeach
+            @endif
         </div>
     </div><br>
     <a href="{{url()->previous()}}"><button class="btn btn-primary" style="float: right">Назад</button></a>
