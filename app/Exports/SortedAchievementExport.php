@@ -28,7 +28,7 @@ class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
                     unset($achievement[$column]);
                 }
             }
-            unset($achievement['score']);
+            unset($achievement["score"]);
             array_push($allAchievements,$achievement);
         }
         return $allAchievements;
