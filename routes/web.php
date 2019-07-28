@@ -64,3 +64,5 @@ Route::post('/profile/password_change', 'GeneralController@passwordChange')->mid
 Route::get('/alert_for_banned_users', 'GeneralController@getAlertForBannedUsers')->middleware(\App\Http\Middleware\CheckBannedUser::class);
 Route::get('/achievement/{id}/download_confirmation', 'GeneralController@downloadConfirmation')->middleware(\App\Http\Middleware\CheckAuth::class);
 Route::get('/error', 'GeneralController@error');
+
+Route::get('/', 'GeneralController@about');

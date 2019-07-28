@@ -113,7 +113,7 @@
                 selectedStage: 'Все этапы',
                 selectedResult: 'Все результаты',
                 allWorkingColumns : {
-                    'student': {'text': 'Ученики', 'value': true},
+                    'student': {'text': 'ФИО', 'value': true},
                     'form': {'text': 'Класс', 'value': true},
                     'category': {'text': 'Категории', 'value': true},
                     'type': {'text': 'Тип', 'value': true},

@@ -289,7 +289,8 @@ class AdminController extends Controller // TODO погуглить, как сд
         $file = new Filesystem;
         $file->cleanDirectory(storage_path('sorted_achievements'));
         $achievements = $request->table;        
-        Excel::store(new SortedAchievementExport($achievements),'sortedAchievements.xlsx','mydisk');
+        $filters = $request->columns;
+        Excel::store(new SortedAchievementExport($achievements,$filters),'sortedAchievements.xlsx','mydisk');
         return 'sortedAchievements.xlsx';
     }
 
