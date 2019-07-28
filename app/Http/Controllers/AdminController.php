@@ -19,7 +19,7 @@ use Illuminate\Filesystem\Filesystem;
 
 
 
-class AdminController extends Controller
+class AdminController extends Controller // TODO погуглить, как сделать так, чтобы каждый день в восемь утра срабатывала функция, которая при кол-ве заявок больше 5 сообщала об этом админам
 {
     public function addType(Request $request){
         $request->validate([
@@ -171,7 +171,7 @@ class AdminController extends Controller
         return view('admin/profile', compact('user', 'place', 'confirmedAchievements', 'userAchievements'));
     }
 
-    public function ban($id){
+    public function ban($id){ // TODO сообщение пользователю о том, что его заблокировали
         $user = User::findOrFail($id);
         if (((Auth::user()->role == 'superadmin')||($user -> role != 'admin')) && ($user -> role != 'superadmin')) {
             $user -> role = 'banned';
@@ -180,7 +180,7 @@ class AdminController extends Controller
         return redirect(url() -> previous());
     }
 
-    public function promote($id){
+    public function promote($id){ // TODO сообщение пользователю о том, что его повысили
         $user = User::findOrFail($id);
         if ($user -> role != 'superadmin'){
             $user -> role = 'admin';
@@ -192,7 +192,7 @@ class AdminController extends Controller
         return redirect(url() -> previous());
     }
 
-    public function degrade($id){
+    public function degrade($id){ // TODO сообщение пользователю о том, что его понизили
         $user = User::findOrFail($id);
         if (($user -> role != 'superadmin') && ($user -> role != 'student')){
             $user -> role = 'student';
@@ -204,7 +204,7 @@ class AdminController extends Controller
         return redirect(url() -> previous());
     }
 
-    public function unblock($id){
+    public function unblock($id){ // TODO сообщение пользователю о том, что его разблокировали
         $user = User::findOrFail($id);
         if (($user -> role != 'admin') && ($user -> role != 'superadmin'))  {
             $user -> role = 'student';
@@ -216,7 +216,7 @@ class AdminController extends Controller
         return redirect(url() -> previous());
     }
 
-    public function reject($id, Request $request){
+    public function reject($id, Request $request){ // TODO сообщение пользователю о том, что его достижение отклонили
         $achievement = Achievement::findOrFail($id);
         $achievement -> status = 'rejected';
         $achievement -> save();
@@ -230,7 +230,7 @@ class AdminController extends Controller
         return redirect(url()->previous());
     }
 
-    public function confirm($id){
+    public function confirm($id){ // TODO сообщение пользователю о том, что его достижение одобрили
         $achievement = Achievement::findOrFail($id);
         $achievement -> status = 'confirmed';
         $achievement -> save();
@@ -248,7 +248,7 @@ class AdminController extends Controller
         foreach ($settings as $setting){
             if ($setting->type!='GlobalVariable'){
                 if (($setting->type=='on/off') and ($request->input($setting->id)!='on') and ($request->input($setting->id)!='off')){
-                    if ($setting->value == 'on'){
+                    if ($setting->value == 'on'){ // ToDo сообщение о том, что раздел включили/отключили
                         $setting->value = 'off';
                     } else {
                         $setting->value = 'on';
@@ -304,6 +304,7 @@ class AdminController extends Controller
     }
 
     public function deleteAll(){
+        // TODO возможно(?) сообщение о том, что сбросили табличку с типами достижений
         AchievementType::truncate();
         return redirect('/achievement_types/all');
     }

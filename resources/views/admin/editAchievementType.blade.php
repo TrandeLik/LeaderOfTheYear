@@ -10,7 +10,7 @@
                         <form method="post">
                             @csrf
                             <div name="categoryDiv">
-                                <select name="category" onchange="writeTypes();">
+                                <select name="category" onchange="writeTypes();" required>
                                     <option disabled selected>Категория</option>
                                     @foreach ($categories as $category)
                                         @if ($category->category == $thisType->category)
@@ -20,16 +20,16 @@
                                         @endif
                                     @endforeach
                                 </select>
-                                <input type="button" name="category" onclick="changeInput('category');" value="Добавить">
+                                <input type="button" name="category" onclick="changeInput('category');" value="Добавить" required>
                             </div>
                             <div name="typeDiv">
-                                <select name="type">
+                                <select name="type" required>
                                     <option disabled>Тип события</option>
                                 </select>
-                                <input type="button" name="type" onclick="changeInput('type');" value="Добавить">
+                                <input type="button" name="type" onclick="changeInput('type');" value="Добавить" required>
                             </div><br>
                             <div name="stageDiv">
-                                <select name="stage" class="form-control">
+                                <select name="stage" class="form-control" required>
                                     <option disabled selected>Этап</option>
                                     @foreach ($stages as $stage)
                                         @if ($stage->stage  == $thisType->stage)
@@ -39,10 +39,10 @@
                                         @endif
                                     @endforeach
                                 </select>
-                                <input type="button" name="stage" onclick="changeInput('stage');" value="Добавить">
+                                <input type="button" name="stage" onclick="changeInput('stage');" value="Добавить" required>
                             </div><br>
                             <div name="resultDiv">
-                                <select name="result" class="form-control">
+                                <select name="result" class="form-control" required>
                                     <option disabled selected>Результат</option>
                                     @foreach ($results as $result)
                                         @if ($result->result  == $thisType->result)
@@ -52,10 +52,10 @@
                                         @endif
                                     @endforeach
                                 </select>
-                                <input type="button" name="result" onclick="changeInput('result');" value="Изменить">
+                                <input type="button" name="result" onclick="changeInput('result');" value="Изменить" required>
                             </div><br>
-                            <input type="number" name="score" placeholder="Кол-во баллов" class="form-control" value="{{$thisType->score}}"><br>
-                            <input type="submit" value="Отправить" class="btn btn-primary">
+                            <input type="number" name="score" placeholder="Кол-во баллов" class="form-control" value="{{$thisType->score}}" required><br>
+                            <input type="submit" value="Отправить" class="btn btn-primary" required>
                         </form>
                         <div name="unused" style="display:none;">
                             <input type='text' name="category" placeholder="Категория" class="form-control">
@@ -65,6 +65,15 @@
                         </div>
                     </div>
                 </div>
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

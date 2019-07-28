@@ -13,25 +13,25 @@
     <div class="row justify-content-center">
             <div class="col-md-10">
             <div class="card border-success">
-                <div class="card-header">Добавление достижения<a href="/"><button class="btn btn-primary">Отмена</button></a></div>
+                <div class="card-header">Добавление достижения<a href="/user"><button class="btn btn-primary">Отмена</button></a></div>
                 <div class="card-body">
                     <form method="POST" class="row col-12 justify-content-center" enctype="multipart/form-data">
                         @csrf
-                        <select name="category" onchange="changeStage(); disableForStage(); changeType(); disableForType(); changeCategory(); disableForCategory();">
+                        <select name="category" onchange="changeStage(); disableForStage(); changeType(); disableForType(); changeCategory(); disableForCategory();" required>
                             <option selected disabled>Категория</option>
                             @foreach ($categories as $category)
                                 <option>{{ $category->category }}</option>
                             @endforeach
                         </select>
-                        <select name="type" onchange = "changeStage(); disableForStage(); changeType(); disableForType();" disabled>
+                        <select name="type" onchange = "changeStage(); disableForStage(); changeType(); disableForType();" disabled required>
                             <option selected disabled>Тип</option>
                         </select>
-                        <input type="text" name="name" placeholder="Название олимпиады">
-                        <input type="text" name="subject" placeholder="Предмет">
-                        <select name="stage" onchange = "changeStage(); disableForStage();" disabled>
+                        <input type="text" name="name" placeholder="Название олимпиады" value="{{ old('name') }}" required>
+                        <input type="text" name="subject" placeholder="Предмет" value="{{ old('subject') }}" required>
+                        <select name="stage" onchange = "changeStage(); disableForStage();" disabled required>
                             <option selected disabled>Этап</option>
                         </select>
-                        <select name="result" disabled>
+                        <select name="result" disabled required>
                             <option selected disabled>Результат</option>
                         </select>
                         @if ($isUploadingConfirmationsPossible)
@@ -50,7 +50,7 @@
                             <div class="accordion" id="accordionExample">
                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>
                                 <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                    <textarea name="comment" placeholder = "Комментарий"></textarea>
+                                    <textarea name="comment" placeholder = "Комментарий" >{{ old('comment') }}</textarea>
                                 </div>
                             </div>
                         @else
@@ -59,6 +59,15 @@
                     </form>
                 </div>
             </div>
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
 </div>

@@ -62,8 +62,8 @@ class UserController extends Controller
     public function addAchievement(Request $request){
         $request->validate([
             'category' => 'required',
-            'name' => 'required',
             'type' => 'required',
+            'name' => 'required',
             'subject' => 'required',
             'stage' => 'required',
             'result' => 'required',
@@ -147,8 +147,8 @@ class UserController extends Controller
     public function edit($id, Request $request){
         $request->validate([
             'category' => 'required',
-            'name' => 'required',
             'type' => 'required',
+            'name' => 'required',
             'subject' => 'required',
             'stage' => 'required',
             'result' => 'required',

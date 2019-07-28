@@ -30,12 +30,12 @@
 
         <div class="col-md-7">
             <h2>Достижения</h2>
-            @if(count($userAchievements) == 0)
-                <p>Здесь пока пусто</p>
-            @else
+            @if($confirmedAchievements !== [])
                 <div id="app">
                     <achievement-table :achievements="{{json_encode($confirmedAchievements)}}" :is_admin="true" :section="'profile'"></achievement-table>
                 </div>
+            @else
+                <p>Здесь пока пусто</p>
             @endif
         </div>
     </div><br>

@@ -65,9 +65,10 @@ class GeneralController extends Controller
     }
 
     public function profileEdit(Request $request){
+        // ToDo сообщение о том, что профиль был изменен
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
+            'username' => ['required', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'formNumber' => 'required',
             'formLetter' => 'required',
         ]);
@@ -91,6 +92,7 @@ class GeneralController extends Controller
     }
 
     public function passwordChange(Request $request){
+        // ToDo сообщение, что пароль был измененм
         $request->validate([
             'old' => 'required',
             'new' => 'required',

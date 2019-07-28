@@ -1787,6 +1787,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1797,7 +1809,61 @@ __webpack_require__.r(__webpack_exports__);
       selectedAchievementName: 'Все названия',
       selectedSubject: 'Все предметы',
       selectedStage: 'Все этапы',
-      selectedResult: 'Все результаты'
+      selectedResult: 'Все результаты',
+      allWorkingColumns: {
+        'student': {
+          'text': 'Ученики',
+          'value': true
+        },
+        'form': {
+          'text': 'Класс',
+          'value': true
+        },
+        'category': {
+          'text': 'Категории',
+          'value': true
+        },
+        'type': {
+          'text': 'Тип',
+          'value': true
+        },
+        'name': {
+          'text': 'Название',
+          'value': true
+        },
+        'subject': {
+          'text': 'Предмет',
+          'value': true
+        },
+        'stage': {
+          'text': 'Этап',
+          'value': true
+        },
+        'result': {
+          'text': 'Результат',
+          'value': true
+        },
+        'editing': {
+          'text': 'Редактирование',
+          'value': true
+        },
+        'deletion': {
+          'text': 'Удаление',
+          'value': true
+        },
+        'sending': {
+          'text': 'Отправка',
+          'value': true
+        },
+        'returning': {
+          'text': 'Возврат',
+          'value': true
+        },
+        'rejection': {
+          'text': 'Отклонение',
+          'value': true
+        }
+      }
     };
   },
   props: ['achievements', 'is_admin', 'section'],
@@ -1827,12 +1893,19 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       });
+
+      if (data === 'all') {
+        this.mySort(sorted);
+      }
+
       return sorted.sort();
     },
     downloadTable: function downloadTable() {
       var tableData = this.sortedAchievement;
+      var selectedColumns = this.workingColumns;
       axios.post('/achievements/all', {
-        table: tableData
+        table: tableData,
+        columns: selectedColumns
       }).then(function (response) {
         window.open('/achievements/all/download/' + response.data);
       })["catch"](function (error) {
@@ -1851,6 +1924,28 @@ __webpack_require__.r(__webpack_exports__);
     },
     link: function link(id, action) {
       return '/achievement/' + id + '/' + action;
+    },
+    mySort: function mySort(array) {
+      function compare(a, b) {
+        var scoreA = Number(a.score);
+        var scoreB = Number(b.score);
+        var comparison = 0;
+
+        if (scoreA > scoreB) {
+          comparison = 1;
+        } else if (scoreA < scoreB) {
+          comparison = -1;
+        }
+
+        return comparison * -1;
+      }
+
+      array.sort(compare);
+    },
+    returnColumns: function returnColumns() {
+      for (var key in this.workingColumns) {
+        this.workingColumns[key].value = true;
+      }
     }
   },
   computed: {
@@ -1880,6 +1975,39 @@ __webpack_require__.r(__webpack_exports__);
     },
     sortedAchievement: function sortedAchievement() {
       return this.setData('all');
+    },
+    studentsScore: function studentsScore() {
+      var score = 0;
+      this.sortedAchievement.forEach(function (achievement) {
+        score += Number(achievement.score);
+      });
+      return score;
+    },
+    workingColumns: function workingColumns() {
+      var is_admin = this.is_admin;
+      var section = this.section;
+      var working = {};
+      var allWorkingColumns = this.allWorkingColumns;
+
+      for (var key in allWorkingColumns) {
+        var column = allWorkingColumns[key];
+
+        if (key === 'editing' || key === 'deletion' || key === 'sending') {
+          (section === 'created' || section === 'rejected') && !is_admin && (working[key] = column);
+        } else {
+          if (key === 'returning') {
+            section === 'sent' && !is_admin && (working[key] = column);
+          } else {
+            if (key === 'student' || key === 'form' || key === 'rejection') {
+              is_admin && (working[key] = column);
+            } else {
+              working[key] = column;
+            }
+          }
+        }
+      }
+
+      return working;
     }
   }
 });
@@ -37233,6 +37361,78 @@ var render = function() {
           [_vm._v("Сбросить фильтры")]
         ),
         _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-warning", on: { click: _vm.returnColumns } },
+          [_vm._v("Вернуть все колонки")]
+        ),
+        _vm._v(" "),
+        !_vm.is_admin
+          ? _c("p", [
+              _vm._v(
+                "Баллы за данные достижения - " + _vm._s(_vm.studentsScore)
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v("\n                    Столбцы\n                ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "ul",
+              _vm._l(_vm.workingColumns, function(column) {
+                return _c("li", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: column.value,
+                        expression: "column.value"
+                      }
+                    ],
+                    attrs: { type: "checkbox" },
+                    domProps: {
+                      checked: Array.isArray(column.value)
+                        ? _vm._i(column.value, null) > -1
+                        : column.value
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = column.value,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(column, "value", $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                column,
+                                "value",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(column, "value", $$c)
+                        }
+                      }
+                    }
+                  }),
+                  _c("p", [_vm._v(_vm._s(column.text))])
+                ])
+              }),
+              0
+            )
+          ])
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "table-responsive" }, [
           _c("table", { staticClass: "table" }, [
             _c("thead", [
@@ -37241,337 +37441,361 @@ var render = function() {
                 [
                   _vm.is_admin && _vm.section !== "profile"
                     ? [
-                        _c("th", [
-                          _c(
-                            "select",
-                            {
-                              directives: [
+                        _vm.workingColumns.student.value
+                          ? _c("th", [
+                              _c(
+                                "select",
                                 {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.selectedStudent,
-                                  expression: "selectedStudent"
-                                }
-                              ],
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.selectedStudent = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                }
-                              }
-                            },
-                            [
-                              _c("option", { attrs: { selected: "" } }, [
-                                _vm._v("Все ученики")
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(_vm.allStudents, function(student) {
-                                return _c("option", [_vm._v(_vm._s(student))])
-                              })
-                            ],
-                            2
-                          )
-                        ]),
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.selectedStudent,
+                                      expression: "selectedStudent"
+                                    }
+                                  ],
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.selectedStudent = $event.target
+                                        .multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { selected: "" } }, [
+                                    _vm._v("Все ученики")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.allStudents, function(student) {
+                                    return _c("option", [
+                                      _vm._v(_vm._s(student))
+                                    ])
+                                  })
+                                ],
+                                2
+                              )
+                            ])
+                          : _vm._e(),
                         _vm._v(" "),
-                        _c("th", [
-                          _c(
-                            "select",
-                            {
-                              directives: [
+                        _vm.workingColumns.form.value
+                          ? _c("th", [
+                              _c(
+                                "select",
                                 {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.selectedForm,
-                                  expression: "selectedForm"
-                                }
-                              ],
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.selectedForm = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                }
-                              }
-                            },
-                            [
-                              _c("option", { attrs: { selected: "" } }, [
-                                _vm._v("Все классы")
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(_vm.allForms, function(form) {
-                                return _c("option", [_vm._v(_vm._s(form))])
-                              })
-                            ],
-                            2
-                          )
-                        ])
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.selectedForm,
+                                      expression: "selectedForm"
+                                    }
+                                  ],
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.selectedForm = $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { selected: "" } }, [
+                                    _vm._v("Все классы")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.allForms, function(form) {
+                                    return _c("option", [_vm._v(_vm._s(form))])
+                                  })
+                                ],
+                                2
+                              )
+                            ])
+                          : _vm._e()
                       ]
                     : _vm._e(),
                   _vm._v(" "),
-                  _c("th", [
-                    _c(
-                      "select",
-                      {
-                        directives: [
+                  _vm.workingColumns.category.value
+                    ? _c("th", [
+                        _c(
+                          "select",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selectedCategory,
-                            expression: "selectedCategory"
-                          }
-                        ],
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.selectedCategory = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { selected: "" } }, [
-                          _vm._v("Все категории")
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.allCategories, function(category) {
-                          return _c("option", [_vm._v(_vm._s(category))])
-                        })
-                      ],
-                      2
-                    )
-                  ]),
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedCategory,
+                                expression: "selectedCategory"
+                              }
+                            ],
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.selectedCategory = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { selected: "" } }, [
+                              _vm._v("Все категории")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.allCategories, function(category) {
+                              return _c("option", [_vm._v(_vm._s(category))])
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("th", [
-                    _c(
-                      "select",
-                      {
-                        directives: [
+                  _vm.workingColumns.type.value
+                    ? _c("th", [
+                        _c(
+                          "select",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selectedType,
-                            expression: "selectedType"
-                          }
-                        ],
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.selectedType = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { selected: "" } }, [
-                          _vm._v("Все типы")
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.allTypes, function(type) {
-                          return _c("option", [_vm._v(_vm._s(type))])
-                        })
-                      ],
-                      2
-                    )
-                  ]),
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedType,
+                                expression: "selectedType"
+                              }
+                            ],
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.selectedType = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { selected: "" } }, [
+                              _vm._v("Все типы")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.allTypes, function(type) {
+                              return _c("option", [_vm._v(_vm._s(type))])
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("th", [
-                    _c(
-                      "select",
-                      {
-                        directives: [
+                  _vm.workingColumns.name.value
+                    ? _c("th", [
+                        _c(
+                          "select",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selectedAchievementName,
-                            expression: "selectedAchievementName"
-                          }
-                        ],
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.selectedAchievementName = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { selected: "" } }, [
-                          _vm._v("Все названия")
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.allAchievementNames, function(name) {
-                          return _c("option", [_vm._v(_vm._s(name))])
-                        })
-                      ],
-                      2
-                    )
-                  ]),
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedAchievementName,
+                                expression: "selectedAchievementName"
+                              }
+                            ],
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.selectedAchievementName = $event.target
+                                  .multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { selected: "" } }, [
+                              _vm._v("Все названия")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.allAchievementNames, function(name) {
+                              return _c("option", [_vm._v(_vm._s(name))])
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("th", [
-                    _c(
-                      "select",
-                      {
-                        directives: [
+                  _vm.workingColumns.subject.value
+                    ? _c("th", [
+                        _c(
+                          "select",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selectedSubject,
-                            expression: "selectedSubject"
-                          }
-                        ],
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.selectedSubject = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { selected: "" } }, [
-                          _vm._v("Все предметы")
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.allSubjects, function(subject) {
-                          return _c("option", [_vm._v(_vm._s(subject))])
-                        })
-                      ],
-                      2
-                    )
-                  ]),
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedSubject,
+                                expression: "selectedSubject"
+                              }
+                            ],
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.selectedSubject = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { selected: "" } }, [
+                              _vm._v("Все предметы")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.allSubjects, function(subject) {
+                              return _c("option", [_vm._v(_vm._s(subject))])
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("th", [
-                    _c(
-                      "select",
-                      {
-                        directives: [
+                  _vm.workingColumns.stage.value
+                    ? _c("th", [
+                        _c(
+                          "select",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selectedStage,
-                            expression: "selectedStage"
-                          }
-                        ],
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.selectedStage = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { selected: "" } }, [
-                          _vm._v("Все этапы")
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.allStages, function(stage) {
-                          return _c("option", [_vm._v(_vm._s(stage))])
-                        })
-                      ],
-                      2
-                    )
-                  ]),
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedStage,
+                                expression: "selectedStage"
+                              }
+                            ],
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.selectedStage = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { selected: "" } }, [
+                              _vm._v("Все этапы")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.allStages, function(stage) {
+                              return _c("option", [_vm._v(_vm._s(stage))])
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("th", [
-                    _c(
-                      "select",
-                      {
-                        directives: [
+                  _vm.workingColumns.result.value
+                    ? _c("th", [
+                        _c(
+                          "select",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selectedResult,
-                            expression: "selectedResult"
-                          }
-                        ],
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.selectedResult = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { selected: "" } }, [
-                          _vm._v("Все результаты")
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.allResults, function(result) {
-                          return _c("option", [_vm._v(_vm._s(result))])
-                        })
-                      ],
-                      2
-                    )
-                  ]),
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedResult,
+                                expression: "selectedResult"
+                              }
+                            ],
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.selectedResult = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { selected: "" } }, [
+                              _vm._v("Все результаты")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.allResults, function(result) {
+                              return _c("option", [_vm._v(_vm._s(result))])
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   !_vm.is_admin ? _c("th", [_vm._v("Баллы")]) : _vm._e()
                 ],
@@ -37587,23 +37811,39 @@ var render = function() {
                   [
                     _vm.is_admin && _vm.section !== "profile"
                       ? [
-                          _c("td", [_vm._v(_vm._s(achievement.student))]),
+                          _vm.workingColumns.student.value
+                            ? _c("td", [_vm._v(_vm._s(achievement.student))])
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(achievement.form))])
+                          _vm.workingColumns.form.value
+                            ? _c("td", [_vm._v(_vm._s(achievement.form))])
+                            : _vm._e()
                         ]
                       : _vm._e(),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(achievement.category))]),
+                    _vm.workingColumns.category.value
+                      ? _c("td", [_vm._v(_vm._s(achievement.category))])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(achievement.type))]),
+                    _vm.workingColumns.type.value
+                      ? _c("td", [_vm._v(_vm._s(achievement.type))])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(achievement.name))]),
+                    _vm.workingColumns.name.value
+                      ? _c("td", [_vm._v(_vm._s(achievement.name))])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(achievement.subject))]),
+                    _vm.workingColumns.subject.value
+                      ? _c("td", [_vm._v(_vm._s(achievement.subject))])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(achievement.stage))]),
+                    _vm.workingColumns.stage.value
+                      ? _c("td", [_vm._v(_vm._s(achievement.stage))])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(achievement.result))]),
+                    _vm.workingColumns.result.value
+                      ? _c("td", [_vm._v(_vm._s(achievement.result))])
+                      : _vm._e(),
                     _vm._v(" "),
                     !_vm.is_admin
                       ? _c("td", [_vm._v(_vm._s(achievement.score))])
@@ -37611,63 +37851,71 @@ var render = function() {
                     _vm._v(" "),
                     _vm.section === "created" || _vm.section === "rejected"
                       ? [
-                          _c("td", [
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  href: _vm.link(achievement.id, "edit")
-                                }
-                              },
-                              [
+                          _vm.workingColumns.editing.value
+                            ? _c("td", [
                                 _c(
-                                  "button",
-                                  { staticClass: "btn btn-warning" },
-                                  [_vm._v("Редактировать")]
+                                  "a",
+                                  {
+                                    attrs: {
+                                      href: _vm.link(achievement.id, "edit")
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      { staticClass: "btn btn-warning" },
+                                      [_vm._v("Редактировать")]
+                                    )
+                                  ]
                                 )
-                              ]
-                            )
-                          ]),
+                              ])
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  href: _vm.link(achievement.id, "delete")
-                                }
-                              },
-                              [
+                          _vm.workingColumns.deletion.value
+                            ? _c("td", [
                                 _c(
-                                  "button",
-                                  { staticClass: "btn btn-danger" },
-                                  [_vm._v("Удалить")]
+                                  "a",
+                                  {
+                                    attrs: {
+                                      href: _vm.link(achievement.id, "delete")
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      { staticClass: "btn btn-danger" },
+                                      [_vm._v("Удалить")]
+                                    )
+                                  ]
                                 )
-                              ]
-                            )
-                          ]),
+                              ])
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  href: _vm.link(achievement.id, "send")
-                                }
-                              },
-                              [
+                          _vm.workingColumns.sending.value
+                            ? _c("td", [
                                 _c(
-                                  "button",
-                                  { staticClass: "btn btn-success" },
-                                  [_vm._v("Отправить")]
+                                  "a",
+                                  {
+                                    attrs: {
+                                      href: _vm.link(achievement.id, "send")
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      { staticClass: "btn btn-success" },
+                                      [_vm._v("Отправить")]
+                                    )
+                                  ]
                                 )
-                              ]
-                            )
-                          ])
+                              ])
+                            : _vm._e()
                         ]
                       : _vm._e(),
                     _vm._v(" "),
-                    !_vm.is_admin && _vm.section === "sent"
+                    !_vm.is_admin &&
+                    _vm.section === "sent" &&
+                    _vm.workingColumns.returning.value
                       ? _c("td", [
                           _c(
                             "a",
@@ -37685,7 +37933,7 @@ var render = function() {
                         ])
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm.is_admin
+                    _vm.is_admin && _vm.workingColumns.rejection.value
                       ? _c("td", [
                           _c(
                             "a",

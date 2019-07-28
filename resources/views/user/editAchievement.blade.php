@@ -13,11 +13,11 @@
     <div class="row justify-content-center">
             <div class="col-md-10">
             <div class="card border-warning">
-                <div class="card-header">Редактирование достижения<a href="/"><button class="btn btn-primary">Отмена</button></a></div>
+                <div class="card-header">Редактирование достижения<a href="/user"><button class="btn btn-primary">Отмена</button></a></div>
                 <div class="card-body">
                     <form method="POST" class="row col-12 justify-content-center" enctype="multipart/form-data">
                         @csrf
-                        <select name="category" onchange="changeStage(); disableForStage(); changeType(); disableForType(); changeCategory(); disableForCategory();">
+                        <select name="category" onchange="changeStage(); disableForStage(); changeType(); disableForType(); changeCategory(); disableForCategory();" required>
                             <option disabled>Категория</option>
                             @foreach ($categories as $category)
                                 @if ($category->category==$achievement->category)
@@ -27,7 +27,7 @@
                                 @endif
                             @endforeach
                         </select>
-                        <select name="type" onchange = "changeStage(); disableForStage(); changeType(); disableForType();">
+                        <select name="type" onchange = "changeStage(); disableForStage(); changeType(); disableForType();" required>
                             <option disabled>Тип достижения</option>
                             @foreach ($types as $type)
                                 @if ($type->type==$achievement->type)
@@ -37,9 +37,9 @@
                                 @endif
                             @endforeach
                         </select>
-                        <input type="text" name="name" placeholder="Название олимпиады" value="{{$achievement->name}}">
-                        <input type="text" name="subject" placeholder="Предмет" value="{{$achievement->subject}}">
-                        <select name="stage" onchange = "changeStage(); disableForStage();">
+                        <input type="text" name="name" placeholder="Название олимпиады" value="{{$achievement->name}}" required>
+                        <input type="text" name="subject" placeholder="Предмет" value="{{$achievement->subject}}" required>
+                        <select name="stage" onchange = "changeStage(); disableForStage();" required>
                             <option disabled>Этап</option>
                             @foreach ($stages as $stage)
                                 @if ($stage->stage==$achievement->stage)
@@ -49,7 +49,7 @@
                                 @endif
                             @endforeach
                         </select> 
-                        <select name="result">
+                        <select name="result" required>
                             <option disabled>Результат</option>
                             @foreach ($results as $result)
                                 @if ($result->result==$achievement->result)
@@ -87,9 +87,17 @@
                     @else
                         <strong>На данный момент подтверждения нет</strong>
                     @endif
-                    
                 </div>
             </div>
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
 </div>

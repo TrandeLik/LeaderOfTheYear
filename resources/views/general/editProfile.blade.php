@@ -14,12 +14,12 @@
                 <div class="card-body">
                     <form method="POST">
                         @csrf
-                        <p>ФИО: <input type="text" value="{{$name}}" name="name"></p>
-                        <p>E-mail: <input type="text" value="{{$email}}" name="email"></p>
+                        <p>ФИО: <input type="text" value="{{$name}}" name="username" required></p>
+                        <p>E-mail: <input type="text" value="{{$email}}" name="email" required></p>
                         @if ($role=='student')
                             <p>
                                 Класс: 
-                                <select name="formNumber">
+                                <select name="formNumber" required>
                                     @foreach ($formNumbers as $formNumber)
                                         @if ($formNumber == $userFormNumber)
                                             <option selected>{{$formNumber}}</option>
@@ -28,7 +28,7 @@
                                         @endif
                                     @endforeach
                                 </select>
-                                <select name="formLetter">
+                                <select name="formLetter" required>
                                     @foreach ($formLetters as $formLetter)
                                         @if ($formLetter == $userFormLetter)
                                             <option selected>{{$formLetter}}</option>
@@ -42,7 +42,16 @@
                         <input type="submit">
                     </form>
                 </div>
-            </div>            
+            </div>
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
 </div>

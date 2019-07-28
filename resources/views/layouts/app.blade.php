@@ -73,7 +73,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/">Главная</a>
+                                    @if ((auth()->user()->role == 'admin') or (auth()->user()->role == 'superadmin'))
+                                        <a class="dropdown-item" href="/admin">Главная</a>
+                                    @else
+                                        <a class="dropdown-item" href="/user">Главная</a>
+                                    @endif
                                     <a class="dropdown-item" href="/profile">Профиль</a>
                                     @if ((auth()->user()->role == 'admin') or (auth()->user()->role == 'superadmin') or ($isLeaderBoardWorking == 'on'))
                                         <a class="dropdown-item" href="/leaderboard">Рейтинговая таблица</a>

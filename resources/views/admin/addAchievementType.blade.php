@@ -10,7 +10,7 @@
                     <form method="post">
                       @csrf
                       <div name="categoryDiv">
-                        <select name="category" onchange="writeTypes();">
+                        <select name="category" onchange="writeTypes();" required>
                               <option disabled selected>Категория</option>
                               @foreach ($categories as $category)
                                   <option>{{ $category->category }}</option>
@@ -19,13 +19,13 @@
                         <input type="button" name="category" onclick="changeInput('category');" value="Добавить">
                       </div>
                       <div name="typeDiv">
-                        <select name="type" disabled>
+                        <select name="type" disabled required>
                             <option disabled selected>Тип события</option>
                         </select>                        
                         <input type="button" name="type" onclick="changeInput('type');" value="Добавить">
                       </div><br>
                       <div name="stageDiv">
-                        <select name="stage" class="form-control">
+                        <select name="stage" class="form-control" required>
                               <option disabled selected>Этап</option>
                               @foreach ($stages as $stage)
                                   <option>{{ $stage->stage }}</option>
@@ -34,7 +34,7 @@
                         <input type="button" name="stage" onclick="changeInput('stage');" value="Добавить">
                       </div><br>
                       <div name="resultDiv">
-                        <select name="result" class="form-control">
+                        <select name="result" class="form-control" required>
                               <option disabled selected>Результат</option>
                               @foreach ($results as $result)
                                   <option>{{ $result->result }}</option>
@@ -42,17 +42,26 @@
                         </select>                        
                         <input type="button" name="result" onclick="changeInput('result');" value="Добавить">
                       </div><br>
-                      <input type="number" name="score" placeholder="Кол-во баллов" class="form-control"><br>
+                      <input type="number" name="score" placeholder="Кол-во баллов" class="form-control" required value="{{ old('number') }}"><br>
                       <input type="submit" value="Отправить" class="btn btn-primary">
                     </form>
                     <div name="unused" style="display:none;">
-                      <input type='text' name="category" placeholder="Категория" class="form-control">
-                      <input type='text' name="type" placeholder="Тип события" class="form-control">
-                      <input type='text' name="stage" placeholder="Этап" class="form-control">
-                      <input type='text' name="result" placeholder="Результат" class="form-control">
+                      <input type='text' name="category" placeholder="Категория" class="form-control" required value="{{ old('category') }}">
+                      <input type='text' name="type" placeholder="Тип события" class="form-control" required value="{{ old('type') }}">
+                      <input type='text' name="stage" placeholder="Этап" class="form-control" required value="{{ old('stage') }}">
+                      <input type='text' name="result" placeholder="Результат" class="form-control" required value="{{ old('result') }}">
                     </div>
                     </div>
               </div>
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
   </div>
