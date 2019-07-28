@@ -21,7 +21,7 @@ class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
 
     public function array(): array
     {
-        $allAchievements = [];
+        $filteredAchievements = [];
         foreach($this->achievements as $achievement){
             foreach($this->filters as $column=>$value){
                 if (($value['value']!=1) and (isset($achievement[$column]))){
@@ -29,9 +29,9 @@ class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
                 }
             }
             unset($achievement["score"]);
-            array_push($allAchievements,$achievement);
+            array_push($filteredAchievements,$achievement);
         }
-        return $allAchievements;
+        return $filteredAchievements;
     }
 
     public function headings(): array
