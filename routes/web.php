@@ -77,4 +77,4 @@ Route::get('/alert_for_banned_users', 'GeneralController@getAlertForBannedUsers'
 
 
 
-Route::get('/', 'VisitatoreController@about');
+Route::get('/', 'VisitorController@about');

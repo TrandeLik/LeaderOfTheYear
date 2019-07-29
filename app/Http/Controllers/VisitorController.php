@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class VisitatoreController extends Controller
+class VisitorController extends Controller
 {
     public function about(){
         $about = 'lol';
