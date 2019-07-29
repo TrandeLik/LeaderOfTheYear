@@ -13,7 +13,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
-{ 
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware(\App\Http\Middleware\CheckUser::class);
+    }
+
     public function index(){
         $achievements = Auth::user()->achievements;
         $isStatisticsWorking = Setting::where('name', 'Статистика')->first()->value == 'on';

@@ -16,18 +16,10 @@ class CheckBannedUser
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check()) {
-            if (Auth::user()->role == 'banned') {
-                return $next($request);
-            } else {
-                if ((Auth::user()->role == 'admin') || (Auth::user()->role == 'superadmin')) {
-                    return redirect('/admin');
-                } else {
-                    return redirect('/user');
-                }
-            }
+        if (Auth::user()->role == 'banned') {
+            return $next($request);
         } else {
-            return redirect('login');
+            return redirect('/error');
         }
     }
 

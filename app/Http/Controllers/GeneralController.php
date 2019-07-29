@@ -13,10 +13,11 @@ use Illuminate\Filesystem\Filesystem;
 
 class GeneralController extends Controller
 {
-    public function about(){
-        $about = 'lol';
-        return view('general.about',compact('about'));
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
+
     public function error(){
         $error = 'Ой, вам сюда нельзя!';
         return view('general.error', compact('error'));

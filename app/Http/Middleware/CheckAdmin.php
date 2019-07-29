@@ -16,16 +16,13 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check()) {
-            if (Auth::user()->role == 'student') {
-                return redirect('/error');
-            }
-            if (Auth::user()->role == 'banned') {
-                return redirect('/alert_for_banned_users');
-            }
-        } else {
-            return redirect('login');
+        if (Auth::user()->role == 'student') {
+            return redirect('/error');
         }
+        if (Auth::user()->role == 'banned') {
+            return redirect('/alert_for_banned_users');
+        }
+
         return $next($request);
     }
 }

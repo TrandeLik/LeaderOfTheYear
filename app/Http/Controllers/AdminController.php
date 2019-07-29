@@ -21,6 +21,13 @@ use Illuminate\Filesystem\Filesystem;
 
 class AdminController extends Controller // TODO погуглить, как сделать так, чтобы каждый день в восемь утра срабатывала функция, которая при кол-ве заявок больше 5 сообщала об этом админам
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware(\App\Http\Middleware\CheckAdmin::class);
+    }
+
     public function addType(Request $request){
         $request->validate([
             'category' => 'required',
