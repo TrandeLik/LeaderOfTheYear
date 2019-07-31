@@ -45,14 +45,14 @@ class User extends Authenticatable
     public function place(){
         $users = User::all() -> where('role', 'student');
         foreach ($users as $user){
-            $count = $user -> achievements -> where('status', 'confirmed') -> sum('score');
+            $count = $user -> confirmedScore();
             $user -> score = $count;
         }
         $leaders = $users -> sortByDesc('score');
         $i = 0;
         foreach ($leaders as $leader){
             $i++;
-            if ($leader->score == $this->achievements()->where('status','confirmed')->sum('score')){
+            if ($leader->score == $this->confirmedScore()){
                 return $i;
             }
         }
@@ -60,10 +60,10 @@ class User extends Authenticatable
 
     public function percentage(){
         $users = User::all() -> where('role', 'student');
-        $min = $users->first()->achievements -> where('status', 'confirmed') -> sum('score');
+        $min = $users->first()->confirmedScore();
         $lastUser = $users->first();
         foreach ($users as $user){
-            $count = $user -> achievements -> where('status', 'confirmed') -> sum('score');
+            $count = $user -> confirmedScore();
             if ($count<$min){
                 $min = $count;
                 $lastUser = $user;
