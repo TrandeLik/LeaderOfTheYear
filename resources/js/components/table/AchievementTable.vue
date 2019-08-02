@@ -4,8 +4,8 @@
             <div class="col-md-12">
                 <button v-if="is_admin" class="btn btn-primary" @click="downloadTable">Экспортировать в Excel</button>
                 <button class="btn btn-warning" @click="dropFilters">Сбросить фильтры</button>
-                <p v-if="! is_admin">Баллы за данные достижения - {{studentsScore}}</p>
                 <br><br><column-settings :is_admin="is_admin" :section="section" :allWorkingColumns = 'allWorkingColumns'></column-settings><br>
+                <p v-if="! is_admin">Баллы за данные достижения - {{studentsScore}}</p>
                 <div class="table-responsive">
                 <table class="table">
                     <achievement-table-head :section="section" :workingColumns="allWorkingColumns" :selected="selected" :filters="filters" :is_admin="is_admin"></achievement-table-head>
@@ -38,9 +38,11 @@
                     'subject': 'Все предметы',
                     'stage': 'Все этапы',
                     'result': 'Все результаты',
+                    'status': 'Все статусы'
                 },
 
                 allWorkingColumns : {
+                    'status': {'text': 'Статус', 'value': true},
                     'student': {'text': 'ФИО', 'value': true},
                     'form': {'text': 'Класс', 'value': true},
                     'category': {'text': 'Категории', 'value': true},
@@ -53,7 +55,7 @@
                     'deletion': {'text': 'Удаление', 'value': true},
                     'sending': {'text': 'Отправка', 'value': true},
                     'returning': {'text': 'Возврат', 'value': true},
-                    'rejection': {'text': 'Отклонение', 'value': true}
+                    'rejection': {'text': 'Отклонение', 'value': true},
                 }
             }
         },
@@ -75,6 +77,8 @@
                 let subject = this.selected.subject;
                 let stage = this.selected.stage;
                 let result = this.selected.result;
+                let status = this.selected.status;
+                let translator = this.translate;
                 this.achievements.forEach(function (achievement) {
                     let isInSorted = true;
                     if (data !== 'all'){
@@ -82,6 +86,7 @@
                     }
                     if (
                         (isInSorted) &&
+                        ((translator(achievement.status) === status) || (status === 'Все статусы') || (data === 'status')) &&
                         ((achievement.form === form) || (form === 'Все классы') || (data === 'form')) &&
                         ((achievement.student === student) || (student === 'Все ученики') || (data === 'student')) &&
                         ((achievement.category === category) || (category === 'Все категории') || (data === 'category')) &&
@@ -116,6 +121,7 @@
             },
 
             dropFilters: function () {
+                    this.selected.form = 'Все статусы';
                     this.selected.form = 'Все классы';
                     this.selected.student ='Все ученики';
                     this.selected.category = 'Все категории';
@@ -140,6 +146,22 @@
                 }
                 array.sort(compare)
             },
+
+            translate: function (s) {
+                if (s === 'created'){
+                    return 'Созданные, но не отправленные'
+                }
+                if (s === 'rejected'){
+                    return 'Отклоненные'
+                }
+                if (s === 'sent'){
+                    return 'Отправленные, но не проверенные'
+                }
+                if (s === 'confirmed'){
+                    return 'Проверенные'
+                }
+            }
+
         },
 
 
@@ -153,6 +175,7 @@
                 let subjects = this.setData('subject');
                 let stages = this.setData('stage');
                 let results = this.setData('result');
+                let status = this.setData('status');
                 let resultFilters = {
                     'form' : forms,
                     'student' : students,
@@ -161,7 +184,8 @@
                     'name' : names,
                     'subject' : subjects,
                     'stage' : stages,
-                    'result' : results
+                    'result' : results,
+                    'status' : status
                 };
                 return resultFilters
             },

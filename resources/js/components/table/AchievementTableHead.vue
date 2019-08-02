@@ -1,6 +1,7 @@
 <template>
     <thead>
         <tr>
+            <achievement-table-column-header :isWorking="workingColumns" :columnKey="'status'"  :selected="selected" :firstSelected="'Все статусы'" :list="filters"></achievement-table-column-header>
             <template v-if="(is_admin && (section !== 'profile'))">
                 <achievement-table-column-header :isWorking="workingColumns" :columnKey="'student'"  :selected="selected" :firstSelected="'Все ученики'" :list="filters"></achievement-table-column-header>
                 <achievement-table-column-header :isWorking="workingColumns" :columnKey="'form'"  :selected="selected" :firstSelected="'Все классы'" :list="filters"></achievement-table-column-header>

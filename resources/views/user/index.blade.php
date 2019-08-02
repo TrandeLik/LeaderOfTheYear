@@ -40,38 +40,8 @@
             <div class="card border-primary">
                 <div class="card-header">Мои олимпиады<a href="{{url('/achievement/add/new')}}"><button class="btn btn-primary">Добавить</button></a></div>
                 <div class="card-body">
-                    @if ($createdAchievements != [])
-                        <achievement-table :achievements="{{json_encode($createdAchievements)}}" :is_admin="false" :section="'created'"></achievement-table>
-                    @else
-                        <p>Здесь пусто :)</p>
-                    @endif
-                </div>
-            </div>
-            <div class="card border-danger">
-                <div class="card-header">Отклоненные</div>
-                <div class="card-body">
-                    @if ($rejectedAchievements != [])
-                        <achievement-table :achievements="{{json_encode($rejectedAchievements)}}" :is_admin="false" :section="'rejected'"></achievement-table>
-                    @else
-                        <p>Здесь пусто :)</p>
-                    @endif
-                </div>
-            </div>
-            <div class="card border-secondary">
-                <div class="card-header">Ожидают одобрения</div>
-                <div class="card-body">
-                    @if ($sentAchievements != [])
-                        <achievement-table :achievements="{{json_encode($sentAchievements)}}" :is_admin="false" :section="'sent'"></achievement-table>
-                    @else
-                        <p>Здесь пусто :)</p>
-                    @endif
-                </div>
-            </div>
-            <div class="card border-success">
-                <div class="card-header">Одобренные</div>
-                <div class="card-body">
-                    @if ($confirmedAchievements != [])
-                        <achievement-table :achievements="{{json_encode($confirmedAchievements)}}" :is_admin="false" :section="'confirmed'"></achievement-table>
+                    @if ($achievements != [])
+                        <achievement-table :achievements="{{json_encode($achievements)}}" :is_admin="false" :section="'created'"></achievement-table>
                     @else
                         <p>Здесь пусто :)</p>
                     @endif
