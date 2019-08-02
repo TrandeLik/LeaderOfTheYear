@@ -25,19 +25,19 @@ class GeneralController extends Controller
 
     public function leaderboard(){
         $isLeaderBoardWorking = Setting::where('name', 'Рейтинговая таблица (для учеников)')->first()->value == 'on';
-        $showPeopleWithNullScore = Setting::where('name', 'Показывать людей с 0 баллов в лидерборде')->first()->value == 'on';
-        if (($isLeaderBoardWorking) or (auth::user()->role == 'admin') or (auth::user()->role == 'superadmin')) {
+        $minimalAllowedScore = Setting::where('name', 'Минимальный порог баллов для участия')->first()->value;
+        if (($isLeaderBoardWorking) or (Auth::user()->role == 'admin') or (Auth::user()->role == 'superadmin')) {
                 $users = User::all()->where('role', 'student');
             foreach ($users as $user) {
                 $count = $user->confirmedScore();
                 $user->score = $count;
             }
             $showScore = Setting::where('name', 'Баллы в лидерборде')->first()->value == 'on';
-            $showScore = ($showScore) or (auth::user()->role == 'admin') or (auth::user()->role == 'superadmin');
+            $showScore = ($showScore) or (Auth::user()->role == 'admin') or (Auth::user()->role == 'superadmin');
             $leaders = $users->sortByDesc('score');
             $awardedPercentage = Setting::where('name', 'Процент призеров')->value('value');
             $winnerPercentage = Setting::where('name', 'Процент победителей')->value('value');
-            return view('general.leaderboard', compact('leaders', 'awardedPercentage', 'winnerPercentage', 'showScore','showPeopleWithNullScore'));
+            return view('general.leaderboard', compact('leaders', 'awardedPercentage', 'winnerPercentage', 'showScore','minimalAllowedScore'));
         } else{
             $error = 'Данная функция отключена';
             return view('general.error', compact('error'));

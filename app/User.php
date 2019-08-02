@@ -60,12 +60,12 @@ class User extends Authenticatable
 
     public function percentage(){
         $users = User::all() -> where('role', 'student');
-        $showPeopleWithNullScore = Setting::where('name', 'Показывать людей с 0 баллов в лидерборде')->first()->value == 'on';
+        $minimalAllowedScore = Setting::where('name', 'Минимальный порог баллов для участия')->first()->value;
         $min = $users->first()->confirmedScore();
         $lastUser = $users->first();
         foreach ($users as $user){
             $count = $user -> confirmedScore();
-            if (($showPeopleWithNullScore) or ($count!=0)){
+            if ($count>=$minimalAllowedScore){
                 if ($count<$min){
                     $min = $count;
                     $lastUser = $user;
