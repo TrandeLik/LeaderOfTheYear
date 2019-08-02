@@ -1688,10 +1688,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AchievementTable.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AchievementTable.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AchievementRejection.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AchievementRejection.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1731,58 +1731,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['actionAddress'],
+  data: function data() {
+    return {
+      adminComment: ''
+    };
+  },
+  mounted: function mounted() {
+    window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+    window.axios.defaults.headers.common = {
+      'X-Requested-With': 'XMLHttpRequest',
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+  },
+  methods: {
+    sendComment: function sendComment() {
+      var comment = this.adminComment;
+      var href = this.actionAddress;
+      axios.post(href, {
+        comment: comment
+      }).then(function (response) {
+        location.reload();
+      })["catch"](function (error) {
+        console.log(error.response.data);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 //
 //
 //
@@ -1800,16 +1788,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    console.log('Component mounted.');
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTable.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/table/AchievementTable.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ColumnSettings_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ColumnSettings.vue */ "./resources/js/components/table/ColumnSettings.vue");
+/* harmony import */ var _AchievementTableBody_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AchievementTableBody.vue */ "./resources/js/components/table/AchievementTableBody.vue");
+/* harmony import */ var _AchievementTableHead_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AchievementTableHead.vue */ "./resources/js/components/table/AchievementTableHead.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    columnSettings: _ColumnSettings_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    achievementTableBody: _AchievementTableBody_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    achievementTableHead: _AchievementTableHead_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
   data: function data() {
     return {
-      selectedForm: 'Все классы',
-      selectedStudent: 'Все ученики',
-      selectedCategory: 'Все категории',
-      selectedType: 'Все типы',
-      selectedAchievementName: 'Все названия',
-      selectedSubject: 'Все предметы',
-      selectedStage: 'Все этапы',
-      selectedResult: 'Все результаты',
+      selected: {
+        'form': 'Все классы',
+        'student': 'Все ученики',
+        'category': 'Все категории',
+        'type': 'Все типы',
+        'name': 'Все названия',
+        'subject': 'Все предметы',
+        'stage': 'Все этапы',
+        'result': 'Все результаты'
+      },
       allWorkingColumns: {
         'student': {
           'text': 'ФИО',
@@ -1870,14 +1906,14 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     setData: function setData(data) {
       var sorted = [];
-      var form = this.selectedForm;
-      var student = this.selectedStudent;
-      var category = this.selectedCategory;
-      var type = this.selectedType;
-      var name = this.selectedAchievementName;
-      var subject = this.selectedSubject;
-      var stage = this.selectedStage;
-      var result = this.selectedResult;
+      var form = this.selected.form;
+      var student = this.selected.student;
+      var category = this.selected.category;
+      var type = this.selected.type;
+      var name = this.selected.name;
+      var subject = this.selected.subject;
+      var stage = this.selected.stage;
+      var result = this.selected.result;
       this.achievements.forEach(function (achievement) {
         var isInSorted = true;
 
@@ -1913,17 +1949,14 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     dropFilters: function dropFilters() {
-      this.selectedForm = 'Все классы';
-      this.selectedStudent = 'Все ученики';
-      this.selectedCategory = 'Все категории';
-      this.selectedType = 'Все типы';
-      this.selectedAchievementName = 'Все названия';
-      this.selectedSubject = 'Все предметы';
-      this.selectedStage = 'Все этапы';
-      this.selectedResult = 'Все результаты';
-    },
-    link: function link(id, action) {
-      return '/achievement/' + id + '/' + action;
+      this.selected.form = 'Все классы';
+      this.selected.student = 'Все ученики';
+      this.selected.category = 'Все категории';
+      this.selected.type = 'Все типы';
+      this.selected.name = 'Все названия';
+      this.selected.subject = 'Все предметы';
+      this.selected.stage = 'Все этапы';
+      this.selected.result = 'Все результаты';
     },
     mySort: function mySort(array) {
       function compare(a, b) {
@@ -1941,37 +1974,29 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       array.sort(compare);
-    },
-    returnColumns: function returnColumns() {
-      for (var key in this.workingColumns) {
-        this.workingColumns[key].value = true;
-      }
     }
   },
   computed: {
-    allForms: function allForms() {
-      return this.setData('form');
-    },
-    allStudents: function allStudents() {
-      return this.setData('student');
-    },
-    allCategories: function allCategories() {
-      return this.setData('category');
-    },
-    allTypes: function allTypes() {
-      return this.setData('type');
-    },
-    allAchievementNames: function allAchievementNames() {
-      return this.setData('name');
-    },
-    allSubjects: function allSubjects() {
-      return this.setData('subject');
-    },
-    allStages: function allStages() {
-      return this.setData('stage');
-    },
-    allResults: function allResults() {
-      return this.setData('result');
+    filters: function filters() {
+      var forms = this.setData('form');
+      var students = this.setData('student');
+      var categories = this.setData('category');
+      var types = this.setData('type');
+      var names = this.setData('name');
+      var subjects = this.setData('subject');
+      var stages = this.setData('stage');
+      var results = this.setData('result');
+      var resultFilters = {
+        'form': forms,
+        'student': students,
+        'category': categories,
+        'type': types,
+        'name': names,
+        'subject': subjects,
+        'stage': stages,
+        'result': results
+      };
+      return resultFilters;
     },
     sortedAchievement: function sortedAchievement() {
       return this.setData('all');
@@ -1982,7 +2007,158 @@ __webpack_require__.r(__webpack_exports__);
         score += Number(achievement.score);
       });
       return score;
-    },
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableBody.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/table/AchievementTableBody.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['is_admin', 'section', 'workingColumns', 'sortedAchievement'],
+  methods: {
+    link: function link(id, action) {
+      return '/achievement/' + id + '/' + action;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['isWorking', 'selected', 'firstSelected', 'list', 'columnKey']
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableHead.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/table/AchievementTableHead.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AchievementTableColumnHeader_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AchievementTableColumnHeader.vue */ "./resources/js/components/table/AchievementTableColumnHeader.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    achievementTableColumnHeader: _AchievementTableColumnHeader_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: ['workingColumns', 'filters', 'selected', 'is_admin', 'section']
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/ColumnSettings.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/table/ColumnSettings.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'columnSettings',
+  props: ['allWorkingColumns', 'is_admin', 'section'],
+  methods: {
+    returnColumns: function returnColumns() {
+      for (var key in this.workingColumns) {
+        this.workingColumns[key].value = true;
+      }
+    }
+  },
+  computed: {
     workingColumns: function workingColumns() {
       var is_admin = this.is_admin;
       var section = this.section;
@@ -2009,39 +2185,6 @@ __webpack_require__.r(__webpack_exports__);
 
       return working;
     }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
   }
 });
 
@@ -37326,10 +37469,234 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AchievementTable.vue?vue&type=template&id=48c26cca&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AchievementRejection.vue?vue&type=template&id=554054f6&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AchievementRejection.vue?vue&type=template&id=554054f6& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-danger",
+        attrs: {
+          type: "button",
+          "data-toggle": "modal",
+          "data-target": "#rejectionModal"
+        }
+      },
+      [_vm._v("\n    Отклонить\n")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "rejectionModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "rejectionModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "accordion",
+                    attrs: { id: "accordionRejection" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Вы действительно хотите отклонить эту заявку?\n                    "
+                    ),
+                    _c(
+                      "a",
+                      {
+                        staticStyle: { color: "blue" },
+                        attrs: {
+                          href: "",
+                          "data-toggle": "collapse",
+                          "data-target": "#collapseRejection",
+                          "aria-expanded": "true",
+                          "aria-controls": "collapseOne"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "Оставьте комментарий с объяснением вашего решения"
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "collapse hide",
+                        attrs: {
+                          id: "collapseRejection",
+                          "aria-labelledby": "headingOne",
+                          "data-parent": "#accordionRejection"
+                        }
+                      },
+                      [
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.adminComment,
+                              expression: "adminComment"
+                            }
+                          ],
+                          attrs: {
+                            name: "comment",
+                            placeholder: "Комментарий"
+                          },
+                          domProps: { value: _vm.adminComment },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.adminComment = $event.target.value
+                            }
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Отмена")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "btn btn-danger",
+                  attrs: { type: "submit", value: "Отклонить" },
+                  on: {
+                    click: function($event) {
+                      return _vm.sendComment()
+                    }
+                  }
+                })
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title", attrs: { id: "rejection" } }, [
+        _vm._v("Отклонение заявки")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AchievementTable.vue?vue&type=template&id=48c26cca& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
   \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v("Example Component")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _vm._v(
+                "\n                    I'm an example component.\n                "
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTable.vue?vue&type=template&id=c71503aa&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/table/AchievementTable.vue?vue&type=template&id=c71503aa& ***!
+  \*************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -37343,41 +37710,462 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", [
-      _c("div", { staticClass: "col-md-12" }, [
-        _vm.is_admin
-          ? _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: { click: _vm.downloadTable }
-              },
-              [_vm._v("Экспортировать в Excel")]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "btn btn-warning", on: { click: _vm.dropFilters } },
-          [_vm._v("Сбросить фильтры")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "btn btn-warning", on: { click: _vm.returnColumns } },
-          [_vm._v("Вернуть все колонки")]
-        ),
-        _vm._v(" "),
-        !_vm.is_admin
-          ? _c("p", [
-              _vm._v(
-                "Баллы за данные достижения - " + _vm._s(_vm.studentsScore)
+      _c(
+        "div",
+        { staticClass: "col-md-12" },
+        [
+          _vm.is_admin
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: { click: _vm.downloadTable }
+                },
+                [_vm._v("Экспортировать в Excel")]
               )
-            ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-warning", on: { click: _vm.dropFilters } },
+            [_vm._v("Сбросить фильтры")]
+          ),
+          _vm._v(" "),
+          !_vm.is_admin
+            ? _c("p", [
+                _vm._v(
+                  "Баллы за данные достижения - " + _vm._s(_vm.studentsScore)
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("br"),
+          _c("br"),
+          _c("column-settings", {
+            attrs: {
+              is_admin: _vm.is_admin,
+              section: _vm.section,
+              allWorkingColumns: _vm.allWorkingColumns
+            }
+          }),
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { staticClass: "table-responsive" }, [
+            _c(
+              "table",
+              { staticClass: "table" },
+              [
+                _c("achievement-table-head", {
+                  attrs: {
+                    section: _vm.section,
+                    workingColumns: _vm.allWorkingColumns,
+                    selected: _vm.selected,
+                    filters: _vm.filters,
+                    is_admin: _vm.is_admin
+                  }
+                }),
+                _vm._v(" "),
+                _c("achievement-table-body", {
+                  attrs: {
+                    is_admin: _vm.is_admin,
+                    section: _vm.section,
+                    workingColumns: _vm.allWorkingColumns,
+                    sortedAchievement: _vm.sortedAchievement
+                  }
+                })
+              ],
+              1
+            )
+          ])
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableBody.vue?vue&type=template&id=49430d26&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/table/AchievementTableBody.vue?vue&type=template&id=49430d26& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "tbody",
+    _vm._l(_vm.sortedAchievement, function(achievement) {
+      return _c(
+        "tr",
+        [
+          _vm.is_admin && _vm.section !== "profile"
+            ? [
+                _vm.workingColumns.student.value
+                  ? _c("td", [_vm._v(_vm._s(achievement.student))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.workingColumns.form.value
+                  ? _c("td", [_vm._v(_vm._s(achievement.form))])
+                  : _vm._e()
+              ]
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.workingColumns.category.value
+            ? _c("td", [_vm._v(_vm._s(achievement.category))])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.workingColumns.type.value
+            ? _c("td", [_vm._v(_vm._s(achievement.type))])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.workingColumns.name.value
+            ? _c("td", [_vm._v(_vm._s(achievement.name))])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.workingColumns.subject.value
+            ? _c("td", [_vm._v(_vm._s(achievement.subject))])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.workingColumns.stage.value
+            ? _c("td", [_vm._v(_vm._s(achievement.stage))])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.workingColumns.result.value
+            ? _c("td", [_vm._v(_vm._s(achievement.result))])
+            : _vm._e(),
+          _vm._v(" "),
+          !_vm.is_admin
+            ? _c("td", [_vm._v(_vm._s(achievement.score))])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.section === "created" || _vm.section === "rejected"
+            ? [
+                _vm.workingColumns.editing.value
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        { attrs: { href: _vm.link(achievement.id, "edit") } },
+                        [
+                          _c("button", { staticClass: "btn btn-warning" }, [
+                            _vm._v("Редактировать")
+                          ])
+                        ]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.workingColumns.deletion.value
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        { attrs: { href: _vm.link(achievement.id, "delete") } },
+                        [
+                          _c("button", { staticClass: "btn btn-danger" }, [
+                            _vm._v("Удалить")
+                          ])
+                        ]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.workingColumns.sending.value
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        { attrs: { href: _vm.link(achievement.id, "send") } },
+                        [
+                          _c("button", { staticClass: "btn btn-success" }, [
+                            _vm._v("Отправить")
+                          ])
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ]
+            : _vm._e(),
+          _vm._v(" "),
+          !_vm.is_admin &&
+          _vm.section === "sent" &&
+          _vm.workingColumns.returning.value
+            ? _c("td", [
+                _c(
+                  "a",
+                  { attrs: { href: _vm.link(achievement.id, "return") } },
+                  [
+                    _c("button", { staticClass: "btn btn-info" }, [
+                      _vm._v("Отозвать")
+                    ])
+                  ]
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.is_admin && _vm.workingColumns.rejection.value
+            ? _c(
+                "td",
+                [
+                  _c("reject-achievement", {
+                    attrs: { actionAddress: _vm.link(achievement.id, "reject") }
+                  })
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        2
+      )
+    }),
+    0
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=template&id=530dcdce&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=template&id=530dcdce& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.isWorking[_vm.columnKey].value
+    ? _c("th", [
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selected[_vm.columnKey],
+                expression: "selected[columnKey]"
+              }
+            ],
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.selected,
+                  _vm.columnKey,
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { selected: "" } }, [
+              _vm._v(_vm._s(_vm.firstSelected))
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.list[_vm.columnKey], function(item) {
+              return _c("option", [_vm._v(_vm._s(item))])
+            })
+          ],
+          2
+        )
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableHead.vue?vue&type=template&id=3360beab&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/table/AchievementTableHead.vue?vue&type=template&id=3360beab& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("thead", [
+    _c(
+      "tr",
+      [
+        _vm.is_admin && _vm.section !== "profile"
+          ? [
+              _c("achievement-table-column-header", {
+                attrs: {
+                  isWorking: _vm.workingColumns,
+                  columnKey: "student",
+                  selected: _vm.selected,
+                  firstSelected: "Все ученики",
+                  list: _vm.filters
+                }
+              }),
+              _vm._v(" "),
+              _c("achievement-table-column-header", {
+                attrs: {
+                  isWorking: _vm.workingColumns,
+                  columnKey: "form",
+                  selected: _vm.selected,
+                  firstSelected: "Все классы",
+                  list: _vm.filters
+                }
+              })
+            ]
           : _vm._e(),
         _vm._v(" "),
+        _c("achievement-table-column-header", {
+          attrs: {
+            isWorking: _vm.workingColumns,
+            columnKey: "category",
+            selected: _vm.selected,
+            firstSelected: "Все категории",
+            list: _vm.filters
+          }
+        }),
+        _vm._v(" "),
+        _c("achievement-table-column-header", {
+          attrs: {
+            isWorking: _vm.workingColumns,
+            columnKey: "type",
+            selected: _vm.selected,
+            firstSelected: "Все типы",
+            list: _vm.filters
+          }
+        }),
+        _vm._v(" "),
+        _c("achievement-table-column-header", {
+          attrs: {
+            isWorking: _vm.workingColumns,
+            columnKey: "name",
+            selected: _vm.selected,
+            firstSelected: "Все названия",
+            list: _vm.filters
+          }
+        }),
+        _vm._v(" "),
+        _c("achievement-table-column-header", {
+          attrs: {
+            isWorking: _vm.workingColumns,
+            columnKey: "subject",
+            selected: _vm.selected,
+            firstSelected: "Все предметы",
+            list: _vm.filters
+          }
+        }),
+        _vm._v(" "),
+        _c("achievement-table-column-header", {
+          attrs: {
+            isWorking: _vm.workingColumns,
+            columnKey: "stage",
+            selected: _vm.selected,
+            firstSelected: "Все этапы",
+            list: _vm.filters
+          }
+        }),
+        _vm._v(" "),
+        _c("achievement-table-column-header", {
+          attrs: {
+            isWorking: _vm.workingColumns,
+            columnKey: "result",
+            selected: _vm.selected,
+            firstSelected: "Все результаты",
+            list: _vm.filters
+          }
+        }),
+        _vm._v(" "),
+        !_vm.is_admin ? _c("th", [_vm._v("Баллы")]) : _vm._e()
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/ColumnSettings.vue?vue&type=template&id=9983ac36&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/table/ColumnSettings.vue?vue&type=template&id=9983ac36& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "accordion", attrs: { id: "settings" } }, [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-warning",
+        attrs: {
+          type: "button",
+          "data-toggle": "collapse",
+          "data-target": "#collapseSettings",
+          "aria-expanded": "true",
+          "aria-controls": "collapseOne"
+        }
+      },
+      [_vm._v("Скрыть некоторые столбцы")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "collapse hide",
+        attrs: {
+          id: "collapseSettings",
+          "aria-labelledby": "headingOne",
+          "data-parent": "#settings"
+        }
+      },
+      [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-header" }, [
-            _vm._v("\n                    Столбцы\n                ")
+            _vm._v("\n                Столбцы\n            ")
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
@@ -37430,586 +38218,22 @@ var render = function() {
               }),
               0
             )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "table-responsive" }, [
-          _c("table", { staticClass: "table" }, [
-            _c("thead", [
-              _c(
-                "tr",
-                [
-                  _vm.is_admin && _vm.section !== "profile"
-                    ? [
-                        _vm.workingColumns.student.value
-                          ? _c("th", [
-                              _c(
-                                "select",
-                                {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.selectedStudent,
-                                      expression: "selectedStudent"
-                                    }
-                                  ],
-                                  on: {
-                                    change: function($event) {
-                                      var $$selectedVal = Array.prototype.filter
-                                        .call($event.target.options, function(
-                                          o
-                                        ) {
-                                          return o.selected
-                                        })
-                                        .map(function(o) {
-                                          var val =
-                                            "_value" in o ? o._value : o.value
-                                          return val
-                                        })
-                                      _vm.selectedStudent = $event.target
-                                        .multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("option", { attrs: { selected: "" } }, [
-                                    _vm._v("Все ученики")
-                                  ]),
-                                  _vm._v(" "),
-                                  _vm._l(_vm.allStudents, function(student) {
-                                    return _c("option", [
-                                      _vm._v(_vm._s(student))
-                                    ])
-                                  })
-                                ],
-                                2
-                              )
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.workingColumns.form.value
-                          ? _c("th", [
-                              _c(
-                                "select",
-                                {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.selectedForm,
-                                      expression: "selectedForm"
-                                    }
-                                  ],
-                                  on: {
-                                    change: function($event) {
-                                      var $$selectedVal = Array.prototype.filter
-                                        .call($event.target.options, function(
-                                          o
-                                        ) {
-                                          return o.selected
-                                        })
-                                        .map(function(o) {
-                                          var val =
-                                            "_value" in o ? o._value : o.value
-                                          return val
-                                        })
-                                      _vm.selectedForm = $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("option", { attrs: { selected: "" } }, [
-                                    _vm._v("Все классы")
-                                  ]),
-                                  _vm._v(" "),
-                                  _vm._l(_vm.allForms, function(form) {
-                                    return _c("option", [_vm._v(_vm._s(form))])
-                                  })
-                                ],
-                                2
-                              )
-                            ])
-                          : _vm._e()
-                      ]
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.workingColumns.category.value
-                    ? _c("th", [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.selectedCategory,
-                                expression: "selectedCategory"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.selectedCategory = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { selected: "" } }, [
-                              _vm._v("Все категории")
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.allCategories, function(category) {
-                              return _c("option", [_vm._v(_vm._s(category))])
-                            })
-                          ],
-                          2
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.workingColumns.type.value
-                    ? _c("th", [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.selectedType,
-                                expression: "selectedType"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.selectedType = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { selected: "" } }, [
-                              _vm._v("Все типы")
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.allTypes, function(type) {
-                              return _c("option", [_vm._v(_vm._s(type))])
-                            })
-                          ],
-                          2
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.workingColumns.name.value
-                    ? _c("th", [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.selectedAchievementName,
-                                expression: "selectedAchievementName"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.selectedAchievementName = $event.target
-                                  .multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { selected: "" } }, [
-                              _vm._v("Все названия")
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.allAchievementNames, function(name) {
-                              return _c("option", [_vm._v(_vm._s(name))])
-                            })
-                          ],
-                          2
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.workingColumns.subject.value
-                    ? _c("th", [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.selectedSubject,
-                                expression: "selectedSubject"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.selectedSubject = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { selected: "" } }, [
-                              _vm._v("Все предметы")
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.allSubjects, function(subject) {
-                              return _c("option", [_vm._v(_vm._s(subject))])
-                            })
-                          ],
-                          2
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.workingColumns.stage.value
-                    ? _c("th", [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.selectedStage,
-                                expression: "selectedStage"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.selectedStage = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { selected: "" } }, [
-                              _vm._v("Все этапы")
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.allStages, function(stage) {
-                              return _c("option", [_vm._v(_vm._s(stage))])
-                            })
-                          ],
-                          2
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.workingColumns.result.value
-                    ? _c("th", [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.selectedResult,
-                                expression: "selectedResult"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.selectedResult = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { selected: "" } }, [
-                              _vm._v("Все результаты")
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.allResults, function(result) {
-                              return _c("option", [_vm._v(_vm._s(result))])
-                            })
-                          ],
-                          2
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  !_vm.is_admin ? _c("th", [_vm._v("Баллы")]) : _vm._e()
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.sortedAchievement, function(achievement) {
-                return _c(
-                  "tr",
-                  [
-                    _vm.is_admin && _vm.section !== "profile"
-                      ? [
-                          _vm.workingColumns.student.value
-                            ? _c("td", [_vm._v(_vm._s(achievement.student))])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.workingColumns.form.value
-                            ? _c("td", [_vm._v(_vm._s(achievement.form))])
-                            : _vm._e()
-                        ]
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.workingColumns.category.value
-                      ? _c("td", [_vm._v(_vm._s(achievement.category))])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.workingColumns.type.value
-                      ? _c("td", [_vm._v(_vm._s(achievement.type))])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.workingColumns.name.value
-                      ? _c("td", [_vm._v(_vm._s(achievement.name))])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.workingColumns.subject.value
-                      ? _c("td", [_vm._v(_vm._s(achievement.subject))])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.workingColumns.stage.value
-                      ? _c("td", [_vm._v(_vm._s(achievement.stage))])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.workingColumns.result.value
-                      ? _c("td", [_vm._v(_vm._s(achievement.result))])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    !_vm.is_admin
-                      ? _c("td", [_vm._v(_vm._s(achievement.score))])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.section === "created" || _vm.section === "rejected"
-                      ? [
-                          _vm.workingColumns.editing.value
-                            ? _c("td", [
-                                _c(
-                                  "a",
-                                  {
-                                    attrs: {
-                                      href: _vm.link(achievement.id, "edit")
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "button",
-                                      { staticClass: "btn btn-warning" },
-                                      [_vm._v("Редактировать")]
-                                    )
-                                  ]
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.workingColumns.deletion.value
-                            ? _c("td", [
-                                _c(
-                                  "a",
-                                  {
-                                    attrs: {
-                                      href: _vm.link(achievement.id, "delete")
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "button",
-                                      { staticClass: "btn btn-danger" },
-                                      [_vm._v("Удалить")]
-                                    )
-                                  ]
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.workingColumns.sending.value
-                            ? _c("td", [
-                                _c(
-                                  "a",
-                                  {
-                                    attrs: {
-                                      href: _vm.link(achievement.id, "send")
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "button",
-                                      { staticClass: "btn btn-success" },
-                                      [_vm._v("Отправить")]
-                                    )
-                                  ]
-                                )
-                              ])
-                            : _vm._e()
-                        ]
-                      : _vm._e(),
-                    _vm._v(" "),
-                    !_vm.is_admin &&
-                    _vm.section === "sent" &&
-                    _vm.workingColumns.returning.value
-                      ? _c("td", [
-                          _c(
-                            "a",
-                            {
-                              attrs: {
-                                href: _vm.link(achievement.id, "return")
-                              }
-                            },
-                            [
-                              _c("button", { staticClass: "btn btn-info" }, [
-                                _vm._v("Отозвать")
-                              ])
-                            ]
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.is_admin && _vm.workingColumns.rejection.value
-                      ? _c("td", [
-                          _c(
-                            "a",
-                            {
-                              attrs: {
-                                href: _vm.link(achievement.id, "reject")
-                              }
-                            },
-                            [
-                              _c("button", { staticClass: "btn btn-danger" }, [
-                                _vm._v("Отклонить")
-                              ])
-                            ]
-                          )
-                        ])
-                      : _vm._e()
-                  ],
-                  2
-                )
-              }),
-              0
-            )
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-warning",
+              on: { click: _vm.returnColumns }
+            },
+            [_vm._v("Вернуть все колонки")]
+          )
         ])
-      ])
-    ])
+      ]
+    )
   ])
 }
 var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
-  \*******************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
-          ])
-        ])
-      ])
-    ])
-  }
-]
 render._withStripped = true
 
 
@@ -50178,7 +50402,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
-Vue.component('achievement-table', __webpack_require__(/*! ./components/AchievementTable.vue */ "./resources/js/components/AchievementTable.vue")["default"]);
+Vue.component('achievement-table', __webpack_require__(/*! ./components/table/AchievementTable.vue */ "./resources/js/components/table/AchievementTable.vue")["default"]);
+Vue.component('reject-achievement', __webpack_require__(/*! ./components/AchievementRejection.vue */ "./resources/js/components/AchievementRejection.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -50249,17 +50474,17 @@ if (token) {
 
 /***/ }),
 
-/***/ "./resources/js/components/AchievementTable.vue":
-/*!******************************************************!*\
-  !*** ./resources/js/components/AchievementTable.vue ***!
-  \******************************************************/
+/***/ "./resources/js/components/AchievementRejection.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/AchievementRejection.vue ***!
+  \**********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AchievementTable_vue_vue_type_template_id_48c26cca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AchievementTable.vue?vue&type=template&id=48c26cca& */ "./resources/js/components/AchievementTable.vue?vue&type=template&id=48c26cca&");
-/* harmony import */ var _AchievementTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AchievementTable.vue?vue&type=script&lang=js& */ "./resources/js/components/AchievementTable.vue?vue&type=script&lang=js&");
+/* harmony import */ var _AchievementRejection_vue_vue_type_template_id_554054f6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AchievementRejection.vue?vue&type=template&id=554054f6& */ "./resources/js/components/AchievementRejection.vue?vue&type=template&id=554054f6&");
+/* harmony import */ var _AchievementRejection_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AchievementRejection.vue?vue&type=script&lang=js& */ "./resources/js/components/AchievementRejection.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -50269,9 +50494,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _AchievementTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AchievementTable_vue_vue_type_template_id_48c26cca___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _AchievementTable_vue_vue_type_template_id_48c26cca___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _AchievementRejection_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AchievementRejection_vue_vue_type_template_id_554054f6___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AchievementRejection_vue_vue_type_template_id_554054f6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -50281,38 +50506,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/AchievementTable.vue"
+component.options.__file = "resources/js/components/AchievementRejection.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/AchievementTable.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/AchievementTable.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************/
+/***/ "./resources/js/components/AchievementRejection.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/AchievementRejection.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AchievementTable.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementRejection_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementRejection.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AchievementRejection.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementRejection_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/AchievementTable.vue?vue&type=template&id=48c26cca&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/AchievementTable.vue?vue&type=template&id=48c26cca& ***!
-  \*************************************************************************************/
+/***/ "./resources/js/components/AchievementRejection.vue?vue&type=template&id=554054f6&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/AchievementRejection.vue?vue&type=template&id=554054f6& ***!
+  \*****************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTable_vue_vue_type_template_id_48c26cca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementTable.vue?vue&type=template&id=48c26cca& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AchievementTable.vue?vue&type=template&id=48c26cca&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTable_vue_vue_type_template_id_48c26cca___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementRejection_vue_vue_type_template_id_554054f6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementRejection.vue?vue&type=template&id=554054f6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AchievementRejection.vue?vue&type=template&id=554054f6&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementRejection_vue_vue_type_template_id_554054f6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTable_vue_vue_type_template_id_48c26cca___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementRejection_vue_vue_type_template_id_554054f6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -50382,6 +50607,351 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTable.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTable.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AchievementTable_vue_vue_type_template_id_c71503aa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AchievementTable.vue?vue&type=template&id=c71503aa& */ "./resources/js/components/table/AchievementTable.vue?vue&type=template&id=c71503aa&");
+/* harmony import */ var _AchievementTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AchievementTable.vue?vue&type=script&lang=js& */ "./resources/js/components/table/AchievementTable.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AchievementTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AchievementTable_vue_vue_type_template_id_c71503aa___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AchievementTable_vue_vue_type_template_id_c71503aa___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/table/AchievementTable.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTable.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTable.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTable.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTable.vue?vue&type=template&id=c71503aa&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTable.vue?vue&type=template&id=c71503aa& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTable_vue_vue_type_template_id_c71503aa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementTable.vue?vue&type=template&id=c71503aa& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTable.vue?vue&type=template&id=c71503aa&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTable_vue_vue_type_template_id_c71503aa___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTable_vue_vue_type_template_id_c71503aa___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTableBody.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTableBody.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AchievementTableBody_vue_vue_type_template_id_49430d26___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AchievementTableBody.vue?vue&type=template&id=49430d26& */ "./resources/js/components/table/AchievementTableBody.vue?vue&type=template&id=49430d26&");
+/* harmony import */ var _AchievementTableBody_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AchievementTableBody.vue?vue&type=script&lang=js& */ "./resources/js/components/table/AchievementTableBody.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AchievementTableBody_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AchievementTableBody_vue_vue_type_template_id_49430d26___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AchievementTableBody_vue_vue_type_template_id_49430d26___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/table/AchievementTableBody.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTableBody.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTableBody.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableBody_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementTableBody.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableBody.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableBody_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTableBody.vue?vue&type=template&id=49430d26&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTableBody.vue?vue&type=template&id=49430d26& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableBody_vue_vue_type_template_id_49430d26___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementTableBody.vue?vue&type=template&id=49430d26& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableBody.vue?vue&type=template&id=49430d26&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableBody_vue_vue_type_template_id_49430d26___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableBody_vue_vue_type_template_id_49430d26___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTableColumnHeader.vue":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTableColumnHeader.vue ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AchievementTableColumnHeader_vue_vue_type_template_id_530dcdce___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AchievementTableColumnHeader.vue?vue&type=template&id=530dcdce& */ "./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=template&id=530dcdce&");
+/* harmony import */ var _AchievementTableColumnHeader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AchievementTableColumnHeader.vue?vue&type=script&lang=js& */ "./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AchievementTableColumnHeader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AchievementTableColumnHeader_vue_vue_type_template_id_530dcdce___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AchievementTableColumnHeader_vue_vue_type_template_id_530dcdce___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/table/AchievementTableColumnHeader.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableColumnHeader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementTableColumnHeader.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableColumnHeader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=template&id=530dcdce&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=template&id=530dcdce& ***!
+  \*******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableColumnHeader_vue_vue_type_template_id_530dcdce___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementTableColumnHeader.vue?vue&type=template&id=530dcdce& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableColumnHeader.vue?vue&type=template&id=530dcdce&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableColumnHeader_vue_vue_type_template_id_530dcdce___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableColumnHeader_vue_vue_type_template_id_530dcdce___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTableHead.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTableHead.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AchievementTableHead_vue_vue_type_template_id_3360beab___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AchievementTableHead.vue?vue&type=template&id=3360beab& */ "./resources/js/components/table/AchievementTableHead.vue?vue&type=template&id=3360beab&");
+/* harmony import */ var _AchievementTableHead_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AchievementTableHead.vue?vue&type=script&lang=js& */ "./resources/js/components/table/AchievementTableHead.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AchievementTableHead_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AchievementTableHead_vue_vue_type_template_id_3360beab___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AchievementTableHead_vue_vue_type_template_id_3360beab___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/table/AchievementTableHead.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTableHead.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTableHead.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableHead_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementTableHead.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableHead.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableHead_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/table/AchievementTableHead.vue?vue&type=template&id=3360beab&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/table/AchievementTableHead.vue?vue&type=template&id=3360beab& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableHead_vue_vue_type_template_id_3360beab___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AchievementTableHead.vue?vue&type=template&id=3360beab& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/AchievementTableHead.vue?vue&type=template&id=3360beab&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableHead_vue_vue_type_template_id_3360beab___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementTableHead_vue_vue_type_template_id_3360beab___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/table/ColumnSettings.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/table/ColumnSettings.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ColumnSettings_vue_vue_type_template_id_9983ac36___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ColumnSettings.vue?vue&type=template&id=9983ac36& */ "./resources/js/components/table/ColumnSettings.vue?vue&type=template&id=9983ac36&");
+/* harmony import */ var _ColumnSettings_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ColumnSettings.vue?vue&type=script&lang=js& */ "./resources/js/components/table/ColumnSettings.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ColumnSettings_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ColumnSettings_vue_vue_type_template_id_9983ac36___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ColumnSettings_vue_vue_type_template_id_9983ac36___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/table/ColumnSettings.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/table/ColumnSettings.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/table/ColumnSettings.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ColumnSettings_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ColumnSettings.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/ColumnSettings.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ColumnSettings_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/table/ColumnSettings.vue?vue&type=template&id=9983ac36&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/table/ColumnSettings.vue?vue&type=template&id=9983ac36& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColumnSettings_vue_vue_type_template_id_9983ac36___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ColumnSettings.vue?vue&type=template&id=9983ac36& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/table/ColumnSettings.vue?vue&type=template&id=9983ac36&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColumnSettings_vue_vue_type_template_id_9983ac36___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColumnSettings_vue_vue_type_template_id_9983ac36___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

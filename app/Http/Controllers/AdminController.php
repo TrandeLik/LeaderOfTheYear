@@ -271,6 +271,7 @@ class AdminController extends Controller // TODO погуглить, как сд
     public function getAchievementsTable(){
         
         $allAchievements = Achievement::all()->where('status', 'confirmed');
+        $achievements = [];
         foreach ($allAchievements as $achievement){
             $newAchievement=(object)[];
             $newAchievement->student = $achievement->user->name;
@@ -282,6 +283,7 @@ class AdminController extends Controller // TODO погуглить, как сд
             $newAchievement->stage = $achievement->stage;
             $newAchievement->result = $achievement->result;
             $newAchievement->score = $achievement->score;
+            $newAchievement->id = $achievement->id;
             $achievements[] = $newAchievement;
         }
         return view('admin.table', compact('achievements'));
