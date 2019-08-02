@@ -16,7 +16,7 @@
         </thead>
         <tbody>
             @foreach ($leaders as $leader)
-                @if (($showPeopleWithNullScore) or ($leader->score!=0)) 
+                @if (($leader->score>=$minimalAllowedScore) or (Auth::user()->role=='superadmin'))
                     <tr class={{($leader->percentage()<=$awardedPercentage + $winnerPercentage) ? ($leader->percentage()<=$winnerPercentage) ? 'table-success' : 'table-warning' : ''}}>
                         <th scope="row">{{ $leader->place() }}</th>
                         <td>{{ $leader->name }}</td>
