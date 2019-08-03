@@ -253,23 +253,17 @@ class AdminController extends Controller // TODO погуглить, как сд
     public function settingsUpdate(Request $request){
         $settings = Setting::all();
         foreach ($settings as $setting){
-            if ($setting->type!='GlobalVariable'){
-                if (($setting->type=='on/off') and ($request->input($setting->id)!='on') and ($request->input($setting->id)!='off')){
-                    if ($setting->value == 'on'){ // ToDo сообщение о том, что раздел включили/отключили
-                        $setting->value = 'off';
-                    } else {
-                        $setting->value = 'on';
-                    }
-                } else {
-                    $setting->value = $request->input($setting->id);
-                }
-                $setting->save();
+            if (($setting->type=='on/off') and (empty($request->input($setting->id)))){ // ToDo сообщение о том, что раздел включили/отключили
+                $setting->value = 'off';
+            } else {
+                $setting->value = $request->input($setting->id);
             }
+            $setting->save();
         }
         return redirect(url()->previous());
     }
+    
     public function getAchievementsTable(){
-        
         $allAchievements = Achievement::all()->where('status', 'confirmed');
         $achievements = [];
         foreach ($allAchievements as $achievement){
