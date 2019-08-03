@@ -22,7 +22,7 @@ class UserController extends Controller
     }
 
     public function index(){
-        $achievements = Auth::user()->achievements;
+        $allAchievements = Auth::user()->achievements;
         $isStatisticsWorking = Setting::where('name', 'Статистика')->first()->value == 'on';
         $confirmedScore = Auth::user()->confirmedScore();
         $totalScore = Auth::user()->totalScore();
@@ -31,30 +31,15 @@ class UserController extends Controller
         $percentage = Auth::user()->percentage();
         $mainCategory = Setting::where('name','Главная категория')->value('value');
 
-        $confirmedAchievements = [];
-        $createdAchievements = [];
-        $rejectedAchievements = [];
-        $sentAchievements = [];
+        $achievements = [];
 
-        foreach ($achievements as $achievement) {
-            if ($achievement->status == 'confirmed') {
-                $confirmedAchievements[] = $achievement;
-            };
-            if ($achievement->status == 'created') {
-                $createdAchievements[] = $achievement;
-            };
-            if ($achievement->status == 'rejected') {
-                $rejectedAchievements[] = $achievement;
-            };
-            if ($achievement->status == 'sent') {
-                $sentAchievements[] = $achievement;
-            }
+        foreach ($allAchievements as $achievement) {
+            $achievements[] = $achievement;
         }
 
         return view('user.index', compact('achievements','confirmedScore',
                 'totalScore','place', 'percentage','falseCategories','mainCategory',
-                'isStatisticsWorking', 'confirmedAchievements', 'createdAchievements',
-                'rejectedAchievements', 'sentAchievements'
+                'isStatisticsWorking', 'allAchievements'
             ));
     }
 

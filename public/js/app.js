@@ -1844,9 +1844,14 @@ __webpack_require__.r(__webpack_exports__);
         'name': 'Все названия',
         'subject': 'Все предметы',
         'stage': 'Все этапы',
-        'result': 'Все результаты'
+        'result': 'Все результаты',
+        'status': 'Все статусы'
       },
       allWorkingColumns: {
+        'status': {
+          'text': 'Статус',
+          'value': true
+        },
         'student': {
           'text': 'ФИО',
           'value': true
@@ -1914,6 +1919,8 @@ __webpack_require__.r(__webpack_exports__);
       var subject = this.selected.subject;
       var stage = this.selected.stage;
       var result = this.selected.result;
+      var status = this.selected.status;
+      var translator = this.translate;
       this.achievements.forEach(function (achievement) {
         var isInSorted = true;
 
@@ -1921,7 +1928,7 @@ __webpack_require__.r(__webpack_exports__);
           isInSorted = sorted.indexOf(achievement[data]) === -1;
         }
 
-        if (isInSorted && (achievement.form === form || form === 'Все классы' || data === 'form') && (achievement.student === student || student === 'Все ученики' || data === 'student') && (achievement.category === category || category === 'Все категории' || data === 'category') && (achievement.type === type || type === 'Все типы' || data === 'type') && (achievement.name === name || name === 'Все названия' || data === 'name') && (achievement.subject === subject || subject === 'Все предметы' || data === 'subject') && (achievement.stage === stage || stage === 'Все этапы' || data === 'stage') && (achievement.result === result || result === 'Все результаты' || data === 'result')) {
+        if (isInSorted && (translator(achievement.status) === status || status === 'Все статусы' || data === 'status') && (achievement.form === form || form === 'Все классы' || data === 'form') && (achievement.student === student || student === 'Все ученики' || data === 'student') && (achievement.category === category || category === 'Все категории' || data === 'category') && (achievement.type === type || type === 'Все типы' || data === 'type') && (achievement.name === name || name === 'Все названия' || data === 'name') && (achievement.subject === subject || subject === 'Все предметы' || data === 'subject') && (achievement.stage === stage || stage === 'Все этапы' || data === 'stage') && (achievement.result === result || result === 'Все результаты' || data === 'result')) {
           if (data === 'all') {
             sorted.push(achievement);
           } else {
@@ -1949,6 +1956,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     dropFilters: function dropFilters() {
+      this.selected.form = 'Все статусы';
       this.selected.form = 'Все классы';
       this.selected.student = 'Все ученики';
       this.selected.category = 'Все категории';
@@ -1974,6 +1982,23 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       array.sort(compare);
+    },
+    translate: function translate(s) {
+      if (s === 'created') {
+        return 'Созданные, но не отправленные';
+      }
+
+      if (s === 'rejected') {
+        return 'Отклоненные';
+      }
+
+      if (s === 'sent') {
+        return 'Отправленные, но не проверенные';
+      }
+
+      if (s === 'confirmed') {
+        return 'Проверенные';
+      }
     }
   },
   computed: {
@@ -1986,6 +2011,7 @@ __webpack_require__.r(__webpack_exports__);
       var subjects = this.setData('subject');
       var stages = this.setData('stage');
       var results = this.setData('result');
+      var status = this.setData('status');
       var resultFilters = {
         'form': forms,
         'student': students,
@@ -1994,7 +2020,8 @@ __webpack_require__.r(__webpack_exports__);
         'name': names,
         'subject': subjects,
         'stage': stages,
-        'result': results
+        'result': results,
+        'status': status
       };
       return resultFilters;
     },
@@ -2047,11 +2074,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['is_admin', 'section', 'workingColumns', 'sortedAchievement'],
   methods: {
     link: function link(id, action) {
       return '/achievement/' + id + '/' + action;
+    },
+    translate: function translate(s) {
+      if (s === 'created') {
+        return 'Созданные, но не отправленные';
+      }
+
+      if (s === 'rejected') {
+        return 'Отклоненные';
+      }
+
+      if (s === 'sent') {
+        return 'Отправленные, но не проверенные';
+      }
+
+      if (s === 'confirmed') {
+        return 'Проверенные';
+      }
+    },
+    rowStyle: function rowStyle(status) {
+      if (status === 'created') {
+        return 'table-primary';
+      }
+
+      if (status === 'rejected') {
+        return 'table-danger';
+      }
+
+      if (status === 'sent') {
+        return 'table-secondary';
+      }
+
+      if (status === 'confirmed') {
+        return 'table-success';
+      }
     }
   }
 });
@@ -2077,7 +2139,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['isWorking', 'selected', 'firstSelected', 'list', 'columnKey']
+  props: ['isWorking', 'selected', 'firstSelected', 'list', 'columnKey'],
+  methods: {
+    translate: function translate(s) {
+      if (s === 'created') {
+        return 'Созданные, но не отправленные';
+      }
+
+      if (s === 'rejected') {
+        return 'Отклоненные';
+      }
+
+      if (s === 'sent') {
+        return 'Отправленные, но не проверенные';
+      }
+
+      if (s === 'confirmed') {
+        return 'Проверенные';
+      }
+
+      return s;
+    }
+  }
 });
 
 /***/ }),
@@ -2092,6 +2175,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AchievementTableColumnHeader_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AchievementTableColumnHeader.vue */ "./resources/js/components/table/AchievementTableColumnHeader.vue");
+//
 //
 //
 //
@@ -37731,14 +37815,6 @@ var render = function() {
             [_vm._v("Сбросить фильтры")]
           ),
           _vm._v(" "),
-          !_vm.is_admin
-            ? _c("p", [
-                _vm._v(
-                  "Баллы за данные достижения - " + _vm._s(_vm.studentsScore)
-                )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
           _c("br"),
           _c("br"),
           _c("column-settings", {
@@ -37749,6 +37825,14 @@ var render = function() {
             }
           }),
           _c("br"),
+          _vm._v(" "),
+          !_vm.is_admin
+            ? _c("p", [
+                _vm._v(
+                  "Баллы за данные достижения - " + _vm._s(_vm.studentsScore)
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "table-responsive" }, [
             _c(
@@ -37810,7 +37894,12 @@ var render = function() {
     _vm._l(_vm.sortedAchievement, function(achievement) {
       return _c(
         "tr",
+        { class: _vm.rowStyle(achievement.status) },
         [
+          _vm.workingColumns.status.value
+            ? _c("td", [_vm._v(_vm._s(_vm.translate(achievement.status)))])
+            : _vm._e(),
+          _vm._v(" "),
           _vm.is_admin && _vm.section !== "profile"
             ? [
                 _vm.workingColumns.student.value
@@ -37851,7 +37940,9 @@ var render = function() {
             ? _c("td", [_vm._v(_vm._s(achievement.score))])
             : _vm._e(),
           _vm._v(" "),
-          _vm.section === "created" || _vm.section === "rejected"
+          (achievement.status === "created" ||
+            achievement.status === "rejected") &&
+          !_vm.is_admin
             ? [
                 _vm.workingColumns.editing.value
                   ? _c("td", [
@@ -37898,7 +37989,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           !_vm.is_admin &&
-          _vm.section === "sent" &&
+          achievement.status === "sent" &&
           _vm.workingColumns.returning.value
             ? _c("td", [
                 _c(
@@ -37913,7 +38004,10 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.is_admin && _vm.workingColumns.rejection.value
+          _vm.is_admin &&
+          _vm.workingColumns.rejection.value &&
+          achievement.status !== "rejected" &&
+          achievement.status !== "created"
             ? _c(
                 "td",
                 [
@@ -37990,7 +38084,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _vm._l(_vm.list[_vm.columnKey], function(item) {
-              return _c("option", [_vm._v(_vm._s(item))])
+              return _c("option", [_vm._v(_vm._s(_vm.translate(item)))])
             })
           ],
           2
@@ -38024,6 +38118,16 @@ var render = function() {
     _c(
       "tr",
       [
+        _c("achievement-table-column-header", {
+          attrs: {
+            isWorking: _vm.workingColumns,
+            columnKey: "status",
+            selected: _vm.selected,
+            firstSelected: "Все статусы",
+            list: _vm.filters
+          }
+        }),
+        _vm._v(" "),
         _vm.is_admin && _vm.section !== "profile"
           ? [
               _c("achievement-table-column-header", {
@@ -50975,8 +51079,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Dmitiy\Documents\GitHub\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Dmitiy\Documents\GitHub\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\admin\Documents\GitHub\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\admin\Documents\GitHub\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
