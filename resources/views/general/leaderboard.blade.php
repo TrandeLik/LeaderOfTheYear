@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="table-responsive">
-    <a href="/leaderboard/export">Экспортировать в Excel</a>
+    @if ((Auth::user()->role=='superadmin') or (Auth::user()->role=='admin'))
+        <a href="/leaderboard/export">Экспортировать в Excel</a>
+    @endif
     <table class="table table-hover">
         <thead>
             <tr>

@@ -79,6 +79,7 @@
                                         <a class="dropdown-item" href="/user">Главная</a>
                                     @endif
                                     <a class="dropdown-item" href="/profile">Профиль</a>
+                                    <a class="dropdown-item" href="/">О конкурсе</a>
                                     @if ((auth()->user()->role == 'admin') or (auth()->user()->role == 'superadmin') or ($isLeaderBoardWorking == 'on'))
                                         <a class="dropdown-item" href="/leaderboard">Рейтинговая таблица</a>
                                     @endif

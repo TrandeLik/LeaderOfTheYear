@@ -6,6 +6,9 @@
     .btn-primary{
         float:right;
     }
+    .warning{
+        color:firebrick;
+    }
 </style>
 @section('content')
 
@@ -16,7 +19,7 @@
                 <div class="card-header">Статистика</div>
                 <div class="card-body">
                     @if (count($falseCategories)!=0)
-                        <p style="color: firebrick;">
+                        <p class="warning">
                             Ваши баллы за достижения в
                             @if(count($falseCategories)==1)
                                 категории
@@ -31,10 +34,12 @@
                     @endif
                     <p>Сейчас у Вас {{$confirmedScore}} подтверждённых баллов<p>
                     <p>Если все Ваши достижения будут одобрены, Вы получите {{$totalScore}} баллов</p>
-                     @if($isStatisticsWorking)
-                        <p>Вы на {{$place}} месте</p>
-                        <p>Вы входите в {{$percentage}} процентов лучших</p>
-                     @endif
+                        @if (($isStatisticsWorking) and (Auth::user()->confirmedScore()>=$minimalAllowedScore))
+                            <p>Вы на {{$place}} месте</p>
+                            <p>Вы входите в {{$percentage}} процентов лучших</p>
+                        @elseif (Auth::user()->confirmedScore()<$minimalAllowedScore)
+                            <p class="warning">Ваших подтверждённых баллов недостаточно для участия в конкурсе. Количество баллов, которое вам ещё нужно набрать для попадания в рейтинг: {{$minimalAllowedScore - Auth::user()->confirmedScore()}}</p>
+                        @endif
                 </div>
             </div>
             <div class="card border-primary">

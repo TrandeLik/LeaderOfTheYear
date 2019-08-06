@@ -1,4 +1,9 @@
 @extends('layouts.app')
+<style>
+    .btn-success{
+        margin-top:10px;
+    }
+</style>
 
 @section('content')
     <div class="container">
@@ -38,7 +43,7 @@
                                     @endif
                                 </div>
                             @endforeach
-                            <input type="submit">
+                            <input type="submit" value="Сохранить" class="btn btn-success col-md-4 offset-md-4">
                         </form>
                     </div>
                 </div>

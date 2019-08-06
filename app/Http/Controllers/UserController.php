@@ -30,7 +30,7 @@ class UserController extends Controller
         $falseCategories = Auth::user()->falseCategories();
         $percentage = Auth::user()->percentage();
         $mainCategory = Setting::where('name','Главная категория')->value('value');
-
+        $minimalAllowedScore = Setting::where('name', 'Минимальный порог баллов для участия')->first()->value;
         $achievements = [];
 
         foreach ($allAchievements as $achievement) {
@@ -39,7 +39,7 @@ class UserController extends Controller
 
         return view('user.index', compact('achievements','confirmedScore',
                 'totalScore','place', 'percentage','falseCategories','mainCategory',
-                'isStatisticsWorking', 'allAchievements'
+                'isStatisticsWorking', 'allAchievements','minimalAllowedScore'
             ));
     }
 
