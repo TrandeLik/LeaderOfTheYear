@@ -5,7 +5,7 @@
                 <button v-if="is_admin" class="btn btn-primary" @click="downloadTable">Экспортировать в Excel</button>
                 <button class="btn btn-warning" @click="dropFilters">Сбросить фильтры</button>
                 <br><br><column-settings :is_admin="is_admin" :section="section" :allWorkingColumns = 'allWorkingColumns'></column-settings><br>
-                <p v-if="! is_admin">Баллы за данные достижения - {{studentsScore}}</p>
+                <p v-if="! is_admin">Баллы за данные достижения (без учета условий конкурса, т.е. баллы, которые вы получите, если учесть все выбранные достижения) - {{studentsScore}}</p>
                 <div class="table-responsive">
                 <table class="table">
                     <achievement-table-head :section="section" :workingColumns="allWorkingColumns" :selected="selected" :filters="filters" :is_admin="is_admin"></achievement-table-head>
@@ -56,7 +56,8 @@
                     'sending': {'text': 'Отправка', 'value': true},
                     'returning': {'text': 'Возврат', 'value': true},
                     'rejection': {'text': 'Отклонение', 'value': true},
-                }
+                    'confirmation': {'text': 'Одобрение', 'value': true},
+                },
             }
         },
 
@@ -134,13 +135,39 @@
 
             mySort: function (array) {
                 function compare(a, b) {
-                    const scoreA = Number(a.score);
-                    const scoreB = Number(b.score);
+                    let scoreA = Number(a.score);
+                    let scoreB = Number(b.score);
+                    let statusA = a.status;
+                    let statusB = b.status;
                     let comparison = 0;
-                    if (scoreA > scoreB) {
-                        comparison = 1;
-                    } else if (scoreA < scoreB) {
-                        comparison = -1;
+                    if (statusA === 'confirmed'){
+                        comparison = -1
+                    } else {
+                         if (statusB === 'confirmed'){
+                             comparison = 1
+                         } else {
+                            if (statusA === 'sent'){
+                                comparison = -1
+                            } else {
+                                if (statusB === 'sent'){
+                                    comparison = 1
+                                } else {
+                                    if (statusA === 'rejected'){
+                                        comparison = -1
+                                    } else {
+                                        if (statusB === 'rejected'){
+                                            comparison = 1
+                                        } else {
+                                            if (scoreA > scoreB) {
+                                                comparison = 1;
+                                            } else if (scoreA < scoreB) {
+                                                comparison = -1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                         }
                     }
                     return comparison * (-1);
                 }
@@ -160,7 +187,13 @@
                 if (s === 'confirmed'){
                     return 'Проверенные'
                 }
+            },
+
+            changeSortKey: function () {
+                let key = this.sortKey;
+                this.sortKey = key * (-1)
             }
+
 
         },
 

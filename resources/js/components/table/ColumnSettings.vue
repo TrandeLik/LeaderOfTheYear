@@ -20,7 +20,7 @@
 <script>
     export default {
         name: 'columnSettings',
-        props: ['allWorkingColumns', 'is_admin', 'section'],
+        props: ['allWorkingColumns', 'is_admin'],
         methods: {
             returnColumns: function () {
                 for (let key in this.workingColumns){
@@ -31,18 +31,17 @@
         computed: {
             workingColumns:function () {
                 let is_admin = this.is_admin;
-                let section = this.section;
                 let working = {};
                 let allWorkingColumns = this.allWorkingColumns;
                 for (var key in allWorkingColumns){
                     let column = allWorkingColumns[key];
                     if ((key === 'editing') || (key === 'deletion') || (key === 'sending')) {
-                        (((section === 'created') || (section === 'rejected')) && (!is_admin)) && (working[key] = column);
+                        (!is_admin) && (working[key] = column);
                     } else {
                         if (key === 'returning') {
-                            ((section === 'sent') && (!is_admin)) && (working[key] = column);
+                            (!is_admin) && (working[key] = column);
                         } else {
-                            if ((key === 'student') || (key === 'form') || (key === 'rejection')){
+                            if ((key === 'student') || (key === 'form') || (key === 'rejection') || (key === 'confirmation')){
                                 (is_admin) && (working[key] = column);
                             } else {
                                 working[key] = column;

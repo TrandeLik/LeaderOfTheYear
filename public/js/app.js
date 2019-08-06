@@ -1903,6 +1903,10 @@ __webpack_require__.r(__webpack_exports__);
         'rejection': {
           'text': 'Отклонение',
           'value': true
+        },
+        'confirmation': {
+          'text': 'Одобрение',
+          'value': true
         }
       }
     };
@@ -1970,12 +1974,38 @@ __webpack_require__.r(__webpack_exports__);
       function compare(a, b) {
         var scoreA = Number(a.score);
         var scoreB = Number(b.score);
+        var statusA = a.status;
+        var statusB = b.status;
         var comparison = 0;
 
-        if (scoreA > scoreB) {
-          comparison = 1;
-        } else if (scoreA < scoreB) {
+        if (statusA === 'confirmed') {
           comparison = -1;
+        } else {
+          if (statusB === 'confirmed') {
+            comparison = 1;
+          } else {
+            if (statusA === 'sent') {
+              comparison = -1;
+            } else {
+              if (statusB === 'sent') {
+                comparison = 1;
+              } else {
+                if (statusA === 'rejected') {
+                  comparison = -1;
+                } else {
+                  if (statusB === 'rejected') {
+                    comparison = 1;
+                  } else {
+                    if (scoreA > scoreB) {
+                      comparison = 1;
+                    } else if (scoreA < scoreB) {
+                      comparison = -1;
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
 
         return comparison * -1;
@@ -1999,6 +2029,10 @@ __webpack_require__.r(__webpack_exports__);
       if (s === 'confirmed') {
         return 'Проверенные';
       }
+    },
+    changeSortKey: function changeSortKey() {
+      var key = this.sortKey;
+      this.sortKey = key * -1;
     }
   },
   computed: {
@@ -2049,6 +2083,37 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2234,7 +2299,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'columnSettings',
-  props: ['allWorkingColumns', 'is_admin', 'section'],
+  props: ['allWorkingColumns', 'is_admin'],
   methods: {
     returnColumns: function returnColumns() {
       for (var key in this.workingColumns) {
@@ -2245,7 +2310,6 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     workingColumns: function workingColumns() {
       var is_admin = this.is_admin;
-      var section = this.section;
       var working = {};
       var allWorkingColumns = this.allWorkingColumns;
 
@@ -2253,12 +2317,12 @@ __webpack_require__.r(__webpack_exports__);
         var column = allWorkingColumns[key];
 
         if (key === 'editing' || key === 'deletion' || key === 'sending') {
-          (section === 'created' || section === 'rejected') && !is_admin && (working[key] = column);
+          !is_admin && (working[key] = column);
         } else {
           if (key === 'returning') {
-            section === 'sent' && !is_admin && (working[key] = column);
+            !is_admin && (working[key] = column);
           } else {
-            if (key === 'student' || key === 'form' || key === 'rejection') {
+            if (key === 'student' || key === 'form' || key === 'rejection' || key === 'confirmation') {
               is_admin && (working[key] = column);
             } else {
               working[key] = column;
@@ -37829,7 +37893,8 @@ var render = function() {
           !_vm.is_admin
             ? _c("p", [
                 _vm._v(
-                  "Баллы за данные достижения - " + _vm._s(_vm.studentsScore)
+                  "Баллы за данные достижения (без учета условий конкурса, т.е. баллы, которые вы получите, если учесть все выбранные достижения) - " +
+                    _vm._s(_vm.studentsScore)
                 )
               ])
             : _vm._e(),
@@ -37940,59 +38005,64 @@ var render = function() {
             ? _c("td", [_vm._v(_vm._s(achievement.score))])
             : _vm._e(),
           _vm._v(" "),
-          (achievement.status === "created" ||
-            achievement.status === "rejected") &&
-          !_vm.is_admin
-            ? [
-                _vm.workingColumns.editing.value
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        { attrs: { href: _vm.link(achievement.id, "edit") } },
-                        [
-                          _c("button", { staticClass: "btn btn-warning" }, [
-                            _vm._v("Редактировать")
-                          ])
-                        ]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.workingColumns.deletion.value
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        { attrs: { href: _vm.link(achievement.id, "delete") } },
-                        [
-                          _c("button", { staticClass: "btn btn-danger" }, [
-                            _vm._v("Удалить")
-                          ])
-                        ]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.workingColumns.sending.value
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        { attrs: { href: _vm.link(achievement.id, "send") } },
-                        [
-                          _c("button", { staticClass: "btn btn-success" }, [
-                            _vm._v("Отправить")
-                          ])
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ]
-            : _vm._e(),
+          [
+            _c("td", [
+              _vm.workingColumns.editing.value &&
+              ((achievement.status === "created" ||
+                achievement.status === "rejected") &&
+                !_vm.is_admin)
+                ? _c(
+                    "a",
+                    { attrs: { href: _vm.link(achievement.id, "edit") } },
+                    [
+                      _c("button", { staticClass: "btn btn-warning" }, [
+                        _vm._v("Редактировать")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm.workingColumns.deletion.value &&
+              ((achievement.status === "created" ||
+                achievement.status === "rejected") &&
+                !_vm.is_admin)
+                ? _c(
+                    "a",
+                    { attrs: { href: _vm.link(achievement.id, "delete") } },
+                    [
+                      _c("button", { staticClass: "btn btn-danger" }, [
+                        _vm._v("Удалить")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm.workingColumns.sending.value &&
+              ((achievement.status === "created" ||
+                achievement.status === "rejected") &&
+                !_vm.is_admin)
+                ? _c(
+                    "a",
+                    { attrs: { href: _vm.link(achievement.id, "send") } },
+                    [
+                      _c("button", { staticClass: "btn btn-success" }, [
+                        _vm._v("Отправить")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ])
+          ],
           _vm._v(" "),
-          !_vm.is_admin &&
-          achievement.status === "sent" &&
-          _vm.workingColumns.returning.value
-            ? _c("td", [
-                _c(
+          _c("td", [
+            !_vm.is_admin &&
+            achievement.status === "sent" &&
+            _vm.workingColumns.returning.value
+              ? _c(
                   "a",
                   { attrs: { href: _vm.link(achievement.id, "return") } },
                   [
@@ -38001,23 +38071,40 @@ var render = function() {
                     ])
                   ]
                 )
-              ])
-            : _vm._e(),
+              : _vm._e()
+          ]),
           _vm._v(" "),
-          _vm.is_admin &&
-          _vm.workingColumns.rejection.value &&
-          achievement.status !== "rejected" &&
-          achievement.status !== "created"
-            ? _c(
-                "td",
-                [
-                  _c("reject-achievement", {
+          _c(
+            "td",
+            [
+              _vm.is_admin &&
+              _vm.workingColumns.rejection.value &&
+              achievement.status !== "rejected" &&
+              achievement.status !== "created"
+                ? _c("reject-achievement", {
                     attrs: { actionAddress: _vm.link(achievement.id, "reject") }
                   })
-                ],
-                1
-              )
-            : _vm._e()
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("td", [
+            _vm.is_admin &&
+            _vm.workingColumns.confirmation.value &&
+            achievement.status !== "confirmed" &&
+            achievement.status !== "created"
+              ? _c(
+                  "a",
+                  { attrs: { href: _vm.link(achievement.id, "confirm") } },
+                  [
+                    _c("button", { staticClass: "btn btn-success" }, [
+                      _vm._v("Одобрить")
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ])
         ],
         2
       )
@@ -51079,8 +51166,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\admin\Documents\GitHub\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\admin\Documents\GitHub\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Dmitiy\Documents\GitHub\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Dmitiy\Documents\GitHub\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

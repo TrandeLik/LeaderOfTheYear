@@ -35,7 +35,6 @@
 <script>
     export default {
         props: ['actionAddress'],
-
         data(){
             return{
                 adminComment: ''

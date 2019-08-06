@@ -13,13 +13,44 @@
             <td v-if="workingColumns.stage.value">{{achievement.stage}}</td>
             <td v-if="workingColumns.result.value">{{achievement.result}}</td>
             <td v-if="! is_admin">{{achievement.score}}</td>
-            <template v-if="((achievement.status === 'created') || (achievement.status === 'rejected')) && (!is_admin)">
-                <td v-if="workingColumns.editing.value"><a :href="link(achievement.id, 'edit')"><button class="btn btn-warning">Редактировать</button></a></td>
-                <td v-if="workingColumns.deletion.value"><a :href="link(achievement.id, 'delete')"><button class="btn btn-danger">Удалить</button></a></td>
-                <td v-if="workingColumns.sending.value"><a :href="link(achievement.id, 'send')"><button class="btn btn-success">Отправить</button></a></td>
+            <template>
+                <td>
+                    <a v-if="workingColumns.editing.value && (((achievement.status === 'created') ||
+                    (achievement.status === 'rejected')) && (!is_admin))" :href="link(achievement.id, 'edit')">
+                        <button class="btn btn-warning">Редактировать</button>
+                    </a>
+                </td>
+                <td>
+                    <a v-if="workingColumns.deletion.value && (((achievement.status === 'created') ||
+                    (achievement.status === 'rejected')) && (!is_admin))" :href="link(achievement.id, 'delete')">
+                        <button class="btn btn-danger">Удалить</button>
+                    </a>
+                </td>
+                <td>
+                    <a v-if="workingColumns.sending.value && (((achievement.status === 'created') ||
+                    (achievement.status === 'rejected')) && (!is_admin))" :href="link(achievement.id, 'send')">
+                        <button class="btn btn-success">Отправить</button>
+                    </a>
+                </td>
             </template>
-            <td v-if="!(is_admin) && (achievement.status === 'sent') && (workingColumns.returning.value)"><a :href="link(achievement.id, 'return')"><button class="btn btn-info">Отозвать</button></a></td>
-            <td v-if="is_admin  && (workingColumns.rejection.value) && (achievement.status !== 'rejected') && (achievement.status !== 'created')"><reject-achievement :actionAddress="link(achievement.id, 'reject')"></reject-achievement></td>
+            <td>
+                <a v-if="!(is_admin) && (achievement.status === 'sent') && (workingColumns.returning.value)"
+                :href="link(achievement.id, 'return')">
+                    <button class="btn btn-info">Отозвать</button>
+                </a>
+            </td>
+            <td>
+                <reject-achievement v-if="is_admin  && (workingColumns.rejection.value) &&
+                    (achievement.status !== 'rejected') && (achievement.status !== 'created')"
+                    :actionAddress="link(achievement.id, 'reject')">
+                </reject-achievement>
+            </td>
+            <td>
+                <a v-if="is_admin  && (workingColumns.confirmation.value) &&
+                    (achievement.status !== 'confirmed') && (achievement.status !== 'created')"
+                    :href="link(achievement.id, 'confirm')"><button class="btn btn-success">Одобрить</button>
+                </a>
+            </td>
         </tr>
     </tbody>
 </template>

@@ -161,7 +161,8 @@ class AdminController extends Controller // TODO погуглить, как сд
         $user = User::findOrFail($id);
         $students = User::all() -> where('role', 'student');
         $place = $user -> place();
-        $userAchievements = $user -> achievements -> where('status', 'confirmed');
+        $userAchievements = $user -> achievements -> where('status', '!=', 'created');
+        $achievements = [];
         foreach ($userAchievements as $achievement){
             $newAchievement=(object)[];
             $newAchievement->student = $achievement->user->name;
@@ -173,9 +174,11 @@ class AdminController extends Controller // TODO погуглить, как сд
             $newAchievement->stage = $achievement->stage;
             $newAchievement->result = $achievement->result;
             $newAchievement->score = $achievement->score;
-            $confirmedAchievements[] = $newAchievement;
+            $newAchievement->status = $achievement->status;
+            $newAchievement->id = $achievement->id;
+            $achievements[] = $newAchievement;
         }
-        return view('admin/profile', compact('user', 'place', 'confirmedAchievements', 'userAchievements'));
+        return view('admin/profile', compact('user', 'place', 'achievements', 'userAchievements'));
     }
 
     public function ban($id){ // TODO сообщение пользователю о том, что его заблокировали
@@ -265,7 +268,7 @@ class AdminController extends Controller // TODO погуглить, как сд
 
     public function getAchievementsTable(){
         
-        $allAchievements = Achievement::all();
+        $allAchievements = Achievement::all()->where('status', '!=', 'created');
         $achievements = [];
         foreach ($allAchievements as $achievement){
             $newAchievement=(object)[];
