@@ -1856,7 +1856,7 @@ __webpack_require__.r(__webpack_exports__);
     dropSelections: function dropSelections() {
       this.selectedType = 'Тип';
       this.selectedName = '';
-      this.selectedSubject = 'Предмет';
+      this.selectedSubject = '';
       this.selectedStage = 'Этап';
       this.selectedResult = 'Результат';
     },
@@ -1924,7 +1924,7 @@ __webpack_require__.r(__webpack_exports__);
       selectedCategory: 'Категория',
       selectedType: 'Тип',
       selectedName: '',
-      selectedSubject: 'Предмет',
+      selectedSubject: '',
       selectedStage: 'Этап',
       selectedResult: 'Результат',
       selectedDate: '',
@@ -38278,20 +38278,28 @@ var render = function() {
       _vm._v(" "),
       _vm.isuploadingconfirmationspossible
         ? [
-            _c("label", { staticClass: "btn", attrs: { for: "file" } }, [
-              _vm._v("Подтверждение (.png, .jpg, .jpeg, .pdf)")
+            _c("div", { staticClass: "custom-file" }, [
+              _c("input", {
+                staticClass: "custom-file-input",
+                attrs: {
+                  accept:
+                    "application/pdf,\n                                image/jpeg,\n                                image/pjpeg,\n                                image/x-jps,\n                                image/png",
+                  type: "file",
+                  id: "file",
+                  name: "file"
+                },
+                on: { change: _vm.onConfirmationChange }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "custom-file-label",
+                  attrs: { for: "file", "data-browse": "Обзор" }
+                },
+                [_vm._v("Подтверждение (.png, .jpg, .jpeg, .pdf)")]
+              )
             ]),
-            _vm._v(" "),
-            _c("input", {
-              attrs: {
-                accept:
-                  "application/pdf,\n                            image/jpeg,\n                            image/pjpeg,\n                            image/x-jps,\n                            image/png",
-                id: "file",
-                type: "file",
-                name: "file"
-              },
-              on: { change: _vm.onConfirmationChange }
-            }),
             _c("br")
           ]
         : _c("p", [_vm._v("К сожалению, загрузка файлов временно невозможна")]),
@@ -51813,8 +51821,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Dmitiy\Documents\GitHub\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Dmitiy\Documents\GitHub\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Backend\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Backend\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

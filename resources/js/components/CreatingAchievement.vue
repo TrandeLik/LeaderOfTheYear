@@ -42,14 +42,14 @@
 
 
             <template v-if="isuploadingconfirmationspossible">
-                <label for="file" class="btn">Подтверждение (.png, .jpg, .jpeg, .pdf)</label>
-                <input accept="application/pdf,
-                                image/jpeg,
-                                image/pjpeg,
-                                image/x-jps,
-                                image/png"
-                   id = "file" type="file" name="file"
-                   @change="onConfirmationChange"><br>
+                <div class="custom-file">
+                    <input accept= "application/pdf,
+                                    image/jpeg,
+                                    image/pjpeg,
+                                    image/x-jps,
+                                    image/png" type="file" class="custom-file-input" id="file" name="file" @change="onConfirmationChange">
+                     <label class="custom-file-label" for="file" data-browse="Обзор">Подтверждение (.png, .jpg, .jpeg, .pdf)</label>
+                </div><br>
             </template>
             <p v-else>К сожалению, загрузка файлов временно невозможна</p>
 
@@ -87,7 +87,7 @@
             dropSelections: function(){
                 this.selectedType = 'Тип';
                 this.selectedName = '';
-                this.selectedSubject = 'Предмет';
+                this.selectedSubject = '';
                 this.selectedStage = 'Этап';
                 this.selectedResult = 'Результат';
             },
@@ -160,7 +160,7 @@
               selectedCategory : 'Категория',
               selectedType : 'Тип',
               selectedName : '',
-              selectedSubject : 'Предмет',
+              selectedSubject : '',
               selectedStage : 'Этап',
               selectedResult : 'Результат',
               selectedDate : '',
