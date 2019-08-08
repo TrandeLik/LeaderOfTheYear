@@ -22,6 +22,7 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('achievement-table', require('./components/table/AchievementTable.vue').default);
 Vue.component('reject-achievement', require('./components/AchievementRejection.vue').default);
+Vue.component('creating-achievement', require('./components/CreatingAchievement.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

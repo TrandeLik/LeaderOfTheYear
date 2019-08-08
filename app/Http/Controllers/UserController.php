@@ -62,19 +62,21 @@ class UserController extends Controller
         ]);
         $name = '';
         if ($request -> has('file')) {
-            $mimeTypes = [
-                'application/pdf',
-                'image/jpeg',
-                'image/pjpeg',
-                'image/x-jps',
-                'image/png'
-            ];
-            if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
-                $name = time() . '_' . $request->file->getClientOriginalName();
-                $request->file->move(storage_path('confirmations'), $name);
-            } else {
-                $error = 'Данный тип файлов загрузить нельзя :(';
-                return view('general.error', compact('error'));
+            if ((!is_null($request->file)) && (!is_string($request->file))) {
+                $mimeTypes = [
+                    'application/pdf',
+                    'image/jpeg',
+                    'image/pjpeg',
+                    'image/x-jps',
+                    'image/png'
+                ];
+                if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
+                    $name = time() . '_' . $request->file->getClientOriginalName();
+                    $request->file->move(storage_path('confirmations'), $name);
+                } else {
+                    $error = 'Данный тип файлов загрузить нельзя :(';
+                    return view('general.error', compact('error'));
+                }
             }
         }
         $achievement = new Achievement();

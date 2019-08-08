@@ -85,7 +85,7 @@
                         <input type="submit" value="Изменить" class="btn btn-warning col-4">
                         @if ($areCommentsWorking)
                             <div class="accordion" id="accordionExample">
-                                <a href="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>
+                                <a href="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</a>
                                 <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
                                     <textarea name="comment" placeholder = "Комментарий"></textarea>
                                 </div>

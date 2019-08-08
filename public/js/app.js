@@ -1762,6 +1762,206 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CreatingAchievement.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CreatingAchievement.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {},
+  methods: {
+    setData: function setData(name) {
+      var data = [];
+      var category = this.selectedCategory;
+      this.achievementtypes.forEach(function (type) {
+        if (type.category === category && data.indexOf(type[name]) === -1) {
+          data.push(type[name]);
+        }
+      });
+      return data;
+    },
+    dropSelections: function dropSelections() {
+      this.selectedType = 'Тип';
+      this.selectedName = '';
+      this.selectedSubject = 'Предмет';
+      this.selectedStage = 'Этап';
+      this.selectedResult = 'Результат';
+    },
+    dataPreparation: function dataPreparation() {
+      if (this.selectedCategory === 'Спортивные достижения') {
+        this.selectedType = '-';
+        this.selectedSubject = '-';
+        this.selectedDate = '-';
+        return;
+      }
+
+      if (this.selectedCategory === 'Интеллектуальные соревнования') {
+        this.selectedDate = '-';
+        return;
+      }
+
+      if (this.selectedCategory === 'Проектная и исследовательская деятельность') {
+        this.selectedName = '-';
+        this.selectedDate = '-';
+        return;
+      }
+
+      if (this.selectedCategory === 'Участие в лицейской жизни') {
+        this.selectedName = '-';
+        this.selectedSubject = '-';
+        this.selectedStage = '-';
+        this.selectedResult = '-';
+      }
+    },
+    sendData: function sendData() {
+      var config = {
+        'content-type': 'multipart/form-data'
+      };
+      this.dataPreparation();
+      var formData = new FormData();
+      formData.append('category', this.selectedCategory);
+      formData.append('type', this.selectedType);
+      formData.append('name', this.selectedName);
+      formData.append('subject', this.selectedSubject);
+      formData.append('stage', this.selectedStage);
+      formData.append('result', this.selectedResult);
+      formData.append('date', this.selectedDate);
+      formData.append('file', this.confirmation);
+      console.log(formData['file']); // window.axios = require('axios');
+      //
+      // window.axios.defaults.headers.common = {
+      //     'X-Requested-With': 'XMLHttpRequest',
+      //     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      // };
+
+      console.log(formData);
+      axios.post('/achievement/add/new', formData, config).then(function (response) {
+        console.log(response.data.message);
+      })["catch"](function (error) {
+        return console.log(error.response.data);
+      });
+      location = "/user";
+    },
+    onConfirmationChange: function onConfirmationChange(event) {
+      this.confirmation = event.target.files[0];
+    }
+  },
+  data: function data() {
+    return {
+      selectedCategory: 'Категория',
+      selectedType: 'Тип',
+      selectedName: '',
+      selectedSubject: 'Предмет',
+      selectedStage: 'Этап',
+      selectedResult: 'Результат',
+      selectedDate: '',
+      studentComment: '',
+      confirmation: null
+    };
+  },
+  computed: {
+    areInputsDisable: function areInputsDisable() {
+      return this.selectedCategory === 'Категория';
+    },
+    filteredTypes: function filteredTypes() {
+      return this.setData('type');
+    },
+    filteredStages: function filteredStages() {
+      return this.setData('stage');
+    },
+    filteredResults: function filteredResults() {
+      return this.setData('result');
+    },
+    placeholderForName: function placeholderForName() {
+      if (this.selectedCategory === 'Интеллектуальные соревнования') {
+        return 'Название олимпиады';
+      }
+
+      if (this.selectedCategory === 'Спортивные достижения') {
+        return 'Название соревнований';
+      }
+
+      return 'Название мероприятия';
+    }
+  },
+  props: ['categories', 'isuploadingconfirmationspossible', 'arecommentsworking', 'achievementtypes']
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -37794,6 +37994,383 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CreatingAchievement.vue?vue&type=template&id=5dbac4ca&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CreatingAchievement.vue?vue&type=template&id=5dbac4ca& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "card-body" },
+    [
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.selectedCategory,
+              expression: "selectedCategory"
+            }
+          ],
+          attrs: { name: "category", required: "" },
+          on: {
+            change: [
+              function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.selectedCategory = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+              _vm.dropSelections
+            ]
+          }
+        },
+        [
+          _c("option", { attrs: { selected: "", disabled: "" } }, [
+            _vm._v("Категория")
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.categories, function(category) {
+            return _c("option", [_vm._v(_vm._s(category.category))])
+          })
+        ],
+        2
+      ),
+      _vm._v(" "),
+      !(_vm.selectedCategory === "Спортивные достижения")
+        ? _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedType,
+                  expression: "selectedType"
+                }
+              ],
+              attrs: {
+                name: "type",
+                required: "",
+                disabled: _vm.areInputsDisable
+              },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.selectedType = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { selected: "", disabled: "" } }, [
+                _vm._v("Тип")
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.filteredTypes, function(type) {
+                return _c("option", [_vm._v(_vm._s(type))])
+              })
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !(_vm.selectedCategory === "Проектная и исследовательская деятельность")
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selectedName,
+                expression: "selectedName"
+              }
+            ],
+            attrs: {
+              type: "text",
+              name: "name",
+              placeholder: _vm.placeholderForName,
+              required: ""
+            },
+            domProps: { value: _vm.selectedName },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.selectedName = $event.target.value
+              }
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      !(
+        _vm.selectedCategory === "Спортивные достижения" ||
+        _vm.selectedCategory === "Участие в лицейской жизни"
+      )
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selectedSubject,
+                expression: "selectedSubject"
+              }
+            ],
+            attrs: {
+              type: "text",
+              name: "subject",
+              placeholder: "Предмет",
+              required: ""
+            },
+            domProps: { value: _vm.selectedSubject },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.selectedSubject = $event.target.value
+              }
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      !(_vm.selectedCategory === "Участие в лицейской жизни")
+        ? _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedStage,
+                  expression: "selectedStage"
+                }
+              ],
+              attrs: {
+                name: "stage",
+                required: "",
+                disabled: _vm.areInputsDisable
+              },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.selectedStage = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { selected: "", disabled: "" } }, [
+                _vm._v("Этап")
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.filteredStages, function(stage) {
+                return _c("option", [_vm._v(_vm._s(stage))])
+              })
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !(_vm.selectedCategory === "Участие в лицейской жизни")
+        ? _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedResult,
+                  expression: "selectedResult"
+                }
+              ],
+              attrs: {
+                name: "result",
+                required: "",
+                disabled: _vm.areInputsDisable
+              },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.selectedResult = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { selected: "", disabled: "" } }, [
+                _vm._v("Результат")
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.filteredResults, function(result) {
+                return _c("option", [_vm._v(_vm._s(result))])
+              })
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.selectedCategory === "Участие в лицейской жизни"
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selectedDate,
+                expression: "selectedDate"
+              }
+            ],
+            attrs: { type: "date" },
+            domProps: { value: _vm.selectedDate },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.selectedDate = $event.target.value
+              }
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isuploadingconfirmationspossible
+        ? [
+            _c("label", { staticClass: "btn", attrs: { for: "file" } }, [
+              _vm._v("Подтверждение (.png, .jpg, .jpeg, .pdf)")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              attrs: {
+                accept:
+                  "application/pdf,\n                            image/jpeg,\n                            image/pjpeg,\n                            image/x-jps,\n                            image/png",
+                id: "file",
+                type: "file",
+                name: "file"
+              },
+              on: { change: _vm.onConfirmationChange }
+            }),
+            _c("br")
+          ]
+        : _c("p", [_vm._v("К сожалению, загрузка файлов временно невозможна")]),
+      _vm._v(" "),
+      _vm.arecommentsworking
+        ? _c(
+            "div",
+            { staticClass: "accordion", attrs: { id: "accordionExample" } },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-link",
+                  attrs: {
+                    type: "button",
+                    "data-toggle": "collapse",
+                    "data-target": "#collapseOne",
+                    "aria-expanded": "true",
+                    "aria-controls": "collapseOne"
+                  }
+                },
+                [_vm._v("Что-то пошло не так? Оставьте комментарий")]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "collapse hide",
+                  attrs: {
+                    id: "collapseOne",
+                    "aria-labelledby": "headingOne",
+                    "data-parent": "#accordionExample"
+                  }
+                },
+                [
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.studentComment,
+                        expression: "studentComment"
+                      }
+                    ],
+                    attrs: { name: "comment", placeholder: "Комментарий" },
+                    domProps: { value: _vm.studentComment },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.studentComment = $event.target.value
+                      }
+                    }
+                  })
+                ]
+              )
+            ]
+          )
+        : _c("p", [
+            _vm._v("К сожалению, возможность добавлять комментарии отключена")
+          ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-success col-4", on: { click: _vm.sendData } },
+        [_vm._v("Добавить")]
+      )
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -50595,6 +51172,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('achievement-table', __webpack_require__(/*! ./components/table/AchievementTable.vue */ "./resources/js/components/table/AchievementTable.vue")["default"]);
 Vue.component('reject-achievement', __webpack_require__(/*! ./components/AchievementRejection.vue */ "./resources/js/components/AchievementRejection.vue")["default"]);
+Vue.component('creating-achievement', __webpack_require__(/*! ./components/CreatingAchievement.vue */ "./resources/js/components/CreatingAchievement.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -50729,6 +51307,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementRejection_vue_vue_type_template_id_554054f6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AchievementRejection_vue_vue_type_template_id_554054f6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/CreatingAchievement.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/CreatingAchievement.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CreatingAchievement_vue_vue_type_template_id_5dbac4ca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreatingAchievement.vue?vue&type=template&id=5dbac4ca& */ "./resources/js/components/CreatingAchievement.vue?vue&type=template&id=5dbac4ca&");
+/* harmony import */ var _CreatingAchievement_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreatingAchievement.vue?vue&type=script&lang=js& */ "./resources/js/components/CreatingAchievement.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CreatingAchievement_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CreatingAchievement_vue_vue_type_template_id_5dbac4ca___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CreatingAchievement_vue_vue_type_template_id_5dbac4ca___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CreatingAchievement.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CreatingAchievement.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/CreatingAchievement.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatingAchievement_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CreatingAchievement.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CreatingAchievement.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatingAchievement_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CreatingAchievement.vue?vue&type=template&id=5dbac4ca&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/CreatingAchievement.vue?vue&type=template&id=5dbac4ca& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatingAchievement_vue_vue_type_template_id_5dbac4ca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CreatingAchievement.vue?vue&type=template&id=5dbac4ca& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CreatingAchievement.vue?vue&type=template&id=5dbac4ca&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatingAchievement_vue_vue_type_template_id_5dbac4ca___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatingAchievement_vue_vue_type_template_id_5dbac4ca___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -51166,8 +51813,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Backend\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Backend\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Dmitiy\Documents\GitHub\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Dmitiy\Documents\GitHub\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

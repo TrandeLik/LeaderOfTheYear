@@ -1,0 +1,201 @@
+<template>
+    <div class="card-body">
+            <select name="category" required v-model="selectedCategory" @change="dropSelections">
+                <option selected disabled>Категория</option>
+                <option v-for="category in categories">{{category.category}}</option>
+            </select>
+
+
+            <select v-model="selectedType" v-if="!(selectedCategory === 'Спортивные достижения')" name="type" required :disabled="areInputsDisable">
+                <option selected disabled>Тип</option>
+                <option v-for="type in filteredTypes">{{type}}</option>
+            </select>
+
+
+            <input  v-model="selectedName"
+                    v-if="!(selectedCategory === 'Проектная и исследовательская деятельность')"
+                    type="text" name="name" :placeholder="placeholderForName"  required
+            >
+
+
+            <input  v-model="selectedSubject"
+                    v-if="!(selectedCategory === 'Спортивные достижения' || selectedCategory === 'Участие в лицейской жизни')"
+                    type="text" name="subject" placeholder="Предмет" required
+            >
+
+
+            <select v-model="selectedStage" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
+                    name="stage" required :disabled="areInputsDisable">
+                <option selected disabled>Этап</option>
+                <option v-for="stage in filteredStages">{{stage}}</option>
+            </select>
+
+
+            <select v-model="selectedResult" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
+                    name="result" required :disabled="areInputsDisable">
+                <option selected disabled>Результат</option>
+                <option v-for="result in filteredResults">{{result}}</option>
+            </select>
+
+
+            <input v-model="selectedDate" v-if="(selectedCategory === 'Участие в лицейской жизни')" type="date">
+
+
+            <template v-if="isuploadingconfirmationspossible">
+                <label for="file" class="btn">Подтверждение (.png, .jpg, .jpeg, .pdf)</label>
+                <input accept="application/pdf,
+                                image/jpeg,
+                                image/pjpeg,
+                                image/x-jps,
+                                image/png"
+                   id = "file" type="file" name="file"
+                   @change="onConfirmationChange"><br>
+            </template>
+            <p v-else>К сожалению, загрузка файлов временно невозможна</p>
+
+
+            <div v-if="arecommentsworking" class="accordion" id="accordionExample">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>
+                <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <textarea name="comment" placeholder = "Комментарий" v-model="studentComment"></textarea>
+                </div>
+            </div>
+            <p v-else>К сожалению, возможность добавлять комментарии отключена</p>
+
+
+            <button class="btn btn-success col-4" @click="sendData">Добавить</button>
+    </div>
+</template>
+
+<script>
+    export default {
+        mounted() {
+        },
+
+        methods: {
+             setData: function (name) {
+                let data = [];
+                let category = this.selectedCategory;
+                this.achievementtypes.forEach(function (type) {
+                    if ((type.category === category) && (data.indexOf(type[name]) === -1)) {
+                        data.push(type[name])
+                    }
+                });
+                return data
+             },
+
+            dropSelections: function(){
+                this.selectedType = 'Тип';
+                this.selectedName = '';
+                this.selectedSubject = 'Предмет';
+                this.selectedStage = 'Этап';
+                this.selectedResult = 'Результат';
+            },
+
+            dataPreparation : function(){
+                 if (this.selectedCategory === 'Спортивные достижения'){
+                     this.selectedType = '-';
+                     this.selectedSubject = '-';
+                     this.selectedDate = '-';
+                     return
+                 }
+
+                 if (this.selectedCategory === 'Интеллектуальные соревнования'){
+                     this.selectedDate = '-';
+                     return
+                 }
+
+                if (this.selectedCategory === 'Проектная и исследовательская деятельность'){
+                    this.selectedName = '-';
+                    this.selectedDate = '-';
+                    return
+                }
+
+                if (this.selectedCategory === 'Участие в лицейской жизни'){
+                    this.selectedName = '-';
+                    this.selectedSubject = '-';
+                    this.selectedStage = '-';
+                    this.selectedResult = '-';
+                }
+            },
+
+             sendData: function () {
+                 const config = { 'content-type': 'multipart/form-data' };
+                 this.dataPreparation();
+                 const formData = new FormData;
+                 formData.append('category', this.selectedCategory);
+                 formData.append('type', this.selectedType);
+                 formData.append('name', this.selectedName);
+                 formData.append('subject', this.selectedSubject);
+                 formData.append('stage', this.selectedStage);
+                 formData.append('result', this.selectedResult);
+                 formData.append('date', this.selectedDate);
+                 formData.append('file', this.confirmation);
+                 console.log(formData['file']);
+                 // window.axios = require('axios');
+                 //
+                 // window.axios.defaults.headers.common = {
+                 //     'X-Requested-With': 'XMLHttpRequest',
+                 //     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                 // };
+
+                 console.log(formData);
+                 axios.post('/achievement/add/new', formData, config)
+                     .then(response => {
+                         console.log(response.data.message);
+                     })
+                     .catch(error =>
+                         console.log(error.response.data)
+                     );
+                 location = "/user"
+             },
+
+             onConfirmationChange: function (event) {
+                 this.confirmation = event.target.files[0];
+             }
+        },
+
+        data(){
+          return{
+              selectedCategory : 'Категория',
+              selectedType : 'Тип',
+              selectedName : '',
+              selectedSubject : 'Предмет',
+              selectedStage : 'Этап',
+              selectedResult : 'Результат',
+              selectedDate : '',
+              studentComment : '',
+              confirmation: null
+          }
+        },
+
+        computed:{
+            areInputsDisable: function() {
+                return (this.selectedCategory === 'Категория')
+            },
+
+            filteredTypes: function () {
+                return this.setData('type')
+            },
+
+            filteredStages: function () {
+                return this.setData('stage')
+            },
+
+            filteredResults: function () {
+                return this.setData('result')
+            },
+            placeholderForName: function () {
+                if (this.selectedCategory === 'Интеллектуальные соревнования'){
+                    return 'Название олимпиады'
+                }
+                if (this.selectedCategory === 'Спортивные достижения'){
+                    return 'Название соревнований'
+                }
+                return 'Название мероприятия'
+            }
+        },
+
+        props:['categories', 'isuploadingconfirmationspossible', 'arecommentsworking', 'achievementtypes']
+    }
+</script>
