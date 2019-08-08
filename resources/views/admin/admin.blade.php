@@ -31,23 +31,31 @@
             <a href="{{url('/achievement_types/download_file')}}">Текущий список достижений</a><br><br>
             <form method="post" enctype="multipart/form-data">
                 @csrf
-                <label for="file" class="btn" style="padding: 0; margin: 0;">Добавить новый список из таблицы Excel</label>
-                <input accept="
-                    application/vnd.ms-excel,
-                    application/vnd.ms-office,
-                    application/vnd-xls,
-                    application/vnd.ms-excel,
-                    application/msexcel,
-                    application/x-msexcel,
-                    application/x-ms-excel,
-                    application/x-excel,
-                    application/excel,
-                    application/x-dos_ms_excel,
-                    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
-                    application/xls,
-                    application/x-xls"
-                 id = "file" type="file" name="file" placeholder="Подтверждение"><br>
-                <input type="submit" value="Добавить">
+                <div class="row">
+                    <div>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input accept=  "application/vnd.ms-excel,
+                                                application/vnd.ms-office,
+                                                application/vnd-xls,
+                                                application/vnd.ms-excel,
+                                                application/msexcel,
+                                                application/x-msexcel,
+                                                application/x-ms-excel,
+                                                application/x-excel,
+                                                application/excel,
+                                                application/x-dos_ms_excel,
+                                                application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                                                application/xls,
+                                                application/x-xls" type="file" class="custom-file-input" id="file" name="file">
+                                <label class="custom-file-label" for="file" data-browse="Обзор">Изменить список достижений</label>
+                            </div>
+                            <div class="input-group-prepend">
+                                <input type="submit" class="btn btn-outline-secondary" value="Загузить">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="col-md-6">

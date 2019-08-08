@@ -1970,9 +1970,6 @@ __webpack_require__.r(__webpack_exports__);
     areInputsDisable: function areInputsDisable() {
       return this.selectedCategory === 'Категория';
     },
-    lol: function lol() {
-      return app.errors;
-    },
     filteredTypes: function filteredTypes() {
       return this.setData('type');
     },
@@ -38315,20 +38312,28 @@ var render = function() {
       _vm._v(" "),
       _vm.isuploadingconfirmationspossible
         ? [
-            _c("label", { staticClass: "btn", attrs: { for: "file" } }, [
-              _vm._v("Подтверждение (.png, .jpg, .jpeg, .pdf)")
+            _c("div", { staticClass: "custom-file" }, [
+              _c("input", {
+                staticClass: "custom-file-input",
+                attrs: {
+                  accept:
+                    "application/pdf,\n                                image/jpeg,\n                                image/pjpeg,\n                                image/x-jps,\n                                image/png",
+                  type: "file",
+                  id: "file",
+                  name: "file"
+                },
+                on: { change: _vm.onConfirmationChange }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "custom-file-label",
+                  attrs: { for: "file", "data-browse": "Обзор" }
+                },
+                [_vm._v("Подтверждение (.png, .jpg, .jpeg, .pdf)")]
+              )
             ]),
-            _vm._v(" "),
-            _c("input", {
-              attrs: {
-                accept:
-                  "application/pdf,\n                            image/jpeg,\n                            image/pjpeg,\n                            image/x-jps,\n                            image/png",
-                id: "file",
-                type: "file",
-                name: "file"
-              },
-              on: { change: _vm.onConfirmationChange }
-            }),
             _c("br")
           ]
         : _c("p", [_vm._v("К сожалению, загрузка файлов временно невозможна")]),
