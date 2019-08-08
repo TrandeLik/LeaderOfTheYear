@@ -54,6 +54,11 @@
             <p v-else>К сожалению, загрузка файлов временно невозможна</p>
 
 
+            <template v-if="action !== '/achievement/add/new'">
+                <a v-if="achievement.confirmation !== ''" :href="achievement_href">Скачать подтверждение</a>
+                <p v-else>На данный момент подтверждения нет</p>
+            </template>
+
             <div v-if="arecommentsworking" class="accordion" id="accordionExample">
                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>
                 <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -64,12 +69,45 @@
 
 
             <button class="btn btn-success col-4" @click="sendData">Добавить</button>
+
+            <div v-if="Object.keys(validationErrors).length !== 0" class="m-alert m-alert--outline alert alert-danger alert-dismissible" role="alert">
+                <ul v-for="error in validationErrors">
+                    <li>{{ error[0] }}</li>
+                </ul>
+            </div>
     </div>
 </template>
 
 <script>
     export default {
+
+        data(){
+            return{
+                selectedCategory : 'Категория',
+                selectedType : 'Тип',
+                selectedName : '',
+                selectedSubject : '',
+                selectedStage : 'Этап',
+                selectedResult : 'Результат',
+                selectedDate : '',
+                studentComment : '',
+                confirmation: null,
+                validationErrors : {}
+            }
+        },
+
         mounted() {
+            let achievement = this.achievement;
+            if (achievement){
+                this.selectedCategory = achievement.category;
+                this.selectedType = (achievement.type === '-') ? 'Тип' : achievement.type;
+                this.selectedName = (achievement.name === '-') ? '' : achievement.name;
+                this.selectedSubject = (achievement.subject === '-') ? '' : achievement.subject;
+                this.selectedStage = (achievement.stage === '-') ? 'Этап' : achievement.stage;
+                this.selectedResult = (achievement.result === '-') ? 'Результат' : achievement.result;
+                this.selectedDate = (achievement.date === '-') ? '' : achievement.date;
+                this.studentComment = achievement.comment;
+            }
         },
 
         methods: {
@@ -87,41 +125,41 @@
             dropSelections: function(){
                 this.selectedType = 'Тип';
                 this.selectedName = '';
-                this.selectedSubject = 'Предмет';
+                this.selectedSubject = '';
                 this.selectedStage = 'Этап';
                 this.selectedResult = 'Результат';
             },
 
-            dataPreparation : function(){
+            dataPreparation : function(value){
                  if (this.selectedCategory === 'Спортивные достижения'){
-                     this.selectedType = '-';
-                     this.selectedSubject = '-';
-                     this.selectedDate = '-';
+                     this.selectedType = value;
+                     this.selectedSubject = value;
+                     this.selectedDate = value;
                      return
                  }
 
                  if (this.selectedCategory === 'Интеллектуальные соревнования'){
-                     this.selectedDate = '-';
+                     this.selectedDate = value;
                      return
                  }
 
                 if (this.selectedCategory === 'Проектная и исследовательская деятельность'){
-                    this.selectedName = '-';
-                    this.selectedDate = '-';
+                    this.selectedName = value;
+                    this.selectedDate = value;
                     return
                 }
 
                 if (this.selectedCategory === 'Участие в лицейской жизни'){
-                    this.selectedName = '-';
-                    this.selectedSubject = '-';
-                    this.selectedStage = '-';
-                    this.selectedResult = '-';
+                    this.selectedName = value;
+                    this.selectedSubject = value;
+                    this.selectedStage = value;
+                    this.selectedResult = value;
                 }
             },
 
              sendData: function () {
                  const config = { 'content-type': 'multipart/form-data' };
-                 this.dataPreparation();
+                 this.dataPreparation('-');
                  const formData = new FormData;
                  formData.append('category', this.selectedCategory);
                  formData.append('type', this.selectedType);
@@ -131,23 +169,25 @@
                  formData.append('result', this.selectedResult);
                  formData.append('date', this.selectedDate);
                  formData.append('file', this.confirmation);
-                 console.log(formData['file']);
                  // window.axios = require('axios');
                  //
                  // window.axios.defaults.headers.common = {
                  //     'X-Requested-With': 'XMLHttpRequest',
                  //     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                  // };
-
-                 console.log(formData);
-                 axios.post('/achievement/add/new', formData, config)
+                 axios.post(this.action, formData, config)
                      .then(response => {
-                         console.log(response.data.message);
+                         if (response.data == 'Данный тип файлов загрузить нельзя :('){
+                             this.validationErrors ={'typeError' : ['Данный тип файлов загрузить нельзя :(', '*костыль*']}
+                         } else {
+                             location = "/user"
+                         }
                      })
-                     .catch(error =>
+                     .catch(error => {
+                         this.validationErrors = error.response.data.errors;
+                         this.dropSelections();
                          console.log(error.response.data)
-                     );
-                 location = "/user"
+                     });
              },
 
              onConfirmationChange: function (event) {
@@ -155,24 +195,13 @@
              }
         },
 
-        data(){
-          return{
-              selectedCategory : 'Категория',
-              selectedType : 'Тип',
-              selectedName : '',
-              selectedSubject : 'Предмет',
-              selectedStage : 'Этап',
-              selectedResult : 'Результат',
-              selectedDate : '',
-              studentComment : '',
-              confirmation: null
-          }
-        },
-
         computed:{
             areInputsDisable: function() {
                 return (this.selectedCategory === 'Категория')
             },
+            lol : function() {
+              return app.errors
+            } ,
 
             filteredTypes: function () {
                 return this.setData('type')
@@ -196,6 +225,7 @@
             }
         },
 
-        props:['categories', 'isuploadingconfirmationspossible', 'arecommentsworking', 'achievementtypes']
+        props:['categories', 'isuploadingconfirmationspossible', 'arecommentsworking',
+            'achievementtypes', 'achievement', 'action', 'achievement_href']
     }
 </script>

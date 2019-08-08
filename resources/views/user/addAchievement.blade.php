@@ -18,26 +18,11 @@
                         :isUploadingConfirmationsPossible="{{json_encode($isUploadingConfirmationsPossible)}}"
                         :categories="{{json_encode($categories)}}"
                         :areCommentsWorking="{{json_encode($areCommentsWorking)}}"
-                        :achievementTypes="{{json_encode($achievement_types)}}">
+                        :achievementTypes="{{json_encode($achievement_types)}}"
+                        :action="'/achievement/add/new'">
                 </creating-achievement>
             </div>
-            @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
         </div>
     </div>
 </div>
-<script>
-    let achievements = [];
-    @foreach ($achievement_types as $achievement_type)
-        achievements.push({category: "{{$achievement_type->category}}", type: "{{$achievement_type->type}}", stage: "{{$achievement_type->stage}}", result: "{{$achievement_type->result}}"});
-    @endforeach
-</script>
-<script src="/js/achievementSelection.js"></script>
 @endsection

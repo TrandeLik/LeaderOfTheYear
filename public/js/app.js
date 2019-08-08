@@ -1840,8 +1840,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {},
+  data: function data() {
+    return {
+      selectedCategory: 'Категория',
+      selectedType: 'Тип',
+      selectedName: '',
+      selectedSubject: '',
+      selectedStage: 'Этап',
+      selectedResult: 'Результат',
+      selectedDate: '',
+      studentComment: '',
+      confirmation: null,
+      validationErrors: {}
+    };
+  },
+  mounted: function mounted() {
+    var achievement = this.achievement;
+
+    if (achievement) {
+      this.selectedCategory = achievement.category;
+      this.selectedType = achievement.type === '-' ? 'Тип' : achievement.type;
+      this.selectedName = achievement.name === '-' ? '' : achievement.name;
+      this.selectedSubject = achievement.subject === '-' ? '' : achievement.subject;
+      this.selectedStage = achievement.stage === '-' ? 'Этап' : achievement.stage;
+      this.selectedResult = achievement.result === '-' ? 'Результат' : achievement.result;
+      this.selectedDate = achievement.date === '-' ? '' : achievement.date;
+      this.studentComment = achievement.comment;
+    }
+  },
   methods: {
     setData: function setData(name) {
       var data = [];
@@ -1856,41 +1894,43 @@ __webpack_require__.r(__webpack_exports__);
     dropSelections: function dropSelections() {
       this.selectedType = 'Тип';
       this.selectedName = '';
-      this.selectedSubject = 'Предмет';
+      this.selectedSubject = '';
       this.selectedStage = 'Этап';
       this.selectedResult = 'Результат';
     },
-    dataPreparation: function dataPreparation() {
+    dataPreparation: function dataPreparation(value) {
       if (this.selectedCategory === 'Спортивные достижения') {
-        this.selectedType = '-';
-        this.selectedSubject = '-';
-        this.selectedDate = '-';
+        this.selectedType = value;
+        this.selectedSubject = value;
+        this.selectedDate = value;
         return;
       }
 
       if (this.selectedCategory === 'Интеллектуальные соревнования') {
-        this.selectedDate = '-';
+        this.selectedDate = value;
         return;
       }
 
       if (this.selectedCategory === 'Проектная и исследовательская деятельность') {
-        this.selectedName = '-';
-        this.selectedDate = '-';
+        this.selectedName = value;
+        this.selectedDate = value;
         return;
       }
 
       if (this.selectedCategory === 'Участие в лицейской жизни') {
-        this.selectedName = '-';
-        this.selectedSubject = '-';
-        this.selectedStage = '-';
-        this.selectedResult = '-';
+        this.selectedName = value;
+        this.selectedSubject = value;
+        this.selectedStage = value;
+        this.selectedResult = value;
       }
     },
     sendData: function sendData() {
+      var _this = this;
+
       var config = {
         'content-type': 'multipart/form-data'
       };
-      this.dataPreparation();
+      this.dataPreparation('-');
       var formData = new FormData();
       formData.append('category', this.selectedCategory);
       formData.append('type', this.selectedType);
@@ -1899,42 +1939,39 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('stage', this.selectedStage);
       formData.append('result', this.selectedResult);
       formData.append('date', this.selectedDate);
-      formData.append('file', this.confirmation);
-      console.log(formData['file']); // window.axios = require('axios');
+      formData.append('file', this.confirmation); // window.axios = require('axios');
       //
       // window.axios.defaults.headers.common = {
       //     'X-Requested-With': 'XMLHttpRequest',
       //     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       // };
 
-      console.log(formData);
-      axios.post('/achievement/add/new', formData, config).then(function (response) {
-        console.log(response.data.message);
+      axios.post(this.action, formData, config).then(function (response) {
+        if (response.data == 'Данный тип файлов загрузить нельзя :(') {
+          _this.validationErrors = {
+            'typeError': ['Данный тип файлов загрузить нельзя :(', '*костыль*']
+          };
+        } else {
+          location = "/user";
+        }
       })["catch"](function (error) {
-        return console.log(error.response.data);
+        _this.validationErrors = error.response.data.errors;
+
+        _this.dropSelections();
+
+        console.log(error.response.data);
       });
-      location = "/user";
     },
     onConfirmationChange: function onConfirmationChange(event) {
       this.confirmation = event.target.files[0];
     }
   },
-  data: function data() {
-    return {
-      selectedCategory: 'Категория',
-      selectedType: 'Тип',
-      selectedName: '',
-      selectedSubject: 'Предмет',
-      selectedStage: 'Этап',
-      selectedResult: 'Результат',
-      selectedDate: '',
-      studentComment: '',
-      confirmation: null
-    };
-  },
   computed: {
     areInputsDisable: function areInputsDisable() {
       return this.selectedCategory === 'Категория';
+    },
+    lol: function lol() {
+      return app.errors;
     },
     filteredTypes: function filteredTypes() {
       return this.setData('type');
@@ -1957,7 +1994,7 @@ __webpack_require__.r(__webpack_exports__);
       return 'Название мероприятия';
     }
   },
-  props: ['categories', 'isuploadingconfirmationspossible', 'arecommentsworking', 'achievementtypes']
+  props: ['categories', 'isuploadingconfirmationspossible', 'arecommentsworking', 'achievementtypes', 'achievement', 'action', 'achievement_href']
 });
 
 /***/ }),
@@ -38296,6 +38333,16 @@ var render = function() {
           ]
         : _c("p", [_vm._v("К сожалению, загрузка файлов временно невозможна")]),
       _vm._v(" "),
+      _vm.action !== "/achievement/add/new"
+        ? [
+            _vm.achievement.confirmation !== ""
+              ? _c("a", { attrs: { href: _vm.achievement_href } }, [
+                  _vm._v("Скачать подтверждение")
+                ])
+              : _c("p", [_vm._v("На данный момент подтверждения нет")])
+          ]
+        : _vm._e(),
+      _vm._v(" "),
       _vm.arecommentsworking
         ? _c(
             "div",
@@ -38359,7 +38406,22 @@ var render = function() {
         "button",
         { staticClass: "btn btn-success col-4", on: { click: _vm.sendData } },
         [_vm._v("Добавить")]
-      )
+      ),
+      _vm._v(" "),
+      Object.keys(_vm.validationErrors).length !== 0
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "m-alert m-alert--outline alert alert-danger alert-dismissible",
+              attrs: { role: "alert" }
+            },
+            _vm._l(_vm.validationErrors, function(error) {
+              return _c("ul", [_c("li", [_vm._v(_vm._s(error[0]))])])
+            }),
+            0
+          )
+        : _vm._e()
     ],
     2
   )

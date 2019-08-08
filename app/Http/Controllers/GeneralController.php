@@ -73,13 +73,19 @@ class GeneralController extends Controller
     public function profileEdit(Request $request){
         // ToDo сообщение о том, что профиль был изменен
         $request->validate([
-            'username' => ['required', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255'],
             'formNumber' => 'required',
             'formLetter' => 'required',
         ]);
+        if ($request->username != Auth::user()->name){
+            $request->validate(['username' => 'unique']);
+        }
+        if ($request->email != Auth::user()->email){
+            $request->validate(['email' => 'unique']);
+        }
         $user = Auth::user();
-        $user->name = $request->name;
+        $user->name = $request->username;
         $user->email = $request->email;
         $user->form = $request->formNumber . '-' . $request->formLetter;
         $user->save();
