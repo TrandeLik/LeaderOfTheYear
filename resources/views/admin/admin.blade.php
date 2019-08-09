@@ -58,7 +58,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" id="app">
             <h2>
                 Заявки
                 <a href="{{url('achievements/all')}}"><button class="btn btn-success">Все достижения учеников</button></a>
@@ -67,7 +67,7 @@
                 <p>На данный момент заявок нет</p>
             @else
                 @foreach($sentAchievements as $achievement)
-                    <div class="card" id="app">
+                    <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">От пользователя {{$achievement -> user -> name}}, {{$achievement -> user -> form}}</h3>
                             <p>{{$achievement -> type.', '.$achievement -> name.', '.$achievement -> stage.', '.$achievement -> subject.', '.$achievement -> result}}</p>
@@ -115,7 +115,7 @@
                             @endif
                             <br>
                             <a href="{{url('/achievement/'. $achievement -> id . '/confirm')}}"><button class="btn btn-success">Одобрить</button> </a>
-                            <reject-achievement :action-address="{{json_encode('/achievement/' . $achievement->id . '/reject')}}"></reject-achievement>
+                            <reject-achievement :action-address="{{json_encode('/achievement/' . $achievement->id . '/reject')}}" :id="{{$achievement->id}}"></reject-achievement>
                         </div><br>
                     </div><br>
                 @endforeach

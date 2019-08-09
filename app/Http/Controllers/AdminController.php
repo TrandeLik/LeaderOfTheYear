@@ -173,6 +173,8 @@ class AdminController extends Controller // TODO погуглить, как сд
             $newAchievement->subject = $achievement->subject;
             $newAchievement->stage = $achievement->stage;
             $newAchievement->result = $achievement->result;
+            $newAchievement->date = $achievement->date;
+            $newAchievement->confirmation = $achievement->confirmation;
             $newAchievement->score = $achievement->score;
             $newAchievement->status = $achievement->status;
             $newAchievement->id = $achievement->id;
@@ -263,7 +265,7 @@ class AdminController extends Controller // TODO погуглить, как сд
             }
             $setting->save();
         }
-        return redirect(url()->previous());
+        return redirect('/admin');
     }
 
     public function getAchievementsTable(){
@@ -279,6 +281,8 @@ class AdminController extends Controller // TODO погуглить, как сд
             $newAchievement->name = $achievement->name;
             $newAchievement->subject = $achievement->subject;
             $newAchievement->stage = $achievement->stage;
+            $newAchievement->date = $achievement->date;
+            $newAchievement->confirmation = $achievement->confirmation;
             $newAchievement->result = $achievement->result;
             $newAchievement->score = $achievement->score;
             $newAchievement->status = $achievement->status;

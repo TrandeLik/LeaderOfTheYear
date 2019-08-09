@@ -68,7 +68,7 @@
             <p v-else>К сожалению, возможность добавлять комментарии отключена</p>
 
 
-            <button class="btn btn-success col-4" @click="sendData">Добавить</button>
+            <button class="btn btn-success col-4" @click="sendData">{{(action === '/achievement/add/new') ? ('Добавить') : ('Изменить')}}</button>
 
             <div v-if="Object.keys(validationErrors).length !== 0" class="m-alert m-alert--outline alert alert-danger alert-dismissible" role="alert">
                 <ul v-for="error in validationErrors">
@@ -131,6 +131,22 @@
             },
 
             dataPreparation : function(value){
+                 if (this.selectedCategory === 'Категория'){
+                     this.selectedCategory = ''
+                 }
+
+                 if (this.selectedType === 'Тип'){
+                     this.selectedType = ''
+                 }
+
+                 if (this.selectedStage === 'Этап'){
+                     this.selectedStage = ''
+                 }
+
+                 if (this.selectedResult === 'Результат'){
+                     this.selectedResult = ''
+                 }
+
                  if (this.selectedCategory === 'Спортивные достижения'){
                      this.selectedType = value;
                      this.selectedSubject = value;
@@ -150,7 +166,9 @@
                 }
 
                 if (this.selectedCategory === 'Участие в лицейской жизни'){
-                    this.selectedName = value;
+                    if (this.selectedDate === value) {
+                        this.selectedDate = ''
+                    }
                     this.selectedSubject = value;
                     this.selectedStage = value;
                     this.selectedResult = value;
@@ -169,6 +187,9 @@
                  formData.append('result', this.selectedResult);
                  formData.append('date', this.selectedDate);
                  formData.append('file', this.confirmation);
+                 if (this.studentComment !== ''){
+                     formData.append('comment', this.studentComment)
+                 }
                  // window.axios = require('axios');
                  //
                  // window.axios.defaults.headers.common = {
@@ -186,6 +207,9 @@
                      .catch(error => {
                          this.validationErrors = error.response.data.errors;
                          this.dropSelections();
+                         if (this.selectedCategory === '') {
+                             this.selectedCategory = 'Категория';
+                         }
                          console.log(error.response.data)
                      });
              },

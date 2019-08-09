@@ -12,6 +12,46 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+function validateAchievement($req){
+    $req->validate([
+        'category' => 'required',
+    ]);
+    if ($req->category === 'Интеллектуальные соревнования'){
+        $req->validate([
+            'type' => 'required',
+            'name' => 'required',
+            'subject' => 'required',
+            'stage' => 'required',
+            'result' => 'required',
+        ]);
+    }
+
+    if ($req->category === 'Проектная и исследовательская деятельность'){
+        $req->validate([
+            'type' => 'required',
+            'subject' => 'required',
+            'stage' => 'required',
+            'result' => 'required',
+        ]);
+    }
+
+    if ($req->category === 'Спортивные достижения'){
+        $req->validate([
+            'name' => 'required',
+            'stage' => 'required',
+            'result' => 'required',
+        ]);
+    }
+
+    if ($req->category === 'Участие в лицейской жизни'){
+        $req->validate([
+            'type' => 'required',
+            'name' => 'required',
+            'date' => 'required',
+        ]);
+    }
+}
+
 class UserController extends Controller
 {
     public function __construct()
@@ -52,14 +92,15 @@ class UserController extends Controller
     }
 
     public function addAchievement(Request $request){
-        $request->validate([
-            'category' => 'required',
-            'type' => 'required',
-            'name' => 'required',
-            'subject' => 'required',
-            'stage' => 'required',
-            'result' => 'required',
-        ]);
+//        $request->validate([
+////            'category' => 'required',
+////            'type' => 'required',
+////            'name' => 'required',
+////            'subject' => 'required',
+////            'stage' => 'required',
+////            'result' => 'required',
+////        ]);
+        validateAchievement($request);
         $name = '';
         if ($request -> has('file')) {
             if ((!is_null($request->file)) && (!is_string($request->file))) {
@@ -90,6 +131,7 @@ class UserController extends Controller
         $achievement->confirmation = $name;
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
+        $achievement->date = $request->date;
         $achievement->save();
         $areCommentsWorking = Setting::where('name', 'Возможность комментировать (для учеников)')->first()->value == 'on';
         if ($areCommentsWorking) {
@@ -139,14 +181,15 @@ class UserController extends Controller
     }
 
     public function edit($id, Request $request){
-        $request->validate([
-            'category' => 'required',
-            'type' => 'required',
-            'name' => 'required',
-            'subject' => 'required',
-            'stage' => 'required',
-            'result' => 'required',
-        ]);
+//        $request->validate([
+//            'category' => 'required',
+//            'type' => 'required',
+//            'name' => 'required',
+//            'subject' => 'required',
+//            'stage' => 'required',
+//            'result' => 'required',
+//        ]);
+        validateAchievement($request);
         $achievement = Achievement::findOrFail($id);
         if ($request -> has('file')) {
             if ((!is_null($request->file)) && (!is_string($request->file))) {
@@ -175,6 +218,7 @@ class UserController extends Controller
         $achievement->stage = $request->stage;
         $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
         $achievement->result = $request->result;
+        $achievement->date = $request->date;
         $achievement->save();
         $areCommentsWorking = Setting::where('name', 'Возможность комментировать (для учеников)')->first()->value == 'on';
         if ($areCommentsWorking) {

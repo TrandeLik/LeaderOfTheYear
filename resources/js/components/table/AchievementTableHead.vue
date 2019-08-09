@@ -12,6 +12,7 @@
             <achievement-table-column-header :isWorking="workingColumns" :columnKey="'subject'"  :selected="selected" :firstSelected="'Все предметы'" :list="filters"></achievement-table-column-header>
             <achievement-table-column-header :isWorking="workingColumns" :columnKey="'stage'"  :selected="selected" :firstSelected="'Все этапы'" :list="filters"></achievement-table-column-header>
             <achievement-table-column-header :isWorking="workingColumns" :columnKey="'result'"  :selected="selected" :firstSelected="'Все результаты'" :list="filters"></achievement-table-column-header>
+            <achievement-table-column-header :isWorking="workingColumns" :columnKey="'date'"  :selected="selected" :firstSelected="'Все даты'" :list="filters"></achievement-table-column-header>
             <th v-if="! is_admin">Баллы</th>
         </tr>
     </thead>

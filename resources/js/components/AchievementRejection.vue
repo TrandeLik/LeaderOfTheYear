@@ -1,22 +1,24 @@
 <template>
     <div>
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionModal">
+    <button type="button" class="btn btn-danger" data-toggle="modal" :data-target="generateId('#rejectionModal')">
         Отклонить
     </button>
-    <div class="modal fade" id="rejectionModal" tabindex="-1" role="dialog" aria-labelledby="rejectionModalLabel" aria-hidden="true">
+    <div class="modal fade" :id="generateId('rejectionModal')" tabindex="-1" role="dialog" aria-labelledby="rejectionModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="rejection">Отклонение заявки</h5>
+                    <h5 class="modal-title" :id="generateId('rejection')">Отклонение заявки</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="accordion" id="accordionRejection">
+                    <div class="accordion" :id="generateId('accordionRejection')">
                         Вы действительно хотите отклонить эту заявку?
-                        <a href = "" style="color:blue;" data-toggle="collapse" data-target="#collapseRejection" aria-expanded="true" aria-controls="collapseOne">Оставьте комментарий с объяснением вашего решения</a>
-                        <div id="collapseRejection" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionRejection">
+                        <a href = "" style="color:blue;" data-toggle="collapse" :data-target="generateId('#collapseRejection')" aria-expanded="true" aria-controls="collapseOne">
+                            Оставьте комментарий с объяснением вашего решения
+                        </a>
+                        <div :id="generateId('collapseRejection')" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionRejection">
 
                                 <textarea v-model="adminComment" name="comment" placeholder = "Комментарий"></textarea>
                         </div>
@@ -34,7 +36,7 @@
 
 <script>
     export default {
-        props: ['actionAddress'],
+        props: ['actionAddress', 'id', 'achievement'],
         data(){
             return{
                 adminComment: ''
@@ -56,10 +58,18 @@
                  let href = this.actionAddress;
                  axios.post(href, {comment: comment})
                      .then(response => {
-                         location.reload()
+                         // if (window.location.pathname !== '/admin'){
+                         //     this.achievement.status = 'rejected'
+                         // } else {
+                             location.reload()
+                         //}
                      }).catch(error => {
-                     console.log(error.response.data);
-                 });
+                        console.log(error.response.data);
+                    });
+             },
+
+             generateId : function (name) {
+                 return name + String(this.id)
              }
          }
 

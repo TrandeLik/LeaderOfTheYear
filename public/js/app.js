@@ -1731,8 +1731,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['actionAddress'],
+  props: ['actionAddress', 'id', 'achievement'],
   data: function data() {
     return {
       adminComment: ''
@@ -1752,10 +1754,16 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(href, {
         comment: comment
       }).then(function (response) {
-        location.reload();
+        // if (window.location.pathname !== '/admin'){
+        //     this.achievement.status = 'rejected'
+        // } else {
+        location.reload(); //}
       })["catch"](function (error) {
         console.log(error.response.data);
       });
+    },
+    generateId: function generateId(name) {
+      return name + String(this.id);
     }
   }
 });
@@ -1899,6 +1907,22 @@ __webpack_require__.r(__webpack_exports__);
       this.selectedResult = 'Результат';
     },
     dataPreparation: function dataPreparation(value) {
+      if (this.selectedCategory === 'Категория') {
+        this.selectedCategory = '';
+      }
+
+      if (this.selectedType === 'Тип') {
+        this.selectedType = '';
+      }
+
+      if (this.selectedStage === 'Этап') {
+        this.selectedStage = '';
+      }
+
+      if (this.selectedResult === 'Результат') {
+        this.selectedResult = '';
+      }
+
       if (this.selectedCategory === 'Спортивные достижения') {
         this.selectedType = value;
         this.selectedSubject = value;
@@ -1918,7 +1942,10 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.selectedCategory === 'Участие в лицейской жизни') {
-        this.selectedName = value;
+        if (this.selectedDate === value) {
+          this.selectedDate = '';
+        }
+
         this.selectedSubject = value;
         this.selectedStage = value;
         this.selectedResult = value;
@@ -1939,12 +1966,17 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('stage', this.selectedStage);
       formData.append('result', this.selectedResult);
       formData.append('date', this.selectedDate);
-      formData.append('file', this.confirmation); // window.axios = require('axios');
+      formData.append('file', this.confirmation);
+
+      if (this.studentComment !== '') {
+        formData.append('comment', this.studentComment);
+      } // window.axios = require('axios');
       //
       // window.axios.defaults.headers.common = {
       //     'X-Requested-With': 'XMLHttpRequest',
       //     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       // };
+
 
       axios.post(this.action, formData, config).then(function (response) {
         if (response.data == 'Данный тип файлов загрузить нельзя :(') {
@@ -1958,6 +1990,10 @@ __webpack_require__.r(__webpack_exports__);
         _this.validationErrors = error.response.data.errors;
 
         _this.dropSelections();
+
+        if (_this.selectedCategory === '') {
+          _this.selectedCategory = 'Категория';
+        }
 
         console.log(error.response.data);
       });
@@ -2079,7 +2115,8 @@ __webpack_require__.r(__webpack_exports__);
         'subject': 'Все предметы',
         'stage': 'Все этапы',
         'result': 'Все результаты',
-        'status': 'Все статусы'
+        'status': 'Все статусы',
+        'date': 'Все даты'
       },
       allWorkingColumns: {
         'status': {
@@ -2116,6 +2153,14 @@ __webpack_require__.r(__webpack_exports__);
         },
         'result': {
           'text': 'Результат',
+          'value': true
+        },
+        'date': {
+          'text': 'Дата',
+          'value': true
+        },
+        'download': {
+          'text': 'Ссылка на подтверждение',
           'value': true
         },
         'editing': {
@@ -2157,6 +2202,7 @@ __webpack_require__.r(__webpack_exports__);
       var subject = this.selected.subject;
       var stage = this.selected.stage;
       var result = this.selected.result;
+      var date = this.selected.date;
       var status = this.selected.status;
       var translator = this.translate;
       this.achievements.forEach(function (achievement) {
@@ -2166,7 +2212,7 @@ __webpack_require__.r(__webpack_exports__);
           isInSorted = sorted.indexOf(achievement[data]) === -1;
         }
 
-        if (isInSorted && (translator(achievement.status) === status || status === 'Все статусы' || data === 'status') && (achievement.form === form || form === 'Все классы' || data === 'form') && (achievement.student === student || student === 'Все ученики' || data === 'student') && (achievement.category === category || category === 'Все категории' || data === 'category') && (achievement.type === type || type === 'Все типы' || data === 'type') && (achievement.name === name || name === 'Все названия' || data === 'name') && (achievement.subject === subject || subject === 'Все предметы' || data === 'subject') && (achievement.stage === stage || stage === 'Все этапы' || data === 'stage') && (achievement.result === result || result === 'Все результаты' || data === 'result')) {
+        if (isInSorted && (translator(achievement.status) === status || status === 'Все статусы' || data === 'status') && (achievement.form === form || form === 'Все классы' || data === 'form') && (achievement.student === student || student === 'Все ученики' || data === 'student') && (achievement.category === category || category === 'Все категории' || data === 'category') && (achievement.type === type || type === 'Все типы' || data === 'type') && (achievement.name === name || name === 'Все названия' || data === 'name') && (achievement.subject === subject || subject === 'Все предметы' || data === 'subject') && (achievement.stage === stage || stage === 'Все этапы' || data === 'stage') && (achievement.result === result || result === 'Все результаты' || data === 'result') && (achievement.date === date || date === 'Все даты' || data === 'date')) {
           if (data === 'all') {
             sorted.push(achievement);
           } else {
@@ -2203,6 +2249,8 @@ __webpack_require__.r(__webpack_exports__);
       this.selected.subject = 'Все предметы';
       this.selected.stage = 'Все этапы';
       this.selected.result = 'Все результаты';
+      this.selected.status = 'Все статусы';
+      this.selected.date = 'Все даты';
     },
     mySort: function mySort(array) {
       function compare(a, b) {
@@ -2279,6 +2327,7 @@ __webpack_require__.r(__webpack_exports__);
       var subjects = this.setData('subject');
       var stages = this.setData('stage');
       var results = this.setData('result');
+      var date = this.setData('date');
       var status = this.setData('status');
       var resultFilters = {
         'form': forms,
@@ -2289,6 +2338,7 @@ __webpack_require__.r(__webpack_exports__);
         'subject': subjects,
         'stage': stages,
         'result': results,
+        'date': date,
         'status': status
       };
       return resultFilters;
@@ -2317,6 +2367,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -2474,6 +2528,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AchievementTableColumnHeader_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AchievementTableColumnHeader.vue */ "./resources/js/components/table/AchievementTableColumnHeader.vue");
+//
 //
 //
 //
@@ -37874,7 +37929,7 @@ var render = function() {
         attrs: {
           type: "button",
           "data-toggle": "modal",
-          "data-target": "#rejectionModal"
+          "data-target": _vm.generateId("#rejectionModal")
         }
       },
       [_vm._v("\n    Отклонить\n")]
@@ -37885,7 +37940,7 @@ var render = function() {
       {
         staticClass: "modal fade",
         attrs: {
-          id: "rejectionModal",
+          id: _vm.generateId("rejectionModal"),
           tabindex: "-1",
           role: "dialog",
           "aria-labelledby": "rejectionModalLabel",
@@ -37898,14 +37953,25 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(0),
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: _vm.generateId("rejection") }
+                  },
+                  [_vm._v("Отклонение заявки")]
+                ),
+                _vm._v(" "),
+                _vm._m(0)
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c(
                   "div",
                   {
                     staticClass: "accordion",
-                    attrs: { id: "accordionRejection" }
+                    attrs: { id: _vm.generateId("accordionRejection") }
                   },
                   [
                     _vm._v(
@@ -37918,14 +37984,14 @@ var render = function() {
                         attrs: {
                           href: "",
                           "data-toggle": "collapse",
-                          "data-target": "#collapseRejection",
+                          "data-target": _vm.generateId("#collapseRejection"),
                           "aria-expanded": "true",
                           "aria-controls": "collapseOne"
                         }
                       },
                       [
                         _vm._v(
-                          "Оставьте комментарий с объяснением вашего решения"
+                          "\n                        Оставьте комментарий с объяснением вашего решения\n                    "
                         )
                       ]
                     ),
@@ -37935,7 +38001,7 @@ var render = function() {
                       {
                         staticClass: "collapse hide",
                         attrs: {
-                          id: "collapseRejection",
+                          id: _vm.generateId("collapseRejection"),
                           "aria-labelledby": "headingOne",
                           "data-parent": "#accordionRejection"
                         }
@@ -38002,24 +38068,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title", attrs: { id: "rejection" } }, [
-        _vm._v("Отклонение заявки")
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true
@@ -38410,7 +38470,13 @@ var render = function() {
       _c(
         "button",
         { staticClass: "btn btn-success col-4", on: { click: _vm.sendData } },
-        [_vm._v("Добавить")]
+        [
+          _vm._v(
+            _vm._s(
+              _vm.action === "/achievement/add/new" ? "Добавить" : "Изменить"
+            )
+          )
+        ]
       ),
       _vm._v(" "),
       Object.keys(_vm.validationErrors).length !== 0
@@ -38645,62 +38711,76 @@ var render = function() {
             ? _c("td", [_vm._v(_vm._s(achievement.result))])
             : _vm._e(),
           _vm._v(" "),
+          _vm.workingColumns.date.value
+            ? _c("td", [_vm._v(_vm._s(achievement.date))])
+            : _vm._e(),
+          _vm._v(" "),
           !_vm.is_admin
             ? _c("td", [_vm._v(_vm._s(achievement.score))])
             : _vm._e(),
           _vm._v(" "),
-          [
-            _c("td", [
-              _vm.workingColumns.editing.value &&
-              ((achievement.status === "created" ||
-                achievement.status === "rejected") &&
-                !_vm.is_admin)
-                ? _c(
-                    "a",
-                    { attrs: { href: _vm.link(achievement.id, "edit") } },
-                    [
-                      _c("button", { staticClass: "btn btn-warning" }, [
-                        _vm._v("Редактировать")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _vm.workingColumns.deletion.value &&
-              ((achievement.status === "created" ||
-                achievement.status === "rejected") &&
-                !_vm.is_admin)
-                ? _c(
-                    "a",
-                    { attrs: { href: _vm.link(achievement.id, "delete") } },
-                    [
-                      _c("button", { staticClass: "btn btn-danger" }, [
-                        _vm._v("Удалить")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _vm.workingColumns.sending.value &&
-              ((achievement.status === "created" ||
-                achievement.status === "rejected") &&
-                !_vm.is_admin)
-                ? _c(
-                    "a",
-                    { attrs: { href: _vm.link(achievement.id, "send") } },
-                    [
-                      _c("button", { staticClass: "btn btn-success" }, [
-                        _vm._v("Отправить")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ])
-          ],
+          _vm.workingColumns.download.value
+            ? _c("td", [
+                achievement.confirmation !== ""
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-outline-secondary",
+                        attrs: {
+                          href: _vm.link(
+                            achievement.id,
+                            "download_confirmation"
+                          )
+                        }
+                      },
+                      [_vm._v("Подтверждение")]
+                    )
+                  : _vm._e()
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("td", [
+            _vm.workingColumns.editing.value &&
+            ((achievement.status === "created" ||
+              achievement.status === "rejected") &&
+              !_vm.is_admin)
+              ? _c("a", { attrs: { href: _vm.link(achievement.id, "edit") } }, [
+                  _c("button", { staticClass: "btn btn-warning" }, [
+                    _vm._v("Редактировать")
+                  ])
+                ])
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _vm.workingColumns.deletion.value &&
+            ((achievement.status === "created" ||
+              achievement.status === "rejected") &&
+              !_vm.is_admin)
+              ? _c(
+                  "a",
+                  { attrs: { href: _vm.link(achievement.id, "delete") } },
+                  [
+                    _c("button", { staticClass: "btn btn-danger" }, [
+                      _vm._v("Удалить")
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _vm.workingColumns.sending.value &&
+            ((achievement.status === "created" ||
+              achievement.status === "rejected") &&
+              !_vm.is_admin)
+              ? _c("a", { attrs: { href: _vm.link(achievement.id, "send") } }, [
+                  _c("button", { staticClass: "btn btn-success" }, [
+                    _vm._v("Отправить")
+                  ])
+                ])
+              : _vm._e()
+          ]),
           _vm._v(" "),
           _c("td", [
             !_vm.is_admin &&
@@ -38726,7 +38806,11 @@ var render = function() {
               achievement.status !== "rejected" &&
               achievement.status !== "created"
                 ? _c("reject-achievement", {
-                    attrs: { actionAddress: _vm.link(achievement.id, "reject") }
+                    attrs: {
+                      actionAddress: _vm.link(achievement.id, "reject"),
+                      id: achievement.id,
+                      achievement: achievement
+                    }
                   })
                 : _vm._e()
             ],
@@ -38939,6 +39023,16 @@ var render = function() {
             columnKey: "result",
             selected: _vm.selected,
             firstSelected: "Все результаты",
+            list: _vm.filters
+          }
+        }),
+        _vm._v(" "),
+        _c("achievement-table-column-header", {
+          attrs: {
+            isWorking: _vm.workingColumns,
+            columnKey: "date",
+            selected: _vm.selected,
+            firstSelected: "Все даты",
             list: _vm.filters
           }
         }),

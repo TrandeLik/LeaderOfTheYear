@@ -38,7 +38,8 @@
                     'subject': 'Все предметы',
                     'stage': 'Все этапы',
                     'result': 'Все результаты',
-                    'status': 'Все статусы'
+                    'status': 'Все статусы',
+                    'date': 'Все даты'
                 },
 
                 allWorkingColumns : {
@@ -51,6 +52,8 @@
                     'subject': {'text': 'Предмет', 'value': true},
                     'stage': {'text': 'Этап', 'value': true},
                     'result': {'text': 'Результат', 'value': true},
+                    'date': {'text': 'Дата', 'value': true},
+                    'download': {'text': 'Ссылка на подтверждение', 'value': true},
                     'editing': {'text': 'Редактирование', 'value': true},
                     'deletion': {'text': 'Удаление', 'value': true},
                     'sending': {'text': 'Отправка', 'value': true},
@@ -78,6 +81,7 @@
                 let subject = this.selected.subject;
                 let stage = this.selected.stage;
                 let result = this.selected.result;
+                let date = this.selected.date;
                 let status = this.selected.status;
                 let translator = this.translate;
                 this.achievements.forEach(function (achievement) {
@@ -95,7 +99,8 @@
                         ((achievement.name === name) || (name === 'Все названия') || (data === 'name')) &&
                         ((achievement.subject === subject) || (subject === 'Все предметы') || (data === 'subject')) &&
                         ((achievement.stage === stage) || (stage === 'Все этапы') || (data === 'stage')) &&
-                        ((achievement.result === result) || (result === 'Все результаты') || (data === 'result'))
+                        ((achievement.result === result) || (result === 'Все результаты') || (data === 'result')) &&
+                        ((achievement.date === date) || (date === 'Все даты') || (data === 'date'))
                     ){
                         if (data === 'all') {
                             sorted.push(achievement)
@@ -131,6 +136,8 @@
                     this.selected.subject = 'Все предметы';
                     this.selected.stage = 'Все этапы';
                     this.selected.result = 'Все результаты';
+                    this.selected.status = 'Все статусы';
+                    this.selected.date = 'Все даты';
             },
 
             mySort: function (array) {
@@ -208,6 +215,7 @@
                 let subjects = this.setData('subject');
                 let stages = this.setData('stage');
                 let results = this.setData('result');
+                let date= this.setData('date');
                 let status = this.setData('status');
                 let resultFilters = {
                     'form' : forms,
@@ -218,6 +226,7 @@
                     'subject' : subjects,
                     'stage' : stages,
                     'result' : results,
+                    'date' : date,
                     'status' : status
                 };
                 return resultFilters
