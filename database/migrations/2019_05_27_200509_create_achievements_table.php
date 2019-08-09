@@ -21,7 +21,8 @@ class CreateAchievementsTable extends Migration
             $table->string('subject');
             $table->string('stage');
             $table->string('result');
-            $table->integer('score');
+            $table->string('date');
+            $table->float('score');
             $table->string('confirmation');
             $table->string('status');
             

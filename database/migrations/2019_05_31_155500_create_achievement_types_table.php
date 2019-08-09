@@ -19,7 +19,7 @@ class CreateAchievementTypesTable extends Migration
             $table->string('type');
             $table->string('stage');
             $table->string('result');
-            $table->integer('score');
+            $table->float('score');
             $table->timestamps();
         });
     }

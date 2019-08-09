@@ -8,7 +8,7 @@
                 </div>
                 <div class="card-body">
                     <ul>
-                        <li v-for="column in workingColumns"><input type="checkbox" v-model="column.value"><p>{{column.text}}</p></li>
+                        <li v-for="column in workingColumns" class="inline"><input type="checkbox" v-model="column.value" class="inline"><p class="inline inline-paragraph">{{column.text}}</p></li>
                     </ul>
                 </div>
                 <button class="btn btn-warning" @click="returnColumns">Вернуть все колонки</button>
@@ -16,7 +16,15 @@
         </div>
     </div>
 </template>
+<style>
+    .inline{
+        display:inline-block;
+    }
 
+    .inline-paragraph{
+        margin-right:10px;
+    }
+</style>
 <script>
     export default {
         name: 'columnSettings',

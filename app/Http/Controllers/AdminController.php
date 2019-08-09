@@ -246,7 +246,7 @@ class AdminController extends Controller // TODO погуглить, как сд
         $achievement = Achievement::findOrFail($id);
         $achievement -> status = 'confirmed';
         $achievement -> save();
-        return redirect('admin');
+        return redirect(url()->previous());
     }
 
     public function settingsView(){
@@ -265,7 +265,7 @@ class AdminController extends Controller // TODO погуглить, как сд
             }
             $setting->save();
         }
-        return redirect('/admin');
+        return redirect(url()->previous());
     }
 
     public function getAchievementsTable(){

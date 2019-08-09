@@ -46,7 +46,7 @@
                     'status': {'text': 'Статус', 'value': true},
                     'student': {'text': 'ФИО', 'value': true},
                     'form': {'text': 'Класс', 'value': true},
-                    'category': {'text': 'Категории', 'value': true},
+                    'category': {'text': 'Категория', 'value': true},
                     'type': {'text': 'Тип', 'value': true},
                     'name': {'text': 'Название', 'value': true},
                     'subject': {'text': 'Предмет', 'value': true},
