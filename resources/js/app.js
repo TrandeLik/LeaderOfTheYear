@@ -24,6 +24,7 @@ Vue.component('achievement-table', require('./components/table/AchievementTable.
 Vue.component('reject-achievement', require('./components/AchievementRejection.vue').default);
 Vue.component('creating-achievement', require('./components/CreatingAchievement.vue').default);
 Vue.component('confirm-action', require('./components/ConfirmAction.vue').default);
+Vue.component('comment-showing', require('./components/CommentShowing.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

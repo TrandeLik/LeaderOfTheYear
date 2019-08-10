@@ -1,17 +1,4 @@
 @extends('layouts.app')
-<style>
-    .admin-comment{
-        margin-right: auto;
-        margin-left: 0;
-        text-align: left;
-    }
-
-    .student-comment{
-        margin-right: 0;
-        margin-left: auto;
-        text-align: right;
-    }
-</style>
 @section('content')
 
     <div class="row pl-0">
@@ -93,48 +80,9 @@
                             <h3 class="card-title">От пользователя {{$achievement -> user -> name}}, {{$achievement -> user -> form}}</h3>
                             <p>{{$achievement -> type.', '.$achievement -> name.', '.$achievement -> stage.', '.$achievement -> subject.', '.$achievement -> result}}</p>
                             <a href="{{url('/achievement/'.$achievement->id.'/download_confirmation')}}">Подтверждение</a><br>
-                            @if (count($achievement->comments)!=0)
-                                <div class="show-comments-link">
-                                    <a href = "" data-toggle="modal" data-target="#exampleModalLong">
-                                        Посмотреть комментарии
-                                    </a>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Комментарии</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                            <div class="modal-body">
-                                                <div class="content">
-                                                    @foreach ($achievement->comments as $comment)
-                                                        @if ($comment->author=='admin')
-                                                            <div class="admin-comment">
-                                                                <p>Admin</p>
-                                                                <p>{{$comment->text}}</p>
-                                                            </div>
-                                                        @else
-                                                            <div class="student-comment">
-                                                                <p>{{$comment->achievement->user->name}}</p>
-                                                                <p>{{$comment->text}}</p>
-                                                            </div>
-                                                        @endif
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            @if (count($achievement->comments) !== 0)
+                                <comment-showing :comments="{{json_encode($achievement->comments)}}" :id="'{{$achievement->id}}'" :username="'{{$achievement->user->name}}'"></comment-showing><br>
                             @endif
-                            <br>
                             <a href="{{url('/achievement/'. $achievement -> id . '/confirm')}}"><button class="btn btn-success">Одобрить</button> </a>
                             <reject-achievement :action-address="{{json_encode('/achievement/' . $achievement->id . '/reject')}}" :id="{{$achievement->id}}"></reject-achievement>
                         </div><br>
