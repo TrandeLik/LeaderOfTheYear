@@ -24,10 +24,15 @@
                 </a>
             </td>
             <td>
-                <a v-if="workingColumns.deletion.value && (((achievement.status === 'created') ||
-                (achievement.status === 'rejected')) && (!is_admin))" :href="link(achievement.id, 'delete')">
-                    <button class="btn btn-danger">Удалить</button>
-                </a>
+                <confirm-action v-if="workingColumns.deletion.value && (((achievement.status === 'created') ||
+                (achievement.status === 'rejected')) && (!is_admin))"
+                                    :button-class="'btn btn-danger'"
+                                    :button-text="'Удалить'"
+                                    :button-action="'/achievement/'+achievement.id+'/delete'"
+                                    :modal-text="'Вы уверены, что хотите удалить достижение?'"
+                                    :id="'delete'+achievement.id"
+                ></confirm-action>     
+                
             </td>
             <td>
                 <a v-if="workingColumns.sending.value && (((achievement.status === 'created') ||
@@ -36,10 +41,13 @@
                 </a>
             </td>
             <td>
-                <a v-if="!(is_admin) && (achievement.status === 'sent') && (workingColumns.returning.value)"
-                :href="link(achievement.id, 'return')">
-                    <button class="btn btn-info">Отозвать</button>
-                </a>
+                <confirm-action v-if="!(is_admin) && (achievement.status === 'sent') && (workingColumns.returning.value)"
+                                    :button-class="'btn btn-info'"
+                                    :button-text="'Отозвать'"
+                                    :button-action="'/achievement/'+achievement.id+'/return'"
+                                    :modal-text="'Вы уверены, что хотите отозвать достижение?'"
+                                    :id="'return'+achievement.id"
+                ></confirm-action>  
             </td>
             <td>
                 <reject-achievement v-if="is_admin  && (workingColumns.rejection.value) &&

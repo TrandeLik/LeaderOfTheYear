@@ -14,15 +14,45 @@
                         <li>Место в конкурсе: {{$place}}</li>
                     </ul>
                     @if ($user -> role == 'student')
-                        <a href={{url('/user/'.$user->id.'/ban')}}><button class="btn btn-danger"> Заблокировать </button></a>
-                        <a href={{url('/user/'.$user->id.'/promote')}}><button class="btn btn-warning"> Назначить администратором </button></a>
+                        <confirm-action
+                                    :button-class="'btn btn-danger'"
+                                    :button-text="'Заблокировать'"
+                                    :button-action="'/user/{{$user->id}}/ban'"
+                                    :modal-text="'Вы уверены, что хотите заблокировать пользователя {{$user->name}}?'"
+                                    :id="'ban{{$user->id}}'"
+                        ></confirm-action>       
+                        <confirm-action
+                                    :button-class="'btn btn-warning'"
+                                    :button-text="'Назначить администратором'"
+                                    :button-action="'/user/{{$user->id}}/promote'"
+                                    :modal-text="'Вы уверены, что хотите назначить пользователя {{$user->name}} администратором?'"
+                                    :id="'promote{{$user->id}}'"
+                            ></confirm-action>        
                     @endif
-                    @if ($user -> role == 'admin' && \Illuminate\Support\Facades\Auth::user()->role == 'superadmin')
-                        <a href={{url('/user/'.$user->id.'/ban')}}><button class="btn btn-danger"> Заблокировать </button></a>
-                        <a href={{url('/user/'.$user->id.'/degrade')}}><button class="btn btn-warning"> Снять с должности администратора </button></a>
+                    @if ($user -> role == 'admin' && Auth::user()->role == 'superadmin')
+                        <confirm-action
+                                    :button-class="'btn btn-danger'"
+                                    :button-text="'Заблокировать'"
+                                    :button-action="'/user/{{$user->id}}/ban'"
+                                    :modal-text="'Вы уверены, что хотите заблокировать администратора {{$user->name}}?'"
+                                    :id="'ban{{$user->id}}'"
+                        ></confirm-action>       
+                        <confirm-action
+                                    :button-class="'btn btn-warning'"
+                                    :button-text="'Разжаловать'"
+                                    :button-action="'/user/{{$user->id}}/degrade'"
+                                    :modal-text="'Вы уверены, что хотите разжаловать администратора {{$user->name}}?'"
+                                    :id="'degrade{{$user->id}}'"
+                        ></confirm-action>     
                     @endif
                     @if ($user -> role == 'banned')
-                        <a href={{url('/user/'.$user->id.'/unblock')}}><button class="btn btn-warning"> Разблокировать </button></a>
+                        <confirm-action
+                                    :button-class="'btn btn-warning'"
+                                    :button-text="'Разблокировать'"
+                                    :button-action="'/user/{{$user->id}}/unblock'"
+                                    :modal-text="'Вы уверены, что хотите разблокировать пользователя {{$user->name}}?'"
+                                    :id="'unblock{{$user->id}}'"
+                        ></confirm-action>       
                     @endif
                 </div>
             </div>

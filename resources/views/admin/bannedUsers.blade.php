@@ -13,7 +13,13 @@
                     <div class="card-body">
                         <h3 class="card-header">{{$user -> name . ', ' . $user -> form}}</h3><br>
                         <p>{{$user -> email}}</p>
-                        <a href="{{url('/user/'.$user -> id.'/unblock')}}"><button class="btn btn-success">Разблокировать</button> </a>
+                        <confirm-action
+                                    :button-class="'btn btn-warning'"
+                                    :button-text="'Разблокировать'"
+                                    :button-action="'/user/{{$user->id}}/unblock'"
+                                    :modal-text="'Вы уверены, что хотите разблокировать пользователя {{$user->name}}?'"
+                                    :id="'unblock{{$user->id}}'"
+                        ></confirm-action>       
                     </div><br>
                 </div><br>
             @endforeach

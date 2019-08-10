@@ -2539,6 +2539,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['is_admin', 'section', 'workingColumns', 'sortedAchievement'],
   methods: {
@@ -38906,7 +38914,7 @@ var render = function() {
                     staticClass: "modal-title",
                     attrs: { id: _vm.generateId("modalLabel") }
                   },
-                  [_vm._v("Подтверждение действия")]
+                  [_vm._v("Подтвердите действие")]
                 ),
                 _vm._v(" "),
                 _vm._m(0)
@@ -39653,22 +39661,28 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _c("td", [
-            _vm.workingColumns.deletion.value &&
-            ((achievement.status === "created" ||
-              achievement.status === "rejected") &&
-              !_vm.is_admin)
-              ? _c(
-                  "a",
-                  { attrs: { href: _vm.link(achievement.id, "delete") } },
-                  [
-                    _c("button", { staticClass: "btn btn-danger" }, [
-                      _vm._v("Удалить")
-                    ])
-                  ]
-                )
-              : _vm._e()
-          ]),
+          _c(
+            "td",
+            [
+              _vm.workingColumns.deletion.value &&
+              ((achievement.status === "created" ||
+                achievement.status === "rejected") &&
+                !_vm.is_admin)
+                ? _c("confirm-action", {
+                    attrs: {
+                      "button-class": "btn btn-danger",
+                      "button-text": "Удалить",
+                      "button-action":
+                        "/achievement/" + achievement.id + "/delete",
+                      "modal-text":
+                        "Вы уверены, что хотите удалить достижение?",
+                      id: "delete" + achievement.id
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("td", [
             _vm.workingColumns.sending.value &&
@@ -39683,21 +39697,27 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _c("td", [
-            !_vm.is_admin &&
-            achievement.status === "sent" &&
-            _vm.workingColumns.returning.value
-              ? _c(
-                  "a",
-                  { attrs: { href: _vm.link(achievement.id, "return") } },
-                  [
-                    _c("button", { staticClass: "btn btn-info" }, [
-                      _vm._v("Отозвать")
-                    ])
-                  ]
-                )
-              : _vm._e()
-          ]),
+          _c(
+            "td",
+            [
+              !_vm.is_admin &&
+              achievement.status === "sent" &&
+              _vm.workingColumns.returning.value
+                ? _c("confirm-action", {
+                    attrs: {
+                      "button-class": "btn btn-info",
+                      "button-text": "Отозвать",
+                      "button-action":
+                        "/achievement/" + achievement.id + "/return",
+                      "modal-text":
+                        "Вы уверены, что хотите отозвать достижение?",
+                      id: "return" + achievement.id
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "td",

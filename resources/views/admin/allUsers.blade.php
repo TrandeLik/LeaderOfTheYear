@@ -15,17 +15,57 @@
                 <tr>
                     @if ($user -> role == 'student')
                         <td scope="row"><a href="{{url('/user/' . $user -> id . '/profile')}}">{{ $user -> name.', '.$user -> form}} </a></td>
-                        <td><a href={{url('/user/'.$user->id.'/ban')}}><button class="btn btn-danger"> Заблокировать </button></a></td>
-                        <td><a href={{url('/user/'.$user->id.'/promote')}}><button class="btn btn-warning"> Назначить администратором </button></a></td>
+                        <td>
+                            <confirm-action
+                                    :button-class="'btn btn-danger'"
+                                    :button-text="'Заблокировать'"
+                                    :button-action="'/user/{{$user->id}}/ban'"
+                                    :modal-text="'Вы уверены, что хотите заблокировать пользователя {{$user->name}}?'"
+                                    :id="'ban{{$user->id}}'"
+                            ></confirm-action>                            
+                        </td>
+                        <td>
+                            <confirm-action
+                                    :button-class="'btn btn-warning'"
+                                    :button-text="'Назначить администратором'"
+                                    :button-action="'/user/{{$user->id}}/promote'"
+                                    :modal-text="'Вы уверены, что хотите назначить пользователя {{$user->name}} администратором?'"
+                                    :id="'promote{{$user->id}}'"
+                            ></confirm-action>                            
+                        </td>
                     @endif
                     @if ($user -> role == 'admin')
                         <td scope="row"><strong>Администратор: </strong>{{ $user -> name }}</td>
-                        <td><a href={{url('/user/'.$user->id.'/ban')}}><button class="btn btn-danger"> Заблокировать </button></a></td>
-                        <td><a href={{url('/user/'.$user->id.'/degrade')}}><button class="btn btn-warning"> Снять с должности администратора </button></a></td>
+                        <td>
+                            <confirm-action
+                                    :button-class="'btn btn-danger'"
+                                    :button-text="'Заблокировать'"
+                                    :button-action="'/user/{{$user->id}}/ban'"
+                                    :modal-text="'Вы уверены, что хотите заблокировать администратора {{$user->name}}?'"
+                                    :id="'ban{{$user->id}}'"
+                            ></confirm-action>       
+                        </td>
+                        <td>
+                            <confirm-action
+                                    :button-class="'btn btn-warning'"
+                                    :button-text="'Разжаловать'"
+                                    :button-action="'/user/{{$user->id}}/degrade'"
+                                    :modal-text="'Вы уверены, что хотите разжаловать администратора {{$user->name}}?'"
+                                    :id="'degrade{{$user->id}}'"
+                            ></confirm-action>       
+                        </td>
                     @endif
                     @if ($user -> role == 'banned')
                         <td scope="row"><strong> Заблокирован: </strong>{{ $user -> name.', '.$user -> form}}</td>
-                        <td><a href={{url('/user/'.$user->id.'/unblock')}}><button class="btn btn-warning"> Разблокировать </button></a></td>
+                        <td>
+                            <confirm-action
+                                    :button-class="'btn btn-warning'"
+                                    :button-text="'Разблокировать'"
+                                    :button-action="'/user/{{$user->id}}/unblock'"
+                                    :modal-text="'Вы уверены, что хотите разблокировать пользователя {{$user->name}}?'"
+                                    :id="'unblock{{$user->id}}'"
+                            ></confirm-action>       
+                        </td>
                         <td></td>
                     @endif
                 </tr>

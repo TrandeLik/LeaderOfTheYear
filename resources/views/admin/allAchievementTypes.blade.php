@@ -42,7 +42,17 @@
             <thead>
             <tr>
                 <th scope="col"></th>
-                <th scope="col">Достижения<input type="submit" form="1" value="Удалить выбранные" class="btn btn-danger"><a href="/achievement_types/all/delete" class="btn btn-danger">Удалить все</a></th>
+                <th scope="col">
+                    Достижения
+                    <input type="submit" form="1" value="Удалить выбранные" class="btn btn-danger">
+                    <confirm-action style="font-weight:normal;"
+                            :button-class="'btn btn-danger'"
+                            :button-text="'Удалить все'"
+                            :button-action="'/achievement_types/all/delete'"
+                            :modal-text="'Вы уверены, что хотите удалить все типы достижений?'"
+                            :id="'deleteAll'"
+                    ></confirm-action>
+                </th>
                 <th scope="col">Баллы</th>
                 <th scope="col"></th>
                 <th scope="col"><a href='{{url('/achievement_type/add')}}'><button class="btn btn-success">Добавить</button></a></th>
@@ -62,7 +72,7 @@
                                 :button-class="'btn btn-danger'"
                                 :button-text="'Удалить'"
                                 :button-action="'/achievement_type/{{$type->id}}/delete'"
-                                :modal-text="'Вы уверены, что хотите удалить достижение?'"
+                                :modal-text="'Вы уверены, что хотите удалить тип достижения?'"
                                 :id="'delete{{$type->id}}'"
                         ></confirm-action>
                     </td>
