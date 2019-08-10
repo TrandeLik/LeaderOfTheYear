@@ -79,12 +79,14 @@
                         <div class="card-body">
                             <h3 class="card-title">От пользователя {{$achievement -> user -> name}}, {{$achievement -> user -> form}}</h3>
                             <p>{{$achievement -> type.', '.$achievement -> name.', '.$achievement -> stage.', '.$achievement -> subject.', '.$achievement -> result}}</p>
-                            <a href="{{url('/achievement/'.$achievement->id.'/download_confirmation')}}">Подтверждение</a><br>
+                            <a href="{{url('/achievement/'.$achievement->id.'/download_confirmation')}}">Подтверждение</a><br><br>
                             @if (count($achievement->comments) !== 0)
                                 <comment-showing :comments="{{json_encode($achievement->comments)}}" :id="'{{$achievement->id}}'" :username="'{{$achievement->user->name}}'"></comment-showing><br>
                             @endif
-                            <a href="{{url('/achievement/'. $achievement -> id . '/confirm')}}"><button class="btn btn-success">Одобрить</button> </a>
-                            <reject-achievement :action-address="{{json_encode('/achievement/' . $achievement->id . '/reject')}}" :id="{{$achievement->id}}"></reject-achievement>
+                            <div class="row">
+                                <a href="{{url('/achievement/'. $achievement -> id . '/confirm')}}"><button class="btn btn-success">Одобрить</button> </a>
+                                <reject-achievement class="ml-1" :action-address="{{json_encode('/achievement/' . $achievement->id . '/reject')}}" :id="{{$achievement->id}}"></reject-achievement>
+                            </div>
                         </div><br>
                     </div><br>
                 @endforeach
