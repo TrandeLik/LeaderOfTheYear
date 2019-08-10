@@ -2316,7 +2316,6 @@ __webpack_require__.r(__webpack_exports__);
       var result = this.selected.result;
       var date = this.selected.date;
       var status = this.selected.status;
-      var translator = this.translate;
       this.achievements.forEach(function (achievement) {
         var isInSorted = true;
 
@@ -2324,7 +2323,7 @@ __webpack_require__.r(__webpack_exports__);
           isInSorted = sorted.indexOf(achievement[data]) === -1;
         }
 
-        if (isInSorted && (translator(achievement.status) === status || status === 'Все статусы' || data === 'status') && (achievement.form === form || form === 'Все классы' || data === 'form') && (achievement.student === student || student === 'Все ученики' || data === 'student') && (achievement.category === category || category === 'Все категории' || data === 'category') && (achievement.type === type || type === 'Все типы' || data === 'type') && (achievement.name === name || name === 'Все названия' || data === 'name') && (achievement.subject === subject || subject === 'Все предметы' || data === 'subject') && (achievement.stage === stage || stage === 'Все этапы' || data === 'stage') && (achievement.result === result || result === 'Все результаты' || data === 'result') && (achievement.date === date || date === 'Все даты' || data === 'date')) {
+        if (isInSorted && (achievement.status === status || status === 'Все статусы' || data === 'status') && (achievement.form === form || form === 'Все классы' || data === 'form') && (achievement.student === student || student === 'Все ученики' || data === 'student') && (achievement.category === category || category === 'Все категории' || data === 'category') && (achievement.type === type || type === 'Все типы' || data === 'type') && (achievement.name === name || name === 'Все названия' || data === 'name') && (achievement.subject === subject || subject === 'Все предметы' || data === 'subject') && (achievement.stage === stage || stage === 'Все этапы' || data === 'stage') && (achievement.result === result || result === 'Все результаты' || data === 'result') && (achievement.date === date || date === 'Все даты' || data === 'date')) {
           if (data === 'all') {
             sorted.push(achievement);
           } else {
@@ -2341,7 +2340,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     downloadTable: function downloadTable() {
       var tableData = this.sortedAchievement;
-      var selectedColumns = this.workingColumns;
+      var selectedColumns = this.allWorkingColumns;
       axios.post('/achievements/all', {
         table: tableData,
         columns: selectedColumns
@@ -2372,22 +2371,22 @@ __webpack_require__.r(__webpack_exports__);
         var statusB = b.status;
         var comparison = 0;
 
-        if (statusA === 'confirmed') {
+        if (statusA === 'Проверенные') {
           comparison = -1;
         } else {
-          if (statusB === 'confirmed') {
+          if (statusB === 'Проверенные') {
             comparison = 1;
           } else {
-            if (statusA === 'sent') {
+            if (statusA === 'Отправленные, но не проверенные') {
               comparison = -1;
             } else {
-              if (statusB === 'sent') {
+              if (statusB === 'Отправленные, но не проверенные') {
                 comparison = 1;
               } else {
-                if (statusA === 'rejected') {
+                if (statusA === 'Отклоненные') {
                   comparison = -1;
                 } else {
-                  if (statusB === 'rejected') {
+                  if (statusB === 'Отклоненные') {
                     comparison = 1;
                   } else {
                     if (scoreA > scoreB) {
@@ -2406,23 +2405,6 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       array.sort(compare);
-    },
-    translate: function translate(s) {
-      if (s === 'created') {
-        return 'Созданные, но не отправленные';
-      }
-
-      if (s === 'rejected') {
-        return 'Отклоненные';
-      }
-
-      if (s === 'sent') {
-        return 'Отправленные, но не проверенные';
-      }
-
-      if (s === 'confirmed') {
-        return 'Проверенные';
-      }
     },
     changeSortKey: function changeSortKey() {
       var key = this.sortKey;
@@ -2554,37 +2536,20 @@ __webpack_require__.r(__webpack_exports__);
     link: function link(id, action) {
       return '/achievement/' + id + '/' + action;
     },
-    translate: function translate(s) {
-      if (s === 'created') {
-        return 'Созданные, но не отправленные';
-      }
-
-      if (s === 'rejected') {
-        return 'Отклоненные';
-      }
-
-      if (s === 'sent') {
-        return 'Отправленные, но не проверенные';
-      }
-
-      if (s === 'confirmed') {
-        return 'Проверенные';
-      }
-    },
     rowStyle: function rowStyle(status) {
-      if (status === 'created') {
+      if (status === 'Созданные, но не отправленные') {
         return 'table-primary';
       }
 
-      if (status === 'rejected') {
+      if (status === 'Отклоненные') {
         return 'table-danger';
       }
 
-      if (status === 'sent') {
+      if (status === 'Отправленные, но не проверенные') {
         return 'table-secondary';
       }
 
-      if (status === 'confirmed') {
+      if (status === 'Проверенные') {
         return 'table-success';
       }
     }
@@ -2612,28 +2577,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['isWorking', 'selected', 'firstSelected', 'list', 'columnKey'],
-  methods: {
-    translate: function translate(s) {
-      if (s === 'created') {
-        return 'Созданные, но не отправленные';
-      }
-
-      if (s === 'rejected') {
-        return 'Отклоненные';
-      }
-
-      if (s === 'sent') {
-        return 'Отправленные, но не проверенные';
-      }
-
-      if (s === 'confirmed') {
-        return 'Проверенные';
-      }
-
-      return s;
-    }
-  }
+  props: ['isWorking', 'selected', 'firstSelected', 'list', 'columnKey']
 });
 
 /***/ }),
@@ -39582,7 +39526,7 @@ var render = function() {
         { class: _vm.rowStyle(achievement.status) },
         [
           _vm.workingColumns.status.value
-            ? _c("td", [_vm._v(_vm._s(_vm.translate(achievement.status)))])
+            ? _c("td", [_vm._v(_vm._s(achievement.status))])
             : _vm._e(),
           _vm._v(" "),
           _vm.is_admin && _vm.section !== "profile"
@@ -39651,8 +39595,8 @@ var render = function() {
           _vm._v(" "),
           _c("td", [
             _vm.workingColumns.editing.value &&
-            ((achievement.status === "created" ||
-              achievement.status === "rejected") &&
+            ((achievement.status === "Созданные, но не отправленные" ||
+              achievement.status === "Отклоненные") &&
               !_vm.is_admin)
               ? _c("a", { attrs: { href: _vm.link(achievement.id, "edit") } }, [
                   _c("button", { staticClass: "btn btn-warning" }, [
@@ -39666,8 +39610,8 @@ var render = function() {
             "td",
             [
               _vm.workingColumns.deletion.value &&
-              ((achievement.status === "created" ||
-                achievement.status === "rejected") &&
+              ((achievement.status === "Созданные, но не отправленные" ||
+                achievement.status === "Отклоненные") &&
                 !_vm.is_admin)
                 ? _c("confirm-action", {
                     attrs: {
@@ -39687,8 +39631,8 @@ var render = function() {
           _vm._v(" "),
           _c("td", [
             _vm.workingColumns.sending.value &&
-            ((achievement.status === "created" ||
-              achievement.status === "rejected") &&
+            ((achievement.status === "Созданные, но не отправленные" ||
+              achievement.status === "Отклоненные") &&
               !_vm.is_admin)
               ? _c("a", { attrs: { href: _vm.link(achievement.id, "send") } }, [
                   _c("button", { staticClass: "btn btn-success" }, [
@@ -39702,7 +39646,7 @@ var render = function() {
             "td",
             [
               !_vm.is_admin &&
-              achievement.status === "sent" &&
+              achievement.status === "Отправленные, но не проверенные" &&
               _vm.workingColumns.returning.value
                 ? _c("confirm-action", {
                     attrs: {
@@ -39725,8 +39669,8 @@ var render = function() {
             [
               _vm.is_admin &&
               _vm.workingColumns.rejection.value &&
-              achievement.status !== "rejected" &&
-              achievement.status !== "created"
+              achievement.status !== "Отклоненные" &&
+              achievement.status !== "Созданные, но не отправленные"
                 ? _c("reject-achievement", {
                     attrs: {
                       actionAddress: _vm.link(achievement.id, "reject"),
@@ -39742,8 +39686,8 @@ var render = function() {
           _c("td", [
             _vm.is_admin &&
             _vm.workingColumns.confirmation.value &&
-            achievement.status !== "confirmed" &&
-            achievement.status !== "created"
+            achievement.status !== "Проверенные" &&
+            achievement.status !== "Созданные, но не отправленные"
               ? _c(
                   "a",
                   { attrs: { href: _vm.link(achievement.id, "confirm") } },
@@ -39821,7 +39765,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _vm._l(_vm.list[_vm.columnKey], function(item) {
-              return _c("option", [_vm._v(_vm._s(_vm.translate(item)))])
+              return _c("option", [_vm._v(_vm._s(item))])
             })
           ],
           2
@@ -40078,7 +40022,11 @@ var render = function() {
             "button",
             {
               staticClass: "btn btn-warning",
-              on: { click: _vm.returnColumns }
+              on: {
+                click: function($event) {
+                  return _vm.returnColumns()
+                }
+              }
             },
             [_vm._v("Вернуть все колонки")]
           )

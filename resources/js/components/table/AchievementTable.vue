@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <button v-if="is_admin" class="btn btn-primary" @click="downloadTable">Экспортировать в Excel</button>
                 <button class="btn btn-warning" @click="dropFilters">Сбросить фильтры</button>
-                <br><br><column-settings :is_admin="is_admin" :section="section" :allWorkingColumns = 'allWorkingColumns'></column-settings><br>
+                <br><br><column-settings :is_admin="is_admin" :section="section" :allWorkingColumns='allWorkingColumns'></column-settings><br>
                 <p v-if="! is_admin">Баллы за данные достижения (без учета условий конкурса, т.е. баллы, которые вы получите, если учесть все выбранные достижения) - {{studentsScore}}</p>
                 <div class="table-responsive">
                 <table class="table">
@@ -83,7 +83,6 @@
                 let result = this.selected.result;
                 let date = this.selected.date;
                 let status = this.selected.status;
-                let translator = this.translate;
                 this.achievements.forEach(function (achievement) {
                     let isInSorted = true;
                     if (data !== 'all'){
@@ -91,7 +90,7 @@
                     }
                     if (
                         (isInSorted) &&
-                        ((translator(achievement.status) === status) || (status === 'Все статусы') || (data === 'status')) &&
+                        ((achievement.status === status) || (status === 'Все статусы') || (data === 'status')) &&
                         ((achievement.form === form) || (form === 'Все классы') || (data === 'form')) &&
                         ((achievement.student === student) || (student === 'Все ученики') || (data === 'student')) &&
                         ((achievement.category === category) || (category === 'Все категории') || (data === 'category')) &&
@@ -117,7 +116,7 @@
 
             downloadTable: function () {
                 let tableData = this.sortedAchievement;
-                let selectedColumns = this.workingColumns;
+                let selectedColumns = this.allWorkingColumns;
                 axios.post('/achievements/all', {table: tableData, columns: selectedColumns})
                     .then(response => {
                         window.open('/achievements/all/download/' + response.data);
@@ -147,22 +146,22 @@
                     let statusA = a.status;
                     let statusB = b.status;
                     let comparison = 0;
-                    if (statusA === 'confirmed'){
+                    if (statusA === 'Проверенные'){
                         comparison = -1
                     } else {
-                         if (statusB === 'confirmed'){
+                         if (statusB === 'Проверенные'){
                              comparison = 1
                          } else {
-                            if (statusA === 'sent'){
+                            if (statusA === 'Отправленные, но не проверенные'){
                                 comparison = -1
                             } else {
-                                if (statusB === 'sent'){
+                                if (statusB === 'Отправленные, но не проверенные'){
                                     comparison = 1
                                 } else {
-                                    if (statusA === 'rejected'){
+                                    if (statusA === 'Отклоненные'){
                                         comparison = -1
                                     } else {
-                                        if (statusB === 'rejected'){
+                                        if (statusB === 'Отклоненные'){
                                             comparison = 1
                                         } else {
                                             if (scoreA > scoreB) {
@@ -181,20 +180,7 @@
                 array.sort(compare)
             },
 
-            translate: function (s) {
-                if (s === 'created'){
-                    return 'Созданные, но не отправленные'
-                }
-                if (s === 'rejected'){
-                    return 'Отклоненные'
-                }
-                if (s === 'sent'){
-                    return 'Отправленные, но не проверенные'
-                }
-                if (s === 'confirmed'){
-                    return 'Проверенные'
-                }
-            },
+            
 
             changeSortKey: function () {
                 let key = this.sortKey;

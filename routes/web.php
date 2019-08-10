@@ -18,7 +18,7 @@ Route::get('/admin', 'AdminController@index');
 Route::post('/admin', 'AdminController@uploadAchievementTypesFile');
 
 Route::get('/achievements/all', 'AdminController@getAchievementsTable');
-Route::post('/achievements/all', 'AdminController@importAchievementTable');
+Route::post('/achievements/all', 'AdminController@exportAchievementTable');
 Route::get('/achievements/all/download/{name}', 'AdminController@downloadAchievementTable');
 Route::get('/achievements/sent', 'AdminController@getAllSentAchievements');
 Route::get('/achievement/{id}', 'GeneralController@achievementView');

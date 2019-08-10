@@ -11,7 +11,7 @@
                         <li v-for="column in workingColumns" class="inline"><input type="checkbox" v-model="column.value" class="inline"><p class="inline inline-paragraph">{{column.text}}</p></li>
                     </ul>
                 </div>
-                <button class="btn btn-warning" @click="returnColumns">Вернуть все колонки</button>
+                <button class="btn btn-warning" @click="returnColumns()">Вернуть все колонки</button>
             </div>
         </div>
     </div>

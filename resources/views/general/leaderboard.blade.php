@@ -50,7 +50,7 @@
         @else
             <p>Здесь пусто :)</p>
         @endif
-        @if (Auth::user()->confirmedScore()<$minimalAllowedScore)
+        @if ((Auth::user()->confirmedScore()<$minimalAllowedScore) and (Auth::user()->role == 'student'))
             <p class="warning">Ваших подтверждённых баллов недостаточно для участия в конкурсе. Количество баллов, которое вам ещё нужно набрать для попадания в рейтинг: {{$minimalAllowedScore - Auth::user()->confirmedScore()}}</p>
         @endif
     </div>

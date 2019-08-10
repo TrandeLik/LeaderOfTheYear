@@ -274,6 +274,20 @@ class AdminController extends Controller // TODO погуглить, как сд
         $achievements = [];
         foreach ($allAchievements as $achievement){
             $newAchievement=(object)[];
+            switch ($achievement->status){
+                case 'created':
+                    $newAchievement->status = 'Созданные, но не отправленные';
+                    break;
+                case 'sent':
+                    $newAchievement->status = 'Отправленные, но не проверенные';
+                    break;
+                case 'rejected':
+                    $newAchievement->status = 'Отклоненные';
+                    break;
+                case 'confirmed':
+                    $newAchievement->status = 'Проверенные';
+                    break;
+            }
             $newAchievement->student = $achievement->user->name;
             $newAchievement->form = $achievement->user->form;
             $newAchievement->category = $achievement->category;
@@ -281,11 +295,10 @@ class AdminController extends Controller // TODO погуглить, как сд
             $newAchievement->name = $achievement->name;
             $newAchievement->subject = $achievement->subject;
             $newAchievement->stage = $achievement->stage;
+            $newAchievement->result = $achievement->result;
             $newAchievement->date = $achievement->date;
             $newAchievement->confirmation = $achievement->confirmation;
-            $newAchievement->result = $achievement->result;
             $newAchievement->score = $achievement->score;
-            $newAchievement->status = $achievement->status;
             $newAchievement->id = $achievement->id;
             $achievements[] = $newAchievement;
         }
@@ -297,7 +310,7 @@ class AdminController extends Controller // TODO погуглить, как сд
         return response()->download($pathToFile);
     }
 
-    public function importAchievementTable(Request $request){
+    public function exportAchievementTable(Request $request){
         $file = new Filesystem;
         $file->cleanDirectory(storage_path('sorted_achievements'));
         $achievements = $request->table;        

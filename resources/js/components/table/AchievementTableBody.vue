@@ -1,7 +1,7 @@
 <template>
     <tbody>
         <tr v-for="achievement in sortedAchievement" :class="rowStyle(achievement.status)">
-            <td v-if="workingColumns.status.value">{{translate(achievement.status)}}</td>
+            <td v-if="workingColumns.status.value">{{achievement.status}}</td>
             <template v-if="(is_admin && (section !== 'profile'))">
                 <td v-if="workingColumns.student.value">{{achievement.student}}</td>
                 <td v-if="workingColumns.form.value">{{achievement.form}}</td>
@@ -18,14 +18,14 @@
                 <a v-if="achievement.confirmation !== ''" :href="link(achievement.id, 'download_confirmation')" class="btn btn-outline-secondary">Подтверждение</a>
             </td>
             <td>
-                <a v-if="workingColumns.editing.value && (((achievement.status === 'created') ||
-                (achievement.status === 'rejected')) && (!is_admin))" :href="link(achievement.id, 'edit')">
+                <a v-if="workingColumns.editing.value && (((achievement.status === 'Созданные, но не отправленные') ||
+                (achievement.status === 'Отклоненные')) && (!is_admin))" :href="link(achievement.id, 'edit')">
                     <button class="btn btn-warning">Редактировать</button>
                 </a>
             </td>
             <td>
-                <confirm-action v-if="workingColumns.deletion.value && (((achievement.status === 'created') ||
-                (achievement.status === 'rejected')) && (!is_admin))"
+                <confirm-action v-if="workingColumns.deletion.value && (((achievement.status === 'Созданные, но не отправленные') ||
+                (achievement.status === 'Отклоненные')) && (!is_admin))"
                                     :button-class="'btn btn-danger'"
                                     :button-text="'Удалить'"
                                     :button-action="'/achievement/'+achievement.id+'/delete'"
@@ -35,13 +35,13 @@
                 
             </td>
             <td>
-                <a v-if="workingColumns.sending.value && (((achievement.status === 'created') ||
-                 (achievement.status === 'rejected')) && (!is_admin))" :href="link(achievement.id, 'send')">
+                <a v-if="workingColumns.sending.value && (((achievement.status === 'Созданные, но не отправленные') ||
+                 (achievement.status === 'Отклоненные')) && (!is_admin))" :href="link(achievement.id, 'send')">
                     <button class="btn btn-success">Отправить</button>
                 </a>
             </td>
             <td>
-                <confirm-action v-if="!(is_admin) && (achievement.status === 'sent') && (workingColumns.returning.value)"
+                <confirm-action v-if="!(is_admin) && (achievement.status === 'Отправленные, но не проверенные') && (workingColumns.returning.value)"
                                     :button-class="'btn btn-info'"
                                     :button-text="'Отозвать'"
                                     :button-action="'/achievement/'+achievement.id+'/return'"
@@ -51,7 +51,7 @@
             </td>
             <td>
                 <reject-achievement v-if="is_admin  && (workingColumns.rejection.value) &&
-                    (achievement.status !== 'rejected') && (achievement.status !== 'created')"
+                    (achievement.status !== 'Отклоненные') && (achievement.status !== 'Созданные, но не отправленные')"
                     :actionAddress="link(achievement.id, 'reject')"
                     :id="achievement.id"
                     :achievement="achievement">
@@ -59,7 +59,7 @@
             </td>
             <td>
                 <a v-if="is_admin  && (workingColumns.confirmation.value) &&
-                    (achievement.status !== 'confirmed') && (achievement.status !== 'created')"
+                    (achievement.status !== 'Проверенные') && (achievement.status !== 'Созданные, но не отправленные')"
                     :href="link(achievement.id, 'confirm')"><button class="btn btn-success">Одобрить</button>
                 </a>
             </td>
@@ -74,31 +74,17 @@
             link : function (id, action) {
                 return '/achievement/' + id + '/' + action
             },
-            translate: function (s) {
-                if (s === 'created'){
-                    return 'Созданные, но не отправленные'
-                }
-                if (s === 'rejected'){
-                    return 'Отклоненные'
-                }
-                if (s === 'sent'){
-                    return 'Отправленные, но не проверенные'
-                }
-                if (s === 'confirmed'){
-                    return 'Проверенные'
-                }
-            },
             rowStyle: function (status) {
-                if (status === 'created') {
+                if (status === 'Созданные, но не отправленные') {
                     return 'table-primary'
                 }
-                if (status === 'rejected') {
+                if (status === 'Отклоненные') {
                     return 'table-danger'
                 }
-                if (status === 'sent') {
+                if (status === 'Отправленные, но не проверенные') {
                     return 'table-secondary'
                 }
-                if (status === 'confirmed') {
+                if (status === 'Проверенные') {
                     return 'table-success'
                 }
             }

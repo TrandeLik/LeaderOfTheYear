@@ -11,7 +11,7 @@ class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
     /**
     * @return \Illuminate\Support\Collection
     */
-    protected $achievements;
+    protected $achievements, $filters;
 
     public function __construct(array $achievements,$filters)
     {
@@ -24,11 +24,12 @@ class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
         $filteredAchievements = [];
         foreach($this->achievements as $achievement){
             foreach($this->filters as $column=>$value){
-                if (($value['value']!=1) and (isset($achievement[$column]))){
+                if (($value['value']!=1) or (!isset($achievement[$column]))){
                     unset($achievement[$column]);
                 }
             }
-            unset($achievement["score"]);
+            unset($achievement['score']);
+            unset($achievement['id']);
             array_push($filteredAchievements,$achievement);
         }
         return $filteredAchievements;
