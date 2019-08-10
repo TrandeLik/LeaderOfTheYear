@@ -76,7 +76,21 @@ class UserController extends Controller
         foreach ($allAchievements as $achievement) {
             $newAchievement = $achievement;
             $newAchievement->comments = $achievement->comments;
-            $achievements[] = $achievement;
+            switch ($achievement->status){
+                case 'created':
+                    $newAchievement->status = 'Созданные, но не отправленные';
+                    break;
+                case 'sent':
+                    $newAchievement->status = 'Отправленные, но не проверенные';
+                    break;
+                case 'rejected':
+                    $newAchievement->status = 'Отклоненные';
+                    break;
+                case 'confirmed':
+                    $newAchievement->status = 'Проверенные';
+                    break;
+            }
+            $achievements[] = $newAchievement;
         }
 
         return view('user.index', compact('achievements','confirmedScore',

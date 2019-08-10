@@ -177,7 +177,20 @@ class AdminController extends Controller // TODO погуглить, как сд
             $newAchievement->confirmation = $achievement->confirmation;
             $newAchievement->comments = $achievement->comments;
             $newAchievement->score = $achievement->score;
-            $newAchievement->status = $achievement->status;
+            switch ($achievement->status){
+                case 'created':
+                    $newAchievement->status = 'Созданные, но не отправленные';
+                    break;
+                case 'sent':
+                    $newAchievement->status = 'Отправленные, но не проверенные';
+                    break;
+                case 'rejected':
+                    $newAchievement->status = 'Отклоненные';
+                    break;
+                case 'confirmed':
+                    $newAchievement->status = 'Проверенные';
+                    break;
+            }
             $newAchievement->id = $achievement->id;
             $achievements[] = $newAchievement;
         }

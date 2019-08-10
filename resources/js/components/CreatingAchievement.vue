@@ -1,8 +1,8 @@
 <template>
     <div class="card-body">
             <select class="form-control mb-1"  name="category" required v-model="selectedCategory" @change="dropSelections">
-                <option selected disabled>Категория</option>
-                <option v-for="category in categories">{{category.category}}</option>
+                <option col-10 selected disabled>Категория</option>
+                <option col-10 v-for="category in categories">{{category.category}}</option>
             </select>
 
 
@@ -10,8 +10,8 @@
                     v-if="!(selectedCategory === 'Спортивные достижения')" name="type" required
                     :disabled="(selectedCategory === 'Категория')" @change="dropSelectionsOnTypeChange"
             >
-                <option selected disabled>Тип</option>
-                <option v-for="type in filteredTypes">{{type}}</option>
+                <option col-10 selected disabled>Тип</option>
+                <option col-10 v-for="type in filteredTypes">{{type}}</option>
             </select>
 
 
@@ -30,15 +30,15 @@
             <select class="form-control mb-1" v-model="selectedStage" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
                     name="stage" required @change="dropSelectionsOnStageChange"
                     :disabled="(selectedType === 'Тип')">
-                <option selected disabled>Этап</option>
-                <option v-for="stage in filteredStages">{{stage}}</option>
+                <option col-10 selected disabled>Этап</option>
+                <option col-10 v-for="stage in filteredStages">{{stage}}</option>
             </select>
 
 
             <select class="form-control mb-1" v-model="selectedResult" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
                     name="result" required :disabled="(selectedStage === 'Этап')">
-                <option selected disabled>Результат</option>
-                <option v-for="result in filteredResults">{{result}}</option>
+                <option col-10 selected disabled>Результат</option>
+                <option col-10 v-for="result in filteredResults">{{result}}</option>
             </select>
 
 

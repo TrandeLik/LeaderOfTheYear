@@ -39260,12 +39260,16 @@ var render = function() {
           }
         },
         [
-          _c("option", { attrs: { selected: "", disabled: "" } }, [
-            _vm._v("Категория")
-          ]),
+          _c(
+            "option",
+            { attrs: { "col-10": "", selected: "", disabled: "" } },
+            [_vm._v("Категория")]
+          ),
           _vm._v(" "),
           _vm._l(_vm.categories, function(category) {
-            return _c("option", [_vm._v(_vm._s(category.category))])
+            return _c("option", { attrs: { "col-10": "" } }, [
+              _vm._v(_vm._s(category.category))
+            ])
           })
         ],
         2
@@ -39309,12 +39313,16 @@ var render = function() {
               }
             },
             [
-              _c("option", { attrs: { selected: "", disabled: "" } }, [
-                _vm._v("Тип")
-              ]),
+              _c(
+                "option",
+                { attrs: { "col-10": "", selected: "", disabled: "" } },
+                [_vm._v("Тип")]
+              ),
               _vm._v(" "),
               _vm._l(_vm.filteredTypes, function(type) {
-                return _c("option", [_vm._v(_vm._s(type))])
+                return _c("option", { attrs: { "col-10": "" } }, [
+                  _vm._v(_vm._s(type))
+                ])
               })
             ],
             2
@@ -39420,12 +39428,16 @@ var render = function() {
               }
             },
             [
-              _c("option", { attrs: { selected: "", disabled: "" } }, [
-                _vm._v("Этап")
-              ]),
+              _c(
+                "option",
+                { attrs: { "col-10": "", selected: "", disabled: "" } },
+                [_vm._v("Этап")]
+              ),
               _vm._v(" "),
               _vm._l(_vm.filteredStages, function(stage) {
-                return _c("option", [_vm._v(_vm._s(stage))])
+                return _c("option", { attrs: { "col-10": "" } }, [
+                  _vm._v(_vm._s(stage))
+                ])
               })
             ],
             2
@@ -39467,12 +39479,16 @@ var render = function() {
               }
             },
             [
-              _c("option", { attrs: { selected: "", disabled: "" } }, [
-                _vm._v("Результат")
-              ]),
+              _c(
+                "option",
+                { attrs: { "col-10": "", selected: "", disabled: "" } },
+                [_vm._v("Результат")]
+              ),
               _vm._v(" "),
               _vm._l(_vm.filteredResults, function(result) {
-                return _c("option", [_vm._v(_vm._s(result))])
+                return _c("option", { attrs: { "col-10": "" } }, [
+                  _vm._v(_vm._s(result))
+                ])
               })
             ],
             2
