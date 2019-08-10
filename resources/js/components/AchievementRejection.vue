@@ -18,7 +18,7 @@
                         <a href = "" style="color:blue;" data-toggle="collapse" :data-target="generateId('#collapseRejection')" aria-expanded="true" aria-controls="collapseOne">
                             Оставьте комментарий с объяснением вашего решения
                         </a>
-                        <div :id="generateId('collapseRejection')" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionRejection">
+                        <div :id="generateId('collapseRejection')" class="collapse hide" aria-labelledby="headingOne" :data-parent="generateId('#accordionRejection')">
 
                                 <textarea v-model="adminComment" name="comment" placeholder = "Комментарий"></textarea>
                         </div>
