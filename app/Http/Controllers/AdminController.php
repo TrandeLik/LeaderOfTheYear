@@ -14,7 +14,7 @@ use Excel;
 use App\Exports\AchievementTypesExport;
 use App\Imports\AchievementTypesImport;
 use App\Exports\LeadersExport;
-use App\Exports\SortedAchievementExport;
+use App\Exports\SortedAchievementsExport;
 use Illuminate\Filesystem\Filesystem;
 
 
@@ -318,7 +318,7 @@ class AdminController extends Controller // TODO погуглить, как сд
         $file->cleanDirectory(storage_path('sorted_achievements'));
         $achievements = $request->table;        
         $filters = $request->columns;
-        Excel::store(new SortedAchievementExport($achievements,$filters),'sortedAchievements.xlsx','mydisk');
+        Excel::store(new SortedAchievementsExport($achievements,$filters),'sortedAchievements.xlsx','mydisk');
         return 'sortedAchievements.xlsx';
     }
 

@@ -6,7 +6,7 @@ use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
+class SortedAchievementsExport implements FromArray, WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -24,12 +24,13 @@ class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
         $filteredAchievements = [];
         foreach($this->achievements as $achievement){
             foreach($this->filters as $column=>$value){
-                if (($value['value']!=1) or (!isset($achievement[$column]))){
+                if ((!$value['value']) or (!isset($achievement[$column]))){
                     unset($achievement[$column]);
                 }
             }
             unset($achievement['score']);
             unset($achievement['id']);
+            unset($achievement['comments']);
             array_push($filteredAchievements,$achievement);
         }
         return $filteredAchievements;
@@ -41,7 +42,7 @@ class SortedAchievementExport implements FromArray, WithHeadings, ShouldAutoSize
         $achievements = $this->achievements;
         $achievement = array_shift($achievements);
         foreach ($this->filters as $column=>$value){
-            if (($value['value']) and (isset($achievement[$column]))){
+            if (($value['value']) and (isset($achievement[$column])) and ($column!='comments')){
                 array_push($headings,$value['text']);
             }
         }
