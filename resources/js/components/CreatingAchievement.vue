@@ -6,7 +6,10 @@
             </select>
 
 
-            <select class="form-control mb-1" v-model="selectedType" v-if="!(selectedCategory === 'Спортивные достижения')" name="type" required :disabled="areInputsDisable" @change="dropSelectionsOnTypeChange">
+            <select class="form-control mb-1" v-model="selectedType"
+                    v-if="!(selectedCategory === 'Спортивные достижения')" name="type" required
+                    :disabled="(selectedCategory === 'Категория')" @change="dropSelectionsOnTypeChange"
+            >
                 <option selected disabled>Тип</option>
                 <option v-for="type in filteredTypes">{{type}}</option>
             </select>
@@ -25,14 +28,15 @@
 
 
             <select class="form-control mb-1" v-model="selectedStage" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
-                    name="stage" required :disabled="areInputsDisable" @change="dropSelectionsOnStageChange">
+                    name="stage" required @change="dropSelectionsOnStageChange"
+                    :disabled="(selectedType === 'Тип')">
                 <option selected disabled>Этап</option>
                 <option v-for="stage in filteredStages">{{stage}}</option>
             </select>
 
 
             <select class="form-control mb-1" v-model="selectedResult" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
-                    name="result" required :disabled="areInputsDisable">
+                    name="result" required :disabled="(selectedStage === 'Этап')">
                 <option selected disabled>Результат</option>
                 <option v-for="result in filteredResults">{{result}}</option>
             </select>
@@ -281,9 +285,6 @@
              }
         },
         computed:{
-            areInputsDisable: function() {
-                return (this.selectedCategory === 'Категория')
-            },
 
             filteredTypes: function () {
                 return this.setData('type')

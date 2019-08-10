@@ -1911,6 +1911,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2114,9 +2118,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    areInputsDisable: function areInputsDisable() {
-      return this.selectedCategory === 'Категория';
-    },
     filteredTypes: function filteredTypes() {
       return this.setData('type');
     },
@@ -39055,7 +39056,7 @@ var render = function() {
               attrs: {
                 name: "type",
                 required: "",
-                disabled: _vm.areInputsDisable
+                disabled: _vm.selectedCategory === "Категория"
               },
               on: {
                 change: [
@@ -39166,7 +39167,7 @@ var render = function() {
               attrs: {
                 name: "stage",
                 required: "",
-                disabled: _vm.areInputsDisable
+                disabled: _vm.selectedType === "Тип"
               },
               on: {
                 change: [
@@ -39216,7 +39217,7 @@ var render = function() {
               attrs: {
                 name: "result",
                 required: "",
-                disabled: _vm.areInputsDisable
+                disabled: _vm.selectedStage === "Этап"
               },
               on: {
                 change: function($event) {
@@ -52986,8 +52987,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Backend\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Backend\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\admin\Documents\GitHub\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\admin\Documents\GitHub\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
