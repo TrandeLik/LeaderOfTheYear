@@ -14,10 +14,19 @@
                 <div class="card-body">
                     <form method="POST">
                         @csrf
-                        <p>Старый пароль: <input type="password" name="old" required></p>
-                        <p>Новый пароль: <input type="password" name="new" required></p>
-                        <p>Подтверждение пароля: <input type="password" name="confirm" required></p>
-                        <input type="submit">
+                        <p class="form-group row mb-1">
+                            <label class="col-form-label col-md-3 px-0">Старый пароль:</label> 
+                            <input type="password" class="form-control col-md-9" name="old" required>
+                        </p>
+                        <p class="form-group row mb-1">
+                            <label class="col-form-label col-md-3 px-0">Новый пароль:</label> 
+                            <input type="password" class="form-control col-md-9" name="new" required>
+                        </p>
+                        <p class="form-group row mb-1">
+                            <label class="col-form-label col-md-3 px-0">Подтверждение пароля:</label>
+                            <input type="password" class="form-control col-md-9" name="confirm" required>
+                        </p>
+                        <input type="submit" class="btn btn-success col-12 col-md-4 offset-md-4" value="Сохранить">
                     </form>
                     @if ($error !== '')
                         <strong>{{$error}}</strong>

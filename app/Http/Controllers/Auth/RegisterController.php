@@ -60,7 +60,6 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'form' => 'required',
             'formLetter' => 'required',
-            'personal_agreement' => 'required',
         ]);
     }
 
