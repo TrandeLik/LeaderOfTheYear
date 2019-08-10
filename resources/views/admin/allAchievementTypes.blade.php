@@ -57,7 +57,15 @@
                     }}</td>
                     <td>{{$type->score}}</td>
                     <td><a href={{url('/achievement_type/'.$type->id.'/edit')}}> <button class="btn btn-warning">Изменить</button></a></td>
-                    <td><a href={{url('/achievement_type/'.$type->id.'/delete')}}><button class="btn btn-danger">Удалить</button></a></td>
+                    <td>
+                        <confirm-action
+                                :button-class="'btn btn-danger'"
+                                :button-text="'Удалить'"
+                                :button-action="'/achievement_type/{{$type->id}}/delete'"
+                                :modal-text="'Вы уверены, что хотите удалить достижение?'"
+                                :id="'delete{{$type->id}}'"
+                        ></confirm-action>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

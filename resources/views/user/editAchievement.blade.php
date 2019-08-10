@@ -24,7 +24,7 @@
 <div class="container">
     <div class="row justify-content-center">
             <div class="col-md-10">
-            <div class="card border-warning" id="app">
+            <div class="card border-warning">
                 <div class="card-header">Редактирование достижения<a href="/user"><button class="btn btn-primary">Отмена</button></a></div>
                 <creating-achievement
                         :isUploadingConfirmationsPossible="{{json_encode($isUploadingConfirmationsPossible)}}"

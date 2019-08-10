@@ -58,7 +58,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-6" id="app">
+        <div class="col-md-6">
             <h2>
                 Заявки
                 <a href="{{url('achievements/all')}}"><button class="btn btn-success">Все достижения учеников</button></a>
