@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div id="app">
+    <div>
         @if ($achievements !== [])
             <achievement-table :achievements="{{json_encode($achievements)}}" :is_admin="true"></achievement-table>
         @else

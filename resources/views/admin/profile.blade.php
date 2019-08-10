@@ -31,9 +31,7 @@
         <div class="col-md-7">
             <h2>Достижения</h2>
             @if($achievements !== [])
-                <div id="app">
                     <achievement-table :achievements="{{json_encode($achievements)}}" :is_admin="true" :section="'profile'"></achievement-table>
-                </div>
             @else
                 <p>Здесь пока пусто</p>
             @endif
