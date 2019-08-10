@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">{{ __('Регистрация') }}</div>
 
@@ -11,10 +11,10 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('ФИО') }}</label>
+                        <div class="form-group row mb-1">
+                            <label for="name" class="col-md-2 col-form-label">{{ __('ФИО:') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-10">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="username" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                                 @error('name')
@@ -25,10 +25,10 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail') }}</label>
+                        <div class="form-group row mb-1">
+                            <label for="email" class="col-md-2 col-form-label">{{ __('E-Mail:') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-10">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
                                 @error('email')
@@ -39,11 +39,10 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="form" class="col-md-4 col-form-label text-md-right">{{ __('Класс') }}</label>
-
-                            <div class="col-md-3">
-                                <select id="form" name="form">
+                        <div class="form-group row mb-1">
+                            <label for="form" class="col-md-2 col-form-label">{{ __('Класс:') }}</label>
+                            <div class="col-md-10 row" style="padding: 0 15px;">
+                                <select id="form" name="form" class="form-control col-md-6 col-12">
                                         <option>11</option>
                                         <option>10</option>
                                         <option>9</option>
@@ -55,10 +54,8 @@
                                         <option>3</option>
                                         <option>2</option>
                                         <option>1</option>
-                                    </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select id="form" name="formLetter">
+                                </select>
+                                <select id="form" name="formLetter" class="form-control col-md-6 col-12">
                                         <option>А</option>
                                         <option>Б</option>
                                         <option>В</option>
@@ -81,14 +78,14 @@
                                         <option>Ф</option>
                                         <option>Х</option>
                                         <option>Ц</option>
-                                    </select>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Пароль') }}</label>
+                        <div class="form-group row mb-1">
+                            <label for="password" class="col-md-2 col-form-label">{{ __('Пароль:') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-10">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                 @error('password')
@@ -99,25 +96,22 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Подтвердите пароль') }}</label>
+                        <div class="form-group row mb-1">
+                            <label for="password-confirm" class="col-md-2 col-form-label">{{ __('Подтвердите пароль:') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-10">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
 
-                        <div class="row align-items-center form-group col-12 text-center">
-                            <div class="col-md-6">
-                                <input id="personal-agreement" type="checkbox" name="personal_agreement" required>
-                            </div>
-                            <div class="col-md-6 ofset-0">
-                                <p style="margin-left: 0px;">Я принимаю условия
-                                <a data-toggle="modal" data-target="#exampleModalLong" style="color:blue;">
-                                    пользовательского соглашения
-                                </a>
-                                </p>
-                            </div>
+                        <div class="col-12 text-center">
+                                <div class="">
+                                    <p style="color:grey;">Нажимая на кпопку «Зарегестрироваться», я принимаю условия
+                                    <a data-toggle="modal" data-target="#exampleModalLong" style="color:blue;">
+                                        пользовательского соглашения
+                                    </a>
+                                    </p>
+                                </div>
                             <!-- Modal -->
                             <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -141,8 +135,8 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="col-md-4 offset-md-4 col-12">
+                                <button type="submit" class="btn btn-primary col-12">
                                     {{ __('Зарегистрироваться') }}
                                 </button>
                             </div>
