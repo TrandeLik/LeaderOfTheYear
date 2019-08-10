@@ -14,8 +14,17 @@
             <td v-if="workingColumns.result.value">{{achievement.result}}</td>
             <td v-if="workingColumns.date.value">{{achievement.date}}</td>
             <td v-if="! is_admin">{{achievement.score}}</td>
-            <td v-if="workingColumns.download.value">
-                <a v-if="achievement.confirmation !== ''" :href="link(achievement.id, 'download_confirmation')" class="btn btn-outline-secondary">Подтверждение</a>
+            <td>
+                <a v-if="(achievement.confirmation !== '') && (workingColumns.download.value)" :href="link(achievement.id, 'download_confirmation')" class="btn btn-outline-secondary">Подтверждение</a>
+            </td>
+            <td>
+               <comment-showing v-if="(workingColumns.comments.value) && (achievement.comments.length !== 0)"
+                                :comments="achievement.comments"
+                                :id="achievement.id"
+                                :username="achievement.student"
+                                :is-table="'lol'"
+               >
+               </comment-showing>
             </td>
             <td>
                 <a v-if="workingColumns.editing.value && (((achievement.status === 'created') ||

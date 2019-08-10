@@ -74,6 +74,8 @@ class UserController extends Controller
         $achievements = [];
 
         foreach ($allAchievements as $achievement) {
+            $newAchievement = $achievement;
+            $newAchievement->comments = $achievement->comments;
             $achievements[] = $achievement;
         }
 

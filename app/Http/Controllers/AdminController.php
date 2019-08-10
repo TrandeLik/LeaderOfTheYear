@@ -175,6 +175,7 @@ class AdminController extends Controller // TODO погуглить, как сд
             $newAchievement->result = $achievement->result;
             $newAchievement->date = $achievement->date;
             $newAchievement->confirmation = $achievement->confirmation;
+            $newAchievement->comments = $achievement->comments;
             $newAchievement->score = $achievement->score;
             $newAchievement->status = $achievement->status;
             $newAchievement->id = $achievement->id;
@@ -283,6 +284,7 @@ class AdminController extends Controller // TODO погуглить, как сд
             $newAchievement->stage = $achievement->stage;
             $newAchievement->date = $achievement->date;
             $newAchievement->confirmation = $achievement->confirmation;
+            $newAchievement->comments = $achievement->comments;
             $newAchievement->result = $achievement->result;
             $newAchievement->score = $achievement->score;
             $newAchievement->status = $achievement->status;

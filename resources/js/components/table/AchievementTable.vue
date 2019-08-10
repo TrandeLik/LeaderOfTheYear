@@ -54,6 +54,7 @@
                     'result': {'text': 'Результат', 'value': true},
                     'date': {'text': 'Дата', 'value': true},
                     'download': {'text': 'Ссылка на подтверждение', 'value': true},
+                    'comments': {'text': 'Комментарии', 'value': true},
                     'editing': {'text': 'Редактирование', 'value': true},
                     'deletion': {'text': 'Удаление', 'value': true},
                     'sending': {'text': 'Отправка', 'value': true},
