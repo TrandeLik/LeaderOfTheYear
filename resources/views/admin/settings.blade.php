@@ -18,7 +18,6 @@
                                 <div class="form-group row">
                                     <label for="{{$setting->id}}" class="col-md-4 col-form-label text-md-right">{{$setting->name}}</label>
                                     @if ($setting->type=='on/off')
-                                        <input type="checkbox" name="{{$setting->id}}" checked>
                                         @if ($setting->value=='on')
                                             <input type="checkbox" name="{{$setting->id}}" checked>
                                         @else
@@ -26,7 +25,7 @@
                                         @endif
                                     @elseif ($setting->type=='globalVariable')
                                         @if ($setting->name != 'Главная категория')
-                                            <input type="text" name="{{$setting->id}}" value="{{$setting->value}}">
+                                            <input type="text" name="{{$setting->id}}" value="{{$setting->value}}" required>
                                         @else
                                             <select name="{{$setting->id}}">
                                                 @foreach($categories as $category)
