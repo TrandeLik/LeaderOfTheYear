@@ -1,44 +1,44 @@
 <template>
     <div class="card-body">
-            <select name="category" required v-model="selectedCategory" @change="dropSelections">
+            <select class="form-control mb-1"  name="category" required v-model="selectedCategory" @change="dropSelections">
                 <option selected disabled>Категория</option>
                 <option v-for="category in categories">{{category.category}}</option>
             </select>
 
 
-            <select v-model="selectedType" v-if="!(selectedCategory === 'Спортивные достижения')" name="type" required :disabled="areInputsDisable" @change="dropSelectionsOnTypeChange">
+            <select class="form-control mb-1" v-model="selectedType" v-if="!(selectedCategory === 'Спортивные достижения')" name="type" required :disabled="areInputsDisable" @change="dropSelectionsOnTypeChange">
                 <option selected disabled>Тип</option>
                 <option v-for="type in filteredTypes">{{type}}</option>
             </select>
 
 
-            <input  v-model="selectedName"
+            <input class="form-control mb-1"  v-model="selectedName"
                     v-if="!(selectedCategory === 'Проектная и исследовательская деятельность')"
                     type="text" name="name" :placeholder="placeholderForName"  required
             >
 
 
-            <input  v-model="selectedSubject"
+            <input class="form-control mb-1"  v-model="selectedSubject"
                     v-if="!(selectedCategory === 'Спортивные достижения' || selectedCategory === 'Участие в лицейской жизни')"
                     type="text" name="subject" placeholder="Предмет" required
             >
 
 
-            <select v-model="selectedStage" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
+            <select class="form-control mb-1" v-model="selectedStage" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
                     name="stage" required :disabled="areInputsDisable" @change="dropSelectionsOnStageChange">
                 <option selected disabled>Этап</option>
                 <option v-for="stage in filteredStages">{{stage}}</option>
             </select>
 
 
-            <select v-model="selectedResult" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
+            <select class="form-control mb-1" v-model="selectedResult" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
                     name="result" required :disabled="areInputsDisable">
                 <option selected disabled>Результат</option>
                 <option v-for="result in filteredResults">{{result}}</option>
             </select>
 
 
-            <input v-model="selectedDate" v-if="(selectedCategory === 'Участие в лицейской жизни')" type="date">
+            <input class="form-control mb-1" v-model="selectedDate" v-if="(selectedCategory === 'Участие в лицейской жизни')" type="date">
 
 
             <template v-if="isuploadingconfirmationspossible">
@@ -48,8 +48,9 @@
                                     image/pjpeg,
                                     image/x-jps,
                                     image/png" type="file" class="custom-file-input" id="file" name="file" @change="onConfirmationChange">
-                     <label class="custom-file-label" for="file" data-browse="Обзор">Подтверждение (.png, .jpg, .jpeg, .pdf)</label>
+                     <label class="custom-file-label" for="file" data-browse="Обзор">Подтверждение</label>
                 </div><br>
+                <small class="form-text text-muted">.png, .jpg, .jpeg, .pdf</small>
             </template>
             <p v-else>К сожалению, загрузка файлов временно невозможна</p>
 
@@ -60,15 +61,15 @@
             </template>
 
             <div v-if="arecommentsworking" class="accordion" id="accordionExample">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>
+                <button class="btn btn-link col-12 text-center" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Что-то пошло не так? Оставьте комментарий</button>
                 <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <textarea name="comment" placeholder = "Комментарий" v-model="studentComment"></textarea>
+                    <textarea class="form-control" name="comment" placeholder = "Комментарий" v-model="studentComment"></textarea>
                 </div>
             </div>
             <p v-else>К сожалению, возможность добавлять комментарии отключена</p>
 
 
-            <button class="btn btn-success col-4" @click="sendData">{{(action === '/achievement/add/new') ? ('Добавить') : ('Изменить')}}</button>
+            <button class="btn btn-success col-md-4 offset-md-4" @click="sendData">{{(action === '/achievement/add/new') ? ('Добавить') : ('Изменить')}}</button>
 
             <div v-if="Object.keys(validationErrors).length !== 0" class="m-alert m-alert--outline alert alert-danger alert-dismissible" role="alert">
                 <ul v-for="error in validationErrors">
@@ -93,7 +94,7 @@
                 studentComment : '',
                 confirmation: null,
                 validationErrors : {},
-                typesWithDashes : ['ВОШ', 'МОШ', 'Предпрофессиональная олимпиада школьников']
+                typesWithDashes : ['Всероссийская олимпиада школьников', 'Московская олимпиада школьников', 'Предпрофессиональная олимпиада']
             }
         },
 

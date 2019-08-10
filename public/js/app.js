@@ -1859,6 +1859,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1872,7 +1873,7 @@ __webpack_require__.r(__webpack_exports__);
       studentComment: '',
       confirmation: null,
       validationErrors: {},
-      typesWithDashes: ['ВОШ', 'МОШ', 'Предпрофессиональная олимпиада школьников']
+      typesWithDashes: ['Всероссийская олимпиада школьников', 'Московская олимпиада школьников', 'Предпрофессиональная олимпиада']
     };
   },
   mounted: function mounted() {
@@ -38830,6 +38831,7 @@ var render = function() {
               expression: "selectedCategory"
             }
           ],
+          staticClass: "form-control mb-1",
           attrs: { name: "category", required: "" },
           on: {
             change: [
@@ -38874,6 +38876,7 @@ var render = function() {
                   expression: "selectedType"
                 }
               ],
+              staticClass: "form-control mb-1",
               attrs: {
                 name: "type",
                 required: "",
@@ -38921,6 +38924,7 @@ var render = function() {
                 expression: "selectedName"
               }
             ],
+            staticClass: "form-control mb-1",
             attrs: {
               type: "text",
               name: "name",
@@ -38952,6 +38956,7 @@ var render = function() {
                 expression: "selectedSubject"
               }
             ],
+            staticClass: "form-control mb-1",
             attrs: {
               type: "text",
               name: "subject",
@@ -38982,6 +38987,7 @@ var render = function() {
                   expression: "selectedStage"
                 }
               ],
+              staticClass: "form-control mb-1",
               attrs: {
                 name: "stage",
                 required: "",
@@ -39031,6 +39037,7 @@ var render = function() {
                   expression: "selectedResult"
                 }
               ],
+              staticClass: "form-control mb-1",
               attrs: {
                 name: "result",
                 required: "",
@@ -39075,6 +39082,7 @@ var render = function() {
                 expression: "selectedDate"
               }
             ],
+            staticClass: "form-control mb-1",
             attrs: { type: "date" },
             domProps: { value: _vm.selectedDate },
             on: {
@@ -39109,10 +39117,14 @@ var render = function() {
                   staticClass: "custom-file-label",
                   attrs: { for: "file", "data-browse": "Обзор" }
                 },
-                [_vm._v("Подтверждение (.png, .jpg, .jpeg, .pdf)")]
+                [_vm._v("Подтверждение")]
               )
             ]),
-            _c("br")
+            _c("br"),
+            _vm._v(" "),
+            _c("small", { staticClass: "form-text text-muted" }, [
+              _vm._v(".png, .jpg, .jpeg, .pdf")
+            ])
           ]
         : _c("p", [_vm._v("К сожалению, загрузка файлов временно невозможна")]),
       _vm._v(" "),
@@ -39134,7 +39146,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-link",
+                  staticClass: "btn btn-link col-12 text-center",
                   attrs: {
                     type: "button",
                     "data-toggle": "collapse",
@@ -39166,6 +39178,7 @@ var render = function() {
                         expression: "studentComment"
                       }
                     ],
+                    staticClass: "form-control",
                     attrs: { name: "comment", placeholder: "Комментарий" },
                     domProps: { value: _vm.studentComment },
                     on: {
@@ -39187,7 +39200,10 @@ var render = function() {
       _vm._v(" "),
       _c(
         "button",
-        { staticClass: "btn btn-success col-4", on: { click: _vm.sendData } },
+        {
+          staticClass: "btn btn-success col-md-4 offset-md-4",
+          on: { click: _vm.sendData }
+        },
         [
           _vm._v(
             _vm._s(
@@ -52713,8 +52729,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\admin\Documents\GitHub\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\admin\Documents\GitHub\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Backend\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Backend\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
