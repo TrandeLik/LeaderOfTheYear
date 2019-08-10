@@ -1928,7 +1928,7 @@ __webpack_require__.r(__webpack_exports__);
       studentComment: '',
       confirmation: null,
       validationErrors: {},
-      typesWithDashes: ['Всероссийская олимпиада школьников', 'Московская олимпиада школьников', 'Предпрофессиональная олимпиада']
+      typesWithDashes: ['Всероссийская олимпиада школьников', 'Московская олимпиада школьников', 'Предпрофессиональная олимпиада', 'Олимпиада МГТУ им. Н.Э.Баумана "Шаг в будущее"']
     };
   },
   mounted: function mounted() {
@@ -38936,7 +38936,7 @@ var render = function() {
                     staticClass: "btn btn-secondary",
                     attrs: { type: "button", "data-dismiss": "modal" }
                   },
-                  [_vm._v("Закрыть")]
+                  [_vm._v("Отмена")]
                 ),
                 _vm._v(" "),
                 _c(
@@ -39383,7 +39383,7 @@ var render = function() {
         [
           _vm._v(
             _vm._s(
-              _vm.action === "/achievement/add/new" ? "Добавить" : "Изменить"
+              _vm.action === "/achievement/add/new" ? "Добавить" : "Сохранить"
             )
           )
         ]
@@ -52987,8 +52987,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\admin\Documents\GitHub\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\admin\Documents\GitHub\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Backend\LiderOfTheYear\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Backend\LiderOfTheYear\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

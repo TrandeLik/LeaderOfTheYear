@@ -17,7 +17,7 @@
                         {{modalText}}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                         <a :href="buttonAction" :class="buttonClass">{{buttonText}}</a>
                     </div>
                 </div>

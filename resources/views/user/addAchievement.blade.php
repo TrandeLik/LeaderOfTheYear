@@ -13,7 +13,7 @@
     <div class="row justify-content-center">
             <div class="col-md-10">
             <div class="card border-success">
-                <div class="card-header">Добавление достижения<a href="/user"><button class="btn btn-primary">Отмена</button></a></div>
+                <div class="card-header">Добавление<a href="/user"><button class="btn btn-primary">Отмена</button></a></div>
                 <creating-achievement
                         :isUploadingConfirmationsPossible="{{json_encode($isUploadingConfirmationsPossible)}}"
                         :categories="{{json_encode($categories)}}"

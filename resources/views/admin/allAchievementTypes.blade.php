@@ -29,7 +29,28 @@
                                 <label class="custom-file-label" for="file" data-browse="Обзор">Изменить список достижений</label>
                             </div>
                             <div class="input-group-prepend">
-                                <input type="submit" class="btn btn-outline-secondary" value="Загузить">
+                                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#uploadListModal">
+                                    Загрузить
+                                </button>
+                                <div class="modal fade" id="uploadListModal" tabindex="-1" role="dialog" aria-labelledby="uploadListModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="uploadListModalLabel">Подтвердите действие</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Вы действительно хотите загрузить новый список типов достижений? Все старые типы будут автоматически удалены
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                                <input type="submit" class="btn btn-outline-secondary" value="Загузить">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  
                             </div>
                         </div>
                     </div>
@@ -44,7 +65,29 @@
                 <th scope="col"></th>
                 <th scope="col">
                     Достижения
-                    <input type="submit" form="1" value="Удалить выбранные" class="btn btn-danger">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteSelectedModal">
+                        Удалить выбранные
+                    </button>
+                    <div class="modal fade" id="deleteSelectedModal" tabindex="-1" role="dialog" aria-labelledby="deleteSelectedModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteSelectedModalLabel">Подтвердите действие</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="font-weight:normal;">
+                                    Вы действительно хотите удалить выбранные типы достижений?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                    <input type="submit" form="1" value="Удалить выбранные" class="btn btn-danger">
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    
                     <confirm-action style="font-weight:normal;"
                             :button-class="'btn btn-danger'"
                             :button-text="'Удалить все'"

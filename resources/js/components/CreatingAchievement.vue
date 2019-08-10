@@ -73,7 +73,7 @@
             <p v-else>К сожалению, возможность добавлять комментарии отключена</p>
 
 
-            <button class="btn btn-success col-md-4 offset-md-4" @click="sendData">{{(action === '/achievement/add/new') ? ('Добавить') : ('Изменить')}}</button>
+            <button class="btn btn-success col-md-4 offset-md-4" @click="sendData">{{(action === '/achievement/add/new') ? ('Добавить') : ('Сохранить')}}</button>
 
             <div v-if="Object.keys(validationErrors).length !== 0" class="m-alert m-alert--outline alert alert-danger alert-dismissible" role="alert">
                 <ul v-for="error in validationErrors">
@@ -98,7 +98,7 @@
                 studentComment : '',
                 confirmation: null,
                 validationErrors : {},
-                typesWithDashes : ['Всероссийская олимпиада школьников', 'Московская олимпиада школьников', 'Предпрофессиональная олимпиада']
+                typesWithDashes : ['Всероссийская олимпиада школьников', 'Московская олимпиада школьников', 'Предпрофессиональная олимпиада','Олимпиада МГТУ им. Н.Э.Баумана "Шаг в будущее"']
             }
         },
 
