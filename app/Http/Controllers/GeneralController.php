@@ -75,14 +75,18 @@ class GeneralController extends Controller
         $request->validate([
             'username' => 'required',
             'email' => ['required', 'string', 'email', 'max:255'],
-            'formNumber' => 'required',
-            'formLetter' => 'required',
         ]);
+        if (Auth::user()->role == 'student'){
+            $request->validate([
+                'formNumber' => 'required',
+                'formLetter' => 'required',
+            ]);
+        }
         if ($request->username != Auth::user()->name){
-            $request->validate(['username' => 'unique']);
+            $request->validate(['username' => 'unique:users,name']);
         }
         if ($request->email != Auth::user()->email){
-            $request->validate(['email' => 'unique']);
+            $request->validate(['email' => 'unique:users']);
         }
         $user = Auth::user();
         $user->name = $request->username;
