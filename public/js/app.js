@@ -1871,7 +1871,8 @@ __webpack_require__.r(__webpack_exports__);
       selectedDate: '',
       studentComment: '',
       confirmation: null,
-      validationErrors: {}
+      validationErrors: {},
+      typesWithDashes: ['ВОШ', 'МОШ', 'Предпрофессиональная олимпиада школьников']
     };
   },
   mounted: function mounted() {
@@ -1880,7 +1881,13 @@ __webpack_require__.r(__webpack_exports__);
     if (achievement) {
       this.selectedCategory = achievement.category;
       this.selectedType = achievement.type === '-' ? 'Тип' : achievement.type;
-      this.selectedName = achievement.name === '-' ? '' : achievement.name;
+
+      if (this.typesWithDashes.indexOf(achievement.type) !== -1) {
+        this.selectedName = achievement.name;
+      } else {
+        this.selectedName = achievement.name === '-' ? '' : achievement.name;
+      }
+
       this.selectedSubject = achievement.subject === '-' ? '' : achievement.subject;
       this.selectedStage = achievement.stage === '-' ? 'Этап' : achievement.stage;
       this.selectedResult = achievement.result === '-' ? 'Результат' : achievement.result;
@@ -1892,8 +1899,11 @@ __webpack_require__.r(__webpack_exports__);
     setData: function setData(name) {
       var data = [];
       var category = this.selectedCategory;
+      var selectedType = this.selectedType;
+      var stage = this.selectedStage;
+      var result = this.selectedResult;
       this.achievementtypes.forEach(function (type) {
-        if (type.category === category && data.indexOf(type[name]) === -1) {
+        if (data.indexOf(type[name]) === -1 && (type.category === category || category === 'Категория' || name === 'category') && (type.type === selectedType || selectedType === 'Тип' || name === 'type') && (type.stage === stage || stage === 'Этап' || name === 'stage' || name === 'type') && (type.result === result || result === 'Результат' || name === 'result' || name === 'stage' || name === 'type')) {
           data.push(type[name]);
         }
       });
@@ -1906,25 +1916,70 @@ __webpack_require__.r(__webpack_exports__);
       this.selectedStage = 'Этап';
       this.selectedResult = 'Результат';
     },
-    dataPreparation: function dataPreparation(value) {
-      if (this.selectedCategory === 'Категория') {
-        this.selectedCategory = '';
+    dropSelectionsOnTypeChange: function dropSelectionsOnTypeChange() {
+      this.selectedName = '';
+      this.selectedSubject = '';
+      this.selectedStage = 'Этап';
+      this.selectedResult = 'Результат';
+    },
+    dropSelectionsOnStageChange: function dropSelectionsOnStageChange() {
+      this.selectedResult = 'Результат';
+    },
+    dropSelectionsAfterValidation: function dropSelectionsAfterValidation(errors) {
+      this.dataPreparation('', false);
+
+      if ('category' in errors) {
+        this.dropSelections();
       }
 
-      if (this.selectedType === 'Тип') {
-        this.selectedType = '';
+      if ('name' in errors) {
+        this.selectedName = '';
       }
 
-      if (this.selectedStage === 'Этап') {
-        this.selectedStage = '';
+      if ('result' in errors) {
+        this.selectedResult = 'Результат';
       }
 
-      if (this.selectedResult === 'Результат') {
-        this.selectedResult = '';
+      if ('stage' in errors) {
+        this.selectedStage = 'Этап';
+      }
+
+      if ('subject' in errors) {
+        this.selectedSubject = '';
+      }
+
+      if ('type' in errors) {
+        this.selectedType = 'Тип';
+      }
+
+      if ('date' in errors) {
+        this.selectedDate = '';
+      }
+    },
+    dataPreparation: function dataPreparation(value, dropValue) {
+      if (dropValue) {
+        if (this.selectedCategory === 'Категория') {
+          this.selectedCategory = '';
+        }
+
+        if (this.selectedType === 'Тип') {
+          this.selectedType = '';
+        }
+
+        if (this.selectedStage === 'Этап') {
+          this.selectedStage = '';
+        }
+
+        if (this.selectedResult === 'Результат') {
+          this.selectedResult = '';
+        }
       }
 
       if (this.selectedCategory === 'Спортивные достижения') {
-        this.selectedType = value;
+        if (dropValue) {
+          this.selectedType = value;
+        }
+
         this.selectedSubject = value;
         this.selectedDate = value;
         return;
@@ -1947,8 +2002,11 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         this.selectedSubject = value;
-        this.selectedStage = value;
-        this.selectedResult = value;
+
+        if (dropValue) {
+          this.selectedStage = value;
+          this.selectedResult = value;
+        }
       }
     },
     sendData: function sendData() {
@@ -1957,7 +2015,7 @@ __webpack_require__.r(__webpack_exports__);
       var config = {
         'content-type': 'multipart/form-data'
       };
-      this.dataPreparation('-');
+      this.dataPreparation('-', true);
       var formData = new FormData();
       formData.append('category', this.selectedCategory);
       formData.append('type', this.selectedType);
@@ -1981,15 +2039,16 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(this.action, formData, config).then(function (response) {
         if (response.data == 'Данный тип файлов загрузить нельзя :(') {
           _this.validationErrors = {
-            'typeError': ['Данный тип файлов загрузить нельзя :(', '*костыль*']
+            'typeError': ['Данный тип файлов загрузить нельзя :(']
           };
         } else {
           location = "/user";
         }
       })["catch"](function (error) {
         _this.validationErrors = error.response.data.errors;
+        console.log(_this.validationErrors);
 
-        _this.dropSelections();
+        _this.dropSelectionsAfterValidation(_this.validationErrors);
 
         if (_this.selectedCategory === '') {
           _this.selectedCategory = 'Категория';
@@ -38821,19 +38880,22 @@ var render = function() {
                 disabled: _vm.areInputsDisable
               },
               on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.selectedType = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
+                change: [
+                  function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.selectedType = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  },
+                  _vm.dropSelectionsOnTypeChange
+                ]
               }
             },
             [
@@ -38926,19 +38988,22 @@ var render = function() {
                 disabled: _vm.areInputsDisable
               },
               on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.selectedStage = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
+                change: [
+                  function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.selectedStage = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  },
+                  _vm.dropSelectionsOnStageChange
+                ]
               }
             },
             [

@@ -6,7 +6,7 @@
             </select>
 
 
-            <select v-model="selectedType" v-if="!(selectedCategory === 'Спортивные достижения')" name="type" required :disabled="areInputsDisable">
+            <select v-model="selectedType" v-if="!(selectedCategory === 'Спортивные достижения')" name="type" required :disabled="areInputsDisable" @change="dropSelectionsOnTypeChange">
                 <option selected disabled>Тип</option>
                 <option v-for="type in filteredTypes">{{type}}</option>
             </select>
@@ -25,7 +25,7 @@
 
 
             <select v-model="selectedStage" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
-                    name="stage" required :disabled="areInputsDisable">
+                    name="stage" required :disabled="areInputsDisable" @change="dropSelectionsOnStageChange">
                 <option selected disabled>Этап</option>
                 <option v-for="stage in filteredStages">{{stage}}</option>
             </select>
@@ -92,7 +92,8 @@
                 selectedDate : '',
                 studentComment : '',
                 confirmation: null,
-                validationErrors : {}
+                validationErrors : {},
+                typesWithDashes : ['ВОШ', 'МОШ', 'Предпрофессиональная олимпиада школьников']
             }
         },
 
@@ -101,7 +102,11 @@
             if (achievement){
                 this.selectedCategory = achievement.category;
                 this.selectedType = (achievement.type === '-') ? 'Тип' : achievement.type;
-                this.selectedName = (achievement.name === '-') ? '' : achievement.name;
+                if (this.typesWithDashes.indexOf(achievement.type) !== -1){
+                    this.selectedName = achievement.name
+                } else {
+                    this.selectedName = (achievement.name === '-') ? '' : achievement.name;
+                }
                 this.selectedSubject = (achievement.subject === '-') ? '' : achievement.subject;
                 this.selectedStage = (achievement.stage === '-') ? 'Этап' : achievement.stage;
                 this.selectedResult = (achievement.result === '-') ? 'Результат' : achievement.result;
@@ -114,8 +119,17 @@
              setData: function (name) {
                 let data = [];
                 let category = this.selectedCategory;
+                let selectedType = this.selectedType;
+                let stage = this.selectedStage;
+                let result = this.selectedResult;
                 this.achievementtypes.forEach(function (type) {
-                    if ((type.category === category) && (data.indexOf(type[name]) === -1)) {
+                    if (
+                        (data.indexOf(type[name]) === -1) &&
+                        ((type.category === category) || (category === 'Категория') || (name === 'category')) &&
+                        ((type.type === selectedType) || (selectedType === 'Тип') || (name === 'type')) &&
+                        ((type.stage === stage) || (stage === 'Этап') || (name === 'stage') || (name === 'type')) &&
+                        ((type.result === result) || (result === 'Результат') || (name === 'result') || (name === 'stage') || (name === 'type'))
+                    ){
                         data.push(type[name])
                     }
                 });
@@ -130,25 +144,69 @@
                 this.selectedResult = 'Результат';
             },
 
-            dataPreparation : function(value){
-                 if (this.selectedCategory === 'Категория'){
-                     this.selectedCategory = ''
+            dropSelectionsOnTypeChange : function(){
+                this.selectedName = '';
+                this.selectedSubject = '';
+                this.selectedStage = 'Этап';
+                this.selectedResult = 'Результат';
+            },
+
+            dropSelectionsOnStageChange : function(){
+                this.selectedResult = 'Результат';
+            },
+
+            dropSelectionsAfterValidation : function(errors){
+                 this.dataPreparation('', false);
+                 if ('category' in errors){
+                     this.dropSelections()
                  }
 
-                 if (this.selectedType === 'Тип'){
-                     this.selectedType = ''
+                 if ('name' in errors){
+                     this.selectedName = ''
                  }
 
-                 if (this.selectedStage === 'Этап'){
-                     this.selectedStage = ''
+                 if ('result' in errors){
+                     this.selectedResult = 'Результат'
                  }
 
-                 if (this.selectedResult === 'Результат'){
-                     this.selectedResult = ''
+                 if ('stage' in errors){
+                     this.selectedStage = 'Этап'
+                 }
+
+                 if ('subject' in errors){
+                     this.selectedSubject = ''
+                 }
+                 if ('type' in errors){
+                     this.selectedType = 'Тип'
+                 }
+                 if ('date' in errors){
+                     this.selectedDate = ''
+                 }
+            },
+
+            dataPreparation : function(value, dropValue){
+                 if (dropValue) {
+                     if (this.selectedCategory === 'Категория') {
+                         this.selectedCategory = ''
+                     }
+
+                     if (this.selectedType === 'Тип') {
+                         this.selectedType = ''
+                     }
+
+                     if (this.selectedStage === 'Этап') {
+                         this.selectedStage = ''
+                     }
+
+                     if (this.selectedResult === 'Результат') {
+                         this.selectedResult = ''
+                     }
                  }
 
                  if (this.selectedCategory === 'Спортивные достижения'){
-                     this.selectedType = value;
+                     if (dropValue) {
+                         this.selectedType = value;
+                     }
                      this.selectedSubject = value;
                      this.selectedDate = value;
                      return
@@ -170,14 +228,16 @@
                         this.selectedDate = ''
                     }
                     this.selectedSubject = value;
-                    this.selectedStage = value;
-                    this.selectedResult = value;
+                    if (dropValue) {
+                        this.selectedStage = value;
+                        this.selectedResult = value;
+                    }
                 }
             },
 
              sendData: function () {
                  const config = { 'content-type': 'multipart/form-data' };
-                 this.dataPreparation('-');
+                 this.dataPreparation('-', true);
                  const formData = new FormData;
                  formData.append('category', this.selectedCategory);
                  formData.append('type', this.selectedType);
@@ -199,14 +259,15 @@
                  axios.post(this.action, formData, config)
                      .then(response => {
                          if (response.data == 'Данный тип файлов загрузить нельзя :('){
-                             this.validationErrors ={'typeError' : ['Данный тип файлов загрузить нельзя :(', '*костыль*']}
+                             this.validationErrors ={'typeError' : ['Данный тип файлов загрузить нельзя :(']}
                          } else {
                              location = "/user"
                          }
                      })
                      .catch(error => {
                          this.validationErrors = error.response.data.errors;
-                         this.dropSelections();
+                         console.log(this.validationErrors);
+                         this.dropSelectionsAfterValidation(this.validationErrors);
                          if (this.selectedCategory === '') {
                              this.selectedCategory = 'Категория';
                          }
