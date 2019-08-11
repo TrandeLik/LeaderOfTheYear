@@ -139,11 +139,7 @@ class AdminController extends Controller // TODO погуглить, как сд
     }
 
     public function getAllUsers(){
-        if (Auth::user() -> role == 'superadmin') {
-            $users = User::all()->where('role', '!=','superadmin');
-        } else {
-            $users = User::all()->where('role', 'student');
-        }
+        $users = User::all()->where('role', '!=','superadmin');
         return view('admin/allUsers', compact('users'));
     }
 
@@ -159,42 +155,46 @@ class AdminController extends Controller // TODO погуглить, как сд
 
     public function aboutUser($id){
         $user = User::findOrFail($id);
-        $students = User::all() -> where('role', 'student');
-        $place = $user -> place();
-        $userAchievements = $user -> achievements -> where('status', '!=', 'created');
-        $achievements = [];
-        foreach ($userAchievements as $achievement){
-            $newAchievement=(object)[];
-            $newAchievement->student = $achievement->user->name;
-            $newAchievement->form = $achievement->user->form;
-            $newAchievement->category = $achievement->category;
-            $newAchievement->type = $achievement->type;
-            $newAchievement->name = $achievement->name;
-            $newAchievement->subject = $achievement->subject;
-            $newAchievement->stage = $achievement->stage;
-            $newAchievement->result = $achievement->result;
-            $newAchievement->date = $achievement->date;
-            $newAchievement->confirmation = $achievement->confirmation;
-            $newAchievement->comments = $achievement->comments;
-            $newAchievement->score = $achievement->score;
-            switch ($achievement->status){
-                case 'created':
-                    $newAchievement->status = 'Созданные, но не отправленные';
-                    break;
-                case 'sent':
-                    $newAchievement->status = 'Отправленные, но не проверенные';
-                    break;
-                case 'rejected':
-                    $newAchievement->status = 'Отклоненные';
-                    break;
-                case 'confirmed':
-                    $newAchievement->status = 'Проверенные';
-                    break;
+        if (($user->role!='admin') and ($user->role!='superadmin')){
+            $place = $user -> place();
+            $userAchievements = $user -> achievements -> where('status', '!=', 'created');
+            $achievements = [];
+            foreach ($userAchievements as $achievement){
+                $newAchievement=(object)[];
+                $newAchievement->student = $achievement->user->name;
+                $newAchievement->form = $achievement->user->form;
+                $newAchievement->category = $achievement->category;
+                $newAchievement->type = $achievement->type;
+                $newAchievement->name = $achievement->name;
+                $newAchievement->subject = $achievement->subject;
+                $newAchievement->stage = $achievement->stage;
+                $newAchievement->result = $achievement->result;
+                $newAchievement->date = $achievement->date;
+                $newAchievement->confirmation = $achievement->confirmation;
+                $newAchievement->comments = $achievement->comments;
+                $newAchievement->score = $achievement->score;
+                switch ($achievement->status){
+                    case 'created':
+                        $newAchievement->status = 'Созданные, но не отправленные';
+                        break;
+                    case 'sent':
+                        $newAchievement->status = 'Отправленные, но не проверенные';
+                        break;
+                    case 'rejected':
+                        $newAchievement->status = 'Отклоненные';
+                        break;
+                    case 'confirmed':
+                        $newAchievement->status = 'Проверенные';
+                        break;
+                }
+                $newAchievement->id = $achievement->id;
+                $achievements[] = $newAchievement;
             }
-            $newAchievement->id = $achievement->id;
-            $achievements[] = $newAchievement;
+            return view('admin/profile', compact('user', 'place', 'achievements', 'userAchievements'));
+        } else {
+            return redirect(url()->previous());
         }
-        return view('admin/profile', compact('user', 'place', 'achievements', 'userAchievements'));
+        
     }
 
     public function ban($id){ // TODO сообщение пользователю о том, что его заблокировали

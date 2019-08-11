@@ -20,30 +20,16 @@
                                     :button-action="'/user/{{$user->id}}/ban'"
                                     :modal-text="'Вы уверены, что хотите заблокировать пользователя {{$user->name}}?'"
                                     :id="'ban{{$user->id}}'"
-                        ></confirm-action>       
-                        <confirm-action
-                                    :button-class="'btn btn-warning'"
-                                    :button-text="'Назначить администратором'"
-                                    :button-action="'/user/{{$user->id}}/promote'"
-                                    :modal-text="'Вы уверены, что хотите назначить пользователя {{$user->name}} администратором?'"
-                                    :id="'promote{{$user->id}}'"
-                            ></confirm-action>        
-                    @endif
-                    @if ($user -> role == 'admin' && Auth::user()->role == 'superadmin')
-                        <confirm-action
-                                    :button-class="'btn btn-danger'"
-                                    :button-text="'Заблокировать'"
-                                    :button-action="'/user/{{$user->id}}/ban'"
-                                    :modal-text="'Вы уверены, что хотите заблокировать администратора {{$user->name}}?'"
-                                    :id="'ban{{$user->id}}'"
-                        ></confirm-action>       
-                        <confirm-action
-                                    :button-class="'btn btn-warning'"
-                                    :button-text="'Разжаловать'"
-                                    :button-action="'/user/{{$user->id}}/degrade'"
-                                    :modal-text="'Вы уверены, что хотите разжаловать администратора {{$user->name}}?'"
-                                    :id="'degrade{{$user->id}}'"
-                        ></confirm-action>     
+                        ></confirm-action>      
+                        @if (Auth::user()->role=='superadmin') 
+                            <confirm-action
+                                        :button-class="'btn btn-warning'"
+                                        :button-text="'Назначить администратором'"
+                                        :button-action="'/user/{{$user->id}}/promote'"
+                                        :modal-text="'Вы уверены, что хотите назначить пользователя {{$user->name}} администратором?'"
+                                        :id="'promote{{$user->id}}'"
+                                ></confirm-action>    
+                        @endif    
                     @endif
                     @if ($user -> role == 'banned')
                         <confirm-action

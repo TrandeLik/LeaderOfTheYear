@@ -25,38 +25,42 @@
                             ></confirm-action>                            
                         </td>
                         <td>
-                            <confirm-action
-                                    :button-class="'btn btn-warning'"
-                                    :button-text="'Назначить администратором'"
-                                    :button-action="'/user/{{$user->id}}/promote'"
-                                    :modal-text="'Вы уверены, что хотите назначить пользователя {{$user->name}} администратором?'"
-                                    :id="'promote{{$user->id}}'"
-                            ></confirm-action>                            
+                            @if (Auth::user()->role=='superadmin')
+                                <confirm-action
+                                        :button-class="'btn btn-warning'"
+                                        :button-text="'Назначить администратором'"
+                                        :button-action="'/user/{{$user->id}}/promote'"
+                                        :modal-text="'Вы уверены, что хотите назначить пользователя {{$user->name}} администратором?'"
+                                        :id="'promote{{$user->id}}'"
+                                ></confirm-action>    
+                            @endif                        
                         </td>
-                    @endif
-                    @if ($user -> role == 'admin')
+                    @elseif ($user -> role == 'admin')
                         <td scope="row"><strong>Администратор: </strong>{{ $user -> name }}</td>
                         <td>
-                            <confirm-action
-                                    :button-class="'btn btn-danger'"
-                                    :button-text="'Заблокировать'"
-                                    :button-action="'/user/{{$user->id}}/ban'"
-                                    :modal-text="'Вы уверены, что хотите заблокировать администратора {{$user->name}}?'"
-                                    :id="'ban{{$user->id}}'"
-                            ></confirm-action>       
+                            @if (Auth::user()->role=='superadmin')
+                                <confirm-action
+                                        :button-class="'btn btn-danger'"
+                                        :button-text="'Заблокировать'"
+                                        :button-action="'/user/{{$user->id}}/ban'"
+                                        :modal-text="'Вы уверены, что хотите заблокировать администратора {{$user->name}}?'"
+                                        :id="'ban{{$user->id}}'"
+                                ></confirm-action>    
+                            @endif   
                         </td>
                         <td>
-                            <confirm-action
-                                    :button-class="'btn btn-warning'"
-                                    :button-text="'Разжаловать'"
-                                    :button-action="'/user/{{$user->id}}/degrade'"
-                                    :modal-text="'Вы уверены, что хотите разжаловать администратора {{$user->name}}?'"
-                                    :id="'degrade{{$user->id}}'"
-                            ></confirm-action>       
+                            @if (Auth::user()->role=='superadmin')
+                                <confirm-action
+                                        :button-class="'btn btn-warning'"
+                                        :button-text="'Разжаловать'"
+                                        :button-action="'/user/{{$user->id}}/degrade'"
+                                        :modal-text="'Вы уверены, что хотите разжаловать администратора {{$user->name}}?'"
+                                        :id="'degrade{{$user->id}}'"
+                                ></confirm-action>       
+                            @endif
                         </td>
-                    @endif
-                    @if ($user -> role == 'banned')
-                        <td scope="row"><strong> Заблокирован: </strong>{{ $user -> name.', '.$user -> form}}</td>
+                    @elseif ($user -> role == 'banned')
+                        <td scope="row"><strong> Заблокирован: </strong><a href="{{url('/user/' . $user -> id . '/profile')}}">{{ $user -> name.', '.$user -> form}}</a></td>
                         <td>
                             <confirm-action
                                     :button-class="'btn btn-warning'"
