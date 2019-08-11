@@ -159,41 +159,53 @@ class UserController extends Controller
                 $comment->save();
             }
         }
-        return redirect('user');
+        return redirect(url()->previous());
         
     }
 
     public function send($id){
         $achievement = Achievement::findOrFail($id);
-        $achievement->status = 'sent';
-        $achievement->save();
-        return redirect('user');
+        if (($achievement->status=='created') or ($achievement->status=='rejected')){
+            $achievement->status = 'sent';
+            $achievement->save();
+        }
+        return redirect(url()->previous());
+        
     }
 
     public function return($id){
         $achievement = Achievement::findOrFail($id);
-        $achievement->status = 'created';
-        $achievement->save();
-        return redirect('user');
+        if ($achievement->status=='sent'){
+            $achievement->status = 'created';
+            $achievement->save();
+        }
+        return redirect(url()->previous());
     }
 
     public function delete($id){
         $achievement = Achievement::findOrFail($id);
-        $achievement->delete();
-        return redirect('user');
+        if (($achievement->status=='created') or ($achievement->status=='rejected')){
+            $achievement->delete();
+        }
+        return redirect(url()->previous());
         
     }
 
     public function editView($id){
         $achievement = Achievement::findOrFail($id);
-        $achievement_types = AchievementType::all();
-        $categories = AchievementType::select('category')->distinct()->get();
-        $types = AchievementType::select('type')->where('category',$achievement->category)->distinct()->get();
-        $stages = AchievementType::select('stage')->where([['category',$achievement->category],['type',$achievement->type],])->distinct()->get();
-        $results = AchievementType::select('result')->where([['category',$achievement->category],['type',$achievement->type],['stage',$achievement->stage],])->distinct()->get();
-        $isUploadingConfirmationsPossible = Setting::where('name', 'Загрузка файлов с подтверждением')->first()->value == 'on';
-        $areCommentsWorking = Setting::where('name', 'Возможность комментировать (для учеников)')->first()->value == 'on';
-        return view('user.editAchievement',compact('types','stages','results','achievement','categories','achievement_types', 'isUploadingConfirmationsPossible', 'areCommentsWorking'));
+        if (($achievement->status=='created') or ($achievement->status=='rejected')){
+            $achievement_types = AchievementType::all();
+            $categories = AchievementType::select('category')->distinct()->get();
+            $types = AchievementType::select('type')->where('category',$achievement->category)->distinct()->get();
+            $stages = AchievementType::select('stage')->where([['category',$achievement->category],['type',$achievement->type],])->distinct()->get();
+            $results = AchievementType::select('result')->where([['category',$achievement->category],['type',$achievement->type],['stage',$achievement->stage],])->distinct()->get();
+            $isUploadingConfirmationsPossible = Setting::where('name', 'Загрузка файлов с подтверждением')->first()->value == 'on';
+            $areCommentsWorking = Setting::where('name', 'Возможность комментировать (для учеников)')->first()->value == 'on';
+            return view('user.editAchievement',compact('types','stages','results','achievement','categories','achievement_types', 'isUploadingConfirmationsPossible', 'areCommentsWorking'));
+        } else {
+            return redirect(url() -> previous());
+        }
+        
     }
 
     public function edit($id, Request $request){
@@ -207,45 +219,48 @@ class UserController extends Controller
 //        ]);
         validateAchievement($request);
         $achievement = Achievement::findOrFail($id);
-        if ($request -> has('file')) {
-            if ((!is_null($request->file)) && (!is_string($request->file))) {
-                $mimeTypes = [
-                    'application/pdf',
-                    'image/jpeg',
-                    'image/pjpeg',
-                    'image/x-jps',
-                    'image/png'
-                ];
-                if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
-                    $name = time() . '_' . $request->file->getClientOriginalName();
-                    $request->file->move(storage_path('confirmations'), $name);
-                    $achievement->confirmation = $name;
-                } else {
-                    $error = 'Данный тип файлов загрузить нельзя :(';
-                    return $error;
+        if (($achievement->status=='created') or ($achievement->status=='rejected')){
+            if ($request -> has('file')) {
+                if ((!is_null($request->file)) && (!is_string($request->file))) {
+                    $mimeTypes = [
+                        'application/pdf',
+                        'image/jpeg',
+                        'image/pjpeg',
+                        'image/x-jps',
+                        'image/png'
+                    ];
+                    if (in_array(request()->file->getClientMimeType(), $mimeTypes)) {
+                        $name = time() . '_' . $request->file->getClientOriginalName();
+                        $request->file->move(storage_path('confirmations'), $name);
+                        $achievement->confirmation = $name;
+                    } else {
+                        $error = 'Данный тип файлов загрузить нельзя :(';
+                        return $error;
+                    }
                 }
             }
-        }
 
-        $achievement->name = $request->name;
-        $achievement->category = $request->category;
-        $achievement->type = $request->type;
-        $achievement->subject = $request->subject;
-        $achievement->stage = $request->stage;
-        $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
-        $achievement->result = $request->result;
-        $achievement->date = $request->date;
-        $achievement->save();
-        $areCommentsWorking = Setting::where('name', 'Возможность комментировать (для учеников)')->first()->value == 'on';
-        if ($areCommentsWorking) {
-            if (isset($request->comment)) {
-                $comment = new Comment;
-                $comment->achievement_id = $id;
-                $comment->text = $request->comment;
-                $comment->author = Auth::user()->id;
-                $comment->save();
+            $achievement->name = $request->name;
+            $achievement->category = $request->category;
+            $achievement->type = $request->type;
+            $achievement->subject = $request->subject;
+            $achievement->stage = $request->stage;
+            $achievement->score = DB::table('achievement_types')->where([['type', $request->type],['stage', $request->stage], ['result', $request->result],])->value('score');
+            $achievement->result = $request->result;
+            $achievement->date = $request->date;
+            $achievement->save();
+            $areCommentsWorking = Setting::where('name', 'Возможность комментировать (для учеников)')->first()->value == 'on';
+            if ($areCommentsWorking) {
+                if (isset($request->comment)) {
+                    $comment = new Comment;
+                    $comment->achievement_id = $id;
+                    $comment->text = $request->comment;
+                    $comment->author = Auth::user()->id;
+                    $comment->save();
+                }
             }
-        }
-        return redirect('user');
+            
+        } 
+        return redirect(url() -> previous());
     }
 }

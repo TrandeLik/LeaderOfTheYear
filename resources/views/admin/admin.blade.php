@@ -78,7 +78,11 @@
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">От пользователя {{$achievement -> user -> name}}, {{$achievement -> user -> form}}</h3>
-                            <p>{{$achievement -> type.', '.$achievement -> name.', '.$achievement -> stage.', '.$achievement -> subject.', '.$achievement -> result}}</p>
+                            @if ($achievement->category=='Участие в лицейской жизни')
+                                <p>{{$achievement -> type.', '.$achievement -> name.', '.$achievement -> date}}</p>
+                            @else
+                                <p>{{$achievement -> type.', '.$achievement -> name.', '.$achievement -> stage.', '.$achievement -> subject.', '.$achievement -> result}}</p>
+                            @endif
                             <a href="{{url('/achievement/'.$achievement->id.'/download_confirmation')}}">Подтверждение</a><br><br>
                             @if (count($achievement->comments) !== 0)
                                 <comment-showing :comments="{{json_encode($achievement->comments)}}" :id="'{{$achievement->id}}'" :username="'{{$achievement->user->name}}'"></comment-showing><br>
