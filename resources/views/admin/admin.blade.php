@@ -83,7 +83,9 @@
                             @else
                                 <p>{{$achievement -> type.', '.$achievement -> name.', '.$achievement -> stage.', '.$achievement -> subject.', '.$achievement -> result}}</p>
                             @endif
-                            <a href="{{url('/achievement/'.$achievement->id.'/download_confirmation')}}">Подтверждение</a><br><br>
+                            @if ($achievement->confirmation!='')
+                                <a href="{{url('/achievement/'.$achievement->id.'/download_confirmation')}}">Подтверждение</a><br><br>
+                            @endif
                             @if (count($achievement->comments) !== 0)
                                 <comment-showing :comments="{{json_encode($achievement->comments)}}" :id="'{{$achievement->id}}'" :username="'{{$achievement->user->name}}'"></comment-showing><br>
                             @endif

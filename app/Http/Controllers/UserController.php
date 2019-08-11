@@ -153,7 +153,7 @@ class UserController extends Controller
         if ($areCommentsWorking) {
             if (isset($request->comment)) {
                 $comment = new Comment;
-                $comment->achievement_id = Achievement::all()->last()->value('id');
+                $comment->achievement_id = Achievement::max('id');
                 $comment->text = $request->comment;
                 $comment->author = Auth::user()->id;
                 $comment->save();

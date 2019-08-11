@@ -127,7 +127,7 @@ class AdminController extends Controller // TODO погуглить, как сд
     }
 
     public function index(){
-        $allTypes = AchievementType::all() ->take(7);
+        $allTypes = AchievementType::all() ->take(5);
         $sentAchievements = Achievement::all() -> where('status', 'sent')->take(5);
         $students = User::all()-> where('role', 'student') ->take(10);
         return view('admin/admin', compact('sentAchievements', 'students', 'allTypes'));

@@ -64,39 +64,41 @@
             <tr>
                 <th scope="col"></th>
                 <th scope="col">
-                    Достижения
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteSelectedModal">
-                        Удалить выбранные
-                    </button>
-                    <div class="modal fade" id="deleteSelectedModal" tabindex="-1" role="dialog" aria-labelledby="deleteSelectedModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteSelectedModalLabel">Подтвердите действие</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body" style="font-weight:normal;">
-                                    Вы действительно хотите удалить выбранные типы достижений?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                                    <input type="submit" form="1" value="Удалить выбранные" class="btn btn-danger">
+                    <div  class="row">
+                        <p class="col-form-label">Достижения</p>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteSelectedModal">
+                            Удалить выбранные
+                        </button>
+                        <div class="modal fade" id="deleteSelectedModal" tabindex="-1" role="dialog" aria-labelledby="deleteSelectedModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteSelectedModalLabel">Подтвердите действие</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" style="font-weight:normal;">
+                                        Вы действительно хотите удалить выбранные типы достижений?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                        <input type="submit" form="1" value="Удалить выбранные" class="btn btn-danger">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>  
-                    
-                    <confirm-action style="font-weight:normal;"
-                            :button-class="'btn btn-danger'"
-                            :button-text="'Удалить все'"
-                            :button-action="'/achievement_types/all/delete'"
-                            :modal-text="'Вы уверены, что хотите удалить все типы достижений?'"
-                            :id="'deleteAll'"
-                    ></confirm-action>
+                        </div>  
+                        
+                        <confirm-action style="font-weight:normal;"
+                                :button-class="'btn btn-danger'"
+                                :button-text="'Удалить все'"
+                                :button-action="'/achievement_types/all/delete'"
+                                :modal-text="'Вы уверены, что хотите удалить все типы достижений?'"
+                                :id="'deleteAll'"
+                        ></confirm-action>
+                    </div>
                 </th>
-                <th scope="col">Баллы</th>
+                <th scope="col"><p class="col-form-label">Баллы</p></th>
                 <th scope="col"></th>
                 <th scope="col"><a href='{{url('/achievement_type/add')}}'><button class="btn btn-success">Добавить</button></a></th>
             </tr>
