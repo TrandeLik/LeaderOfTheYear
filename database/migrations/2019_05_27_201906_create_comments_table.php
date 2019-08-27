@@ -14,11 +14,13 @@ class CreateCommentsTable extends Migration
     public function up()
     {
         Schema::create('comments', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->bigIncrements('id');
             $table->string('text');
             $table->string('author');
 
-            $table->unsignedInteger('achievement_id');
+            $table->bigInteger('achievement_id')->unsigned();
             $table->foreign('achievement_id')->references('id')->on('achievements')->onDelete('cascade');
 
             $table->timestamps();

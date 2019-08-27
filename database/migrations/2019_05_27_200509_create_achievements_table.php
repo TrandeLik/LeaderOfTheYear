@@ -14,7 +14,9 @@ class CreateAchievementsTable extends Migration
     public function up()
     {
         Schema::create('achievements', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->engine = 'InnoDB';
+
+            $table->bigIncrements('id')->unsigned();
             $table->string('category');
             $table->string('type');
             $table->string('name');
@@ -26,7 +28,7 @@ class CreateAchievementsTable extends Migration
             $table->string('confirmation');
             $table->string('status');
             
-            $table->unsignedInteger('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
