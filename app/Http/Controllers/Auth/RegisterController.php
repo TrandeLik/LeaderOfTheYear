@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserRegistered;
 
 class RegisterController extends Controller
 {
@@ -79,4 +82,22 @@ class RegisterController extends Controller
             'form' => $data['form']."-".$data['formLetter'],
         ]);
     }
+
+    public function confirmEmail(Request $request, $token)
+    {
+        User::whereToken($token)->firstOrFail()->confirmEmail();
+        $request->session()->flash('message', 'Учетная запись подтверждена. Войдите под своим именем.');
+        return redirect('login');
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $user = $this->create($request->all());
+
+        Mail::to($user)->send(new UserRegistered($user));
+        $request->session()->flash('message', 'На ваш адрес было выслано письмо с подтверждением регистрации.');
+        return back();
+    } 
 }

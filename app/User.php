@@ -38,6 +38,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->token = str_random(30);
+        });
+    } 
+
+    public function confirmEmail()
+    {
+        $this->verified = true;
+        $this->token = null;
+        $this->save();
+    }
+
     public function achievements(){
         return $this->hasMany('App\Achievement', 'user_id', 'id');
     }
