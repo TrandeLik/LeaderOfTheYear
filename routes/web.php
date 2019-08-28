@@ -33,16 +33,16 @@ Route::get('/user/{id}/promote', 'AdminController@promote');
 Route::get('/user/{id}/degrade', 'AdminController@degrade');
 Route::get('/users/banned', 'AdminController@showBannedUsers');
 
-Route::post('/achievement_type/add', 'AdminController@addType');
-Route::get('/achievement_type/add', 'AdminController@showAddType');
+//Route::post('/achievement_type/add', 'AdminController@addType');
+//Route::get('/achievement_type/add', 'AdminController@showAddType');
 Route::get('/achievement_types/all', 'AdminController@getAllAchievementTypes');
 Route::get('/achievement_types/all/delete', 'AdminController@deleteAll');
 Route::post('/achievement_types/delete_selected', 'AdminController@deleteSelected');
 Route::post('/achievement_types/all', 'AdminController@uploadAchievementTypesFile');
 Route::get('/achievement_types/download_file', 'AdminController@downloadAchievementTypesFile');
 Route::get('/achievement_type/{id}/delete', 'AdminController@deleteAchievementType');
-Route::get('/achievement_type/{id}/edit', 'AdminController@getEditTypeView');
-Route::post('/achievement_type/{id}/edit', 'AdminController@editAchievementType');
+//Route::get('/achievement_type/{id}/edit', 'AdminController@getEditTypeView');
+//Route::post('/achievement_type/{id}/edit', 'AdminController@editAchievementType');
 
 
 Route::get('/settings', 'AdminController@settingsView');

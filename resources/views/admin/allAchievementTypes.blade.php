@@ -99,8 +99,8 @@
                     </div>
                 </th>
                 <th scope="col"><p class="col-form-label">Баллы</p></th>
-                <th scope="col"></th>
-                <th scope="col"><a href='{{url('/achievement_type/add')}}'><button class="btn btn-success">Добавить</button></a></th>
+                <!-- <th scope="col"></th> -->
+                <th scope="col"><!-- <a href='{{url('/achievement_type/add')}}'><button class="btn btn-success">Добавить</button></a> --></th>
             </tr>
             </thead>
             <tbody>
@@ -111,7 +111,7 @@
                         $type->category.', '.$type->type.', '.$type->stage.', '.$type->result
                     }}</td>
                     <td>{{$type->score}}</td>
-                    <td><a href={{url('/achievement_type/'.$type->id.'/edit')}}> <button class="btn btn-warning">Изменить</button></a></td>
+                    <!-- <td><a href={{url('/achievement_type/'.$type->id.'/edit')}}> <button class="btn btn-warning">Изменить</button></a></td> -->
                     <td>
                         <confirm-action
                                 :button-class="'btn btn-danger'"
