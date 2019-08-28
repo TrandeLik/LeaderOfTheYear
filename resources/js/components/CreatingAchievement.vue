@@ -29,7 +29,7 @@
 
             <select class="form-control mb-1" v-model="selectedStage" v-if="!(selectedCategory === 'Участие в лицейской жизни')"
                     name="stage" required @change="dropSelectionsOnStageChange"
-                    :disabled="(selectedType === 'Тип')">
+                    :disabled="(selectedType === 'Тип') && (selectedCategory !== 'Спортивные достижения')">
                 <option col-10 selected disabled>Этап</option>
                 <option col-10 v-for="stage in filteredStages">{{stage}}</option>
             </select>
