@@ -15,8 +15,8 @@
                         <form method="POST">
                             @csrf
                             @foreach ($settings as $setting)
-                                <div class="form-group row">
-                                    <label for="{{$setting->id}}" class="col-md-4 col-form-label text-md-right">{{$setting->name}}</label>
+                                <div class="form-group row align-items-center mb-1">
+                                    <label for="{{$setting->id}}" class="col-md-4 col-form-label">{{$setting->name}}</label>
                                     @if ($setting->type=='on/off')
                                         @if ($setting->value=='on')
                                             <input type="checkbox" name="{{$setting->id}}" checked>
@@ -25,9 +25,9 @@
                                         @endif
                                     @elseif ($setting->type=='globalVariable')
                                         @if ($setting->name != 'Главная категория')
-                                            <input type="text" name="{{$setting->id}}" value="{{$setting->value}}" required>
+                                            <input type="text" class="form-control col-md-8" name="{{$setting->id}}" value="{{$setting->value}}" required>
                                         @else
-                                            <select name="{{$setting->id}}">
+                                            <select name="{{$setting->id}}" class="form-control col-md-8">
                                                 @foreach($categories as $category)
                                                     @if ($setting->value == $category -> category)
                                                         <option selected>{{$category -> category}}</option>
