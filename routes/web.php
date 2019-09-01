@@ -78,5 +78,3 @@ Route::get('/alert_for_banned_users', 'GeneralController@getAlertForBannedUsers'
 
 
 Route::get('/', 'VisitorController@about');
-
-Route::get('register/confirm/{token}', 'Auth\RegisterController@confirmEmail');

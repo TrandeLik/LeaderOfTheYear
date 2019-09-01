@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $isLeaderBoardWorking = 'on';//Setting::where('name', 'Рейтинговая таблица (для учеников)')->first()->value;
+        $isLeaderBoardWorking = Setting::where('name', 'Рейтинговая таблица (для учеников)')->first()->value;
         view()->share(compact('isLeaderBoardWorking'));
     }
 }

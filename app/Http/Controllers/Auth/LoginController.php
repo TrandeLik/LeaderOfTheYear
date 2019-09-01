@@ -27,17 +27,6 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected function attemptLogin(Request $request)
-    {
-        return $this->guard()->attempt(
-            $this->credentials($request), $request->filled('remember')
-        );
-    }
-
-    protected function credentials(Request $request)
-    {
-        return array_add($request->only($this->username(), 'password'), 'verified', true);
-    } 
     protected function redirectTo(){
         if (Auth::user()->role === 'student'){
             return '/user';
