@@ -190,7 +190,7 @@ class AdminController extends Controller // TODO погуглить, как сд
                 $newAchievement->id = $achievement->id;
                 $achievements[] = $newAchievement;
             }
-            return view('admin/profile', compact('user', 'place', 'achievements', 'userAchievements'));
+            return view('admin/profile', compact('user', 'achievements', 'userAchievements'));
         } else {
             return redirect(url()->previous());
         }

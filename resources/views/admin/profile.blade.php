@@ -10,8 +10,8 @@
                     <h4 class="card-subtitle">Cтатистика:</h4>
                     <ul>
                         <li>Количество достижений {{$userAchievements -> count()}}</li>
-                        <li>Количество баллов {{$userAchievements -> sum('score')}}</li>
-                        <li>Место в конкурсе: {{$place}}</li>
+                        <li>Количество баллов {{$user->confirmedScore()}}</li>
+                        <li>Место в конкурсе: {{$user->place()}}</li>
                     </ul>
                     @if ($user -> role == 'student')
                         <confirm-action
