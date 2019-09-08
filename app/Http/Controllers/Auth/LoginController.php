@@ -30,8 +30,10 @@ class LoginController extends Controller
     protected function redirectTo(){
         if (Auth::user()->role === 'student'){
             return '/user';
+        } else if (Auth::user()->role === 'admin'){
+            return '/admin';
         }
-        return '/admin';
+        return '/alert_for_banned_users';
     }
 
     public function logout(Request $request)

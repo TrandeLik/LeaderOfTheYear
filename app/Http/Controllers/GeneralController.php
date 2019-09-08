@@ -102,7 +102,6 @@ class GeneralController extends Controller
     }
 
     public function getAlertForBannedUsers(){
-        Auth::logout();
         $error = 'Ой-ой-ой, похоже, ваша учетная запись заблокирована, обратитесь к администрации :(';
         return view('general.error', compact('error'));
     }

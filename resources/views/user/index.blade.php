@@ -12,11 +12,11 @@
 </style>
 @section('content')
 
-<div class="container">
+<div class="col-12">
     <div class="row justify-content-center">
-        <div id="app" class="col-md-10">
+        <div id="app" class="col-12">
             <div class="card">
-                <div class="card-header">Статистика</div>
+                <div class="card-header align-items-center">Статистика</div>
                 <div class="card-body">
                     @if (count($falseCategories)!=0)
                         <p class="warning">
@@ -26,10 +26,7 @@
                             @else
                                 категориях
                             @endif
-                            @foreach ($falseCategories as $category)
-                                {{$category}}
-                            @endforeach
-                            превышают баллы за {{$mainCategory}}. Лишние баллы учтены не будут
+                            {{implode(', ',$falseCategories)}} превышают баллы за {{$mainCategory}}. Лишние баллы учтены не будут
                         </p>
                     @endif
                     <p>Сейчас у Вас {{$confirmedScore}} подтверждённых баллов<p>
@@ -43,7 +40,9 @@
                 </div>
             </div>
             <div class="card border-primary">
-                <div class="card-header">Мои олимпиады<a href="{{url('/achievement/add/new')}}"><button class="btn btn-primary">Добавить</button></a></div>
+                <div class="card-header align-items-center">
+                Мои олимпиады
+                <a href="{{url('/achievement/add/new')}}"><button class="btn btn-primary">Добавить</button></a></div>
                 <div class="card-body">
                     @if ($achievements != [])
                         <achievement-table :achievements="{{json_encode($achievements)}}" :is_admin="false" :section="'created'"></achievement-table>

@@ -112,11 +112,7 @@ class User extends Authenticatable
         foreach ($categories as $category){
             $curScore = $this->achievements()->where('category', $category->category)->sum('score');
             if ($curScore>$mainScore){
-                if ($category!=end($categories)){
-                    $falseCategories[] = $category->category . ',';
-                } else {
-                    $falseCategories[] = $category->category;
-                }
+                $falseCategories[] = $category->category;
             }
         }
         return $falseCategories;
